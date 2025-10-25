@@ -1,0 +1,15 @@
+﻿@model Clinics_Websites_Shops.Settings.Tenant
+
+<h2>Add New Tenant</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Domain</label>
+        <input asp-for="Domain" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Create Tenant</button>
+</form>

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Clinics_Websites_Shops.Settings.Tenant>
+
+<h2>Registered Tenants</h2>
+<a href="/Tenant/Create" class="btn btn-primary mb-3">Add New Tenant</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Domain</th>
+            <th>Connection String</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tenant in Model)
+        {
+            <tr>
+                <td>@tenant.Name</td>
+                <td>@tenant.Domain</td>
+                <td>@tenant.ConnectionString</td>
+                <td>@tenant.CreatedAt</td>
+            </tr>
+        }
+    </tbody>
+</table>
