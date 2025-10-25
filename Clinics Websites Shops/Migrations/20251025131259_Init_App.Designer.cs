@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinics_Websites_Shops.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251025122136_Init_App")]
+    [Migration("20251025131259_Init_App")]
     partial class Init_App
     {
         /// <inheritdoc />
@@ -465,12 +465,12 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasOne("Clinics_Websites_Shops.Models.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Clinics_Websites_Shops.Models.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Doctor");
 
@@ -516,7 +516,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasOne("Clinics_Websites_Shops.Models.Patient", "Patient")
                         .WithMany("Reports")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Doctor");
 

@@ -62,7 +62,7 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            // Person inheritance
+            //  Person inheritance
             modelBuilder.Entity<Person>().HasKey(p => p.Id);
             modelBuilder.Entity<Doctor>().HasBaseType<Person>();
             modelBuilder.Entity<Nurse>().HasBaseType<Person>();
@@ -70,36 +70,51 @@ namespace Clinics_Websites_Shops.DataAccess
 
             // Doctor - Appointment
             modelBuilder.Entity<Appointment>()
-                .HasOne(a => a.Doctor).WithMany(d => d.Appointments).HasForeignKey(a => a.DoctorId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasOne(a => a.Doctor)
+                .WithMany(d => d.Appointments)
+                .HasForeignKey(a => a.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            //  Patient - Appointment
             modelBuilder.Entity<Appointment>()
-                .HasOne(a => a.Patient).WithMany(p => p.Appointments).HasForeignKey(a => a.PatientId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasOne(a => a.Patient)
+                .WithMany(p => p.Appointments)
+                .HasForeignKey(a => a.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Payment - Appointment 1:1 (optional)
+            // 💵 Payment - Appointment (1:1 optional)
             modelBuilder.Entity<Payment>()
                 .HasOne(p => p.Appointment)
                 .WithOne(a => a.Payment)
                 .HasForeignKey<Payment>(p => p.AppointmentId);
 
-            // Report relations
+            //  Report relations (Fixed multiple cascade issue)
             modelBuilder.Entity<Report>()
-                .HasOne(r => r.Patient).WithMany(p => p.Reports).HasForeignKey(r => r.PatientId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasOne(r => r.Patient)
+                .WithMany(p => p.Reports)
+                .HasForeignKey(r => r.PatientId)
+                .OnDelete(DeleteBehavior.Restrict); // ✅ Fix here
 
             modelBuilder.Entity<Report>()
-                .HasOne(r => r.Doctor).WithMany(d => d.Reports).HasForeignKey(r => r.DoctorId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasOne(r => r.Doctor)
+                .WithMany(d => d.Reports)
+                .HasForeignKey(r => r.DoctorId)
+                .OnDelete(DeleteBehavior.SetNull); // ✅ One is SetNull only
 
-            // Prescription -> Report
+            //  Prescription -> Report
             modelBuilder.Entity<Prescription>()
-                .HasOne(p => p.Report).WithMany(r => r.Prescriptions)
-                .HasForeignKey(p => p.ReportId).OnDelete(DeleteBehavior.Cascade);
+                .HasOne(p => p.Report)
+                .WithMany(r => r.Prescriptions)
+                .HasForeignKey(p => p.ReportId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Department - Doctor
             modelBuilder.Entity<Department>()
-                .HasMany(d => d.Doctors).WithOne().HasForeignKey("DepartmentId").OnDelete(DeleteBehavior.SetNull);
+                .HasMany(d => d.Doctors)
+                .WithOne()
+                .HasForeignKey("DepartmentId")
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
+
 }
