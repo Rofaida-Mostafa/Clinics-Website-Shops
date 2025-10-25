@@ -8,12 +8,12 @@ namespace Clinics_Websites_Shops.DataAccess
         private readonly ITenantService? _tenantService;
         private readonly IHttpContextAccessor? _httpContextAccessor;
 
-        // ✅ Constructor فارغ للـ design-time (EF Tools)
+        // ✅ Empty Constructor for design-time (EF Tools)
         public ApplicationDbContext()
         {
         }
 
-        // ✅ Constructor runtime (لما التطبيق شغال)
+        // ✅ Constructor runtime
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
             ITenantService tenantService,

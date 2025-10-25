@@ -2,7 +2,7 @@
 {
     public class Doctor: Person
     {
-        public int DoctorId { get; set; }
+        //public int DoctorId { get; set; }
         public string Specialization { get; set; } = null!;
         public int YearsOfExperience { get; set; }
         public decimal Salary { get; set; }

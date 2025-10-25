@@ -2,7 +2,7 @@
 {
     public class Nurse:Person
     {
-        public int NurseId { get; set; }
+        //public int NurseId { get; set; }
         public decimal Salary { get; set; }
     }
 }
