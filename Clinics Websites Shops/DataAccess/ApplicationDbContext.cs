@@ -82,7 +82,7 @@ namespace Clinics_Websites_Shops.DataAccess
                 .HasForeignKey(a => a.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // 💵 Payment - Appointment (1:1 optional)
+            // Payment - Appointment (1:1 optional)
             modelBuilder.Entity<Payment>()
                 .HasOne(p => p.Appointment)
                 .WithOne(a => a.Payment)
