@@ -5,9 +5,15 @@ namespace Clinics_Websites_Shops.DataAccess
 {
     public partial class ApplicationDbContext : IdentityDbContext<Person>
     {
-         private readonly ITenantService _tenantService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITenantService? _tenantService;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
 
+        // ✅ Constructor فارغ للـ design-time (EF Tools)
+        public ApplicationDbContext()
+        {
+        }
+
+        // ✅ Constructor runtime (لما التطبيق شغال)
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
             ITenantService tenantService,
@@ -30,12 +36,24 @@ namespace Clinics_Websites_Shops.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var tenant = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext);
+            if (!optionsBuilder.IsConfigured)
+            {
+                // Using Tenant Service to get the connection string dynamically
+                if (_tenantService != null && _httpContextAccessor != null)
+                {
+                    var tenant = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext);
 
-            if (tenant == null)
-                throw new Exception("Tenant not found for the current request");
+                    if (tenant == null)
+                        throw new Exception("Tenant not found for the current request");
 
-            optionsBuilder.UseSqlServer(tenant.ConnectionString);
+                    optionsBuilder.UseSqlServer(tenant.ConnectionString);
+                }
+                else
+                {
+                    //  Implement DB using EF core ( For Migration only)
+                    optionsBuilder.UseSqlServer("Server=.;Database=ClinicOneDb;Trusted_Connection=True;TrustServerCertificate=True;");
+                }
+            }
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -82,11 +100,6 @@ namespace Clinics_Websites_Shops.DataAccess
             // Department - Doctor
             modelBuilder.Entity<Department>()
                 .HasMany(d => d.Doctors).WithOne().HasForeignKey("DepartmentId").OnDelete(DeleteBehavior.SetNull);
-
-
-
-        } 
+        }
     }
-
-
 }
