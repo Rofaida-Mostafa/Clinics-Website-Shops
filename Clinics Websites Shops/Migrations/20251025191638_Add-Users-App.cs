@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Clinics_Websites_Shops.Migrations
 {
     /// <inheritdoc />
-    public partial class Init_App : Migration
+    public partial class AddUsersApp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,35 @@ namespace Clinics_Websites_Shops.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rate = table.Column<int>(type: "int", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,77 +86,6 @@ namespace Clinics_Websites_Shops.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rate = table.Column<int>(type: "int", nullable: false),
-                    TenantId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
-                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    YearsOfExperience = table.Column<int>(type: "int", nullable: true),
-                    Doctor_Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    DepartmentId = table.Column<int>(type: "int", nullable: true),
-                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    BloodType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Time = table.Column<TimeSpan>(type: "time", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +174,72 @@ namespace Clinics_Websites_Shops.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Nurses",
+                columns: table => new
+                {
+                    NurseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nurses", x => x.NurseId);
+                    table.ForeignKey(
+                        name: "FK_Nurses_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patients",
+                columns: table => new
+                {
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BloodType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patients", x => x.PatientId);
+                    table.ForeignKey(
+                        name: "FK_Patients_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    YearsOfExperience = table.Column<int>(type: "int", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.DoctorId);
+                    table.ForeignKey(
+                        name: "FK_Doctors_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Evaluations",
                 columns: table => new
                 {
@@ -231,10 +255,39 @@ namespace Clinics_Websites_Shops.Migrations
                 {
                     table.PrimaryKey("PK_Evaluations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Evaluations_AspNetUsers_PatientId1",
+                        name: "FK_Evaluations_Patients_PatientId1",
                         column: x => x.PatientId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalTable: "Patients",
+                        principalColumn: "PatientId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Time = table.Column<TimeSpan>(type: "time", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,16 +305,16 @@ namespace Clinics_Websites_Shops.Migrations
                 {
                     table.PrimaryKey("PK_Reports", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reports_AspNetUsers_DoctorId",
+                        name: "FK_Reports_Doctors_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "FK_Reports_AspNetUsers_PatientId",
+                        name: "FK_Reports_Patients_PatientId",
                         column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -351,11 +404,6 @@ namespace Clinics_Websites_Shops.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_DepartmentId",
-                table: "AspNetUsers",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -363,9 +411,29 @@ namespace Clinics_Websites_Shops.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Doctors_ApplicationUserId",
+                table: "Doctors",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_DepartmentId",
+                table: "Doctors",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Evaluations_PatientId1",
                 table: "Evaluations",
                 column: "PatientId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Nurses_ApplicationUserId",
+                table: "Nurses",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_ApplicationUserId",
+                table: "Patients",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_AppointmentId",
@@ -412,6 +480,9 @@ namespace Clinics_Websites_Shops.Migrations
                 name: "Evaluations");
 
             migrationBuilder.DropTable(
+                name: "Nurses");
+
+            migrationBuilder.DropTable(
                 name: "Payments");
 
             migrationBuilder.DropTable(
@@ -427,10 +498,16 @@ namespace Clinics_Websites_Shops.Migrations
                 name: "Reports");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

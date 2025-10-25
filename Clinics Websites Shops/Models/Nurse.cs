@@ -1,10 +1,10 @@
 ﻿namespace Clinics_Websites_Shops.Models
 {
-    public class Nurse:Person
+    public class Nurse
     {
-        public int NurseId { get; set; }
+        public string NurseId { get; set; }
         public decimal Salary { get; set; }
-        public string UserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public Person? ApplicationUser { get; set; }
 
     }

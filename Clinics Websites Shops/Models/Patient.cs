@@ -1,12 +1,12 @@
 ﻿namespace Clinics_Websites_Shops.Models
 {
-    public class Patient : Person
+    public class Patient
     {
-        public int PatientId { get; set; }
+        public string PatientId { get; set; }
         public string? BloodType { get; set; }
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<Report> Reports { get; set; } = new List<Report>();
-        public string UserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public Person? ApplicationUser { get; set; }
 
     }

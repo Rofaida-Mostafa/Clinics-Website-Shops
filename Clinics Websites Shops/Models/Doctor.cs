@@ -8,7 +8,7 @@
         public decimal Salary { get; set; }
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<Report> Reports { get; set; } = new List<Report>();
-        public string UserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public Person? ApplicationUser { get; set; }
 
     }

@@ -77,6 +77,7 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("DepartmentId")
@@ -86,10 +87,6 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -133,6 +130,44 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("PatientId1");
 
                     b.ToTable("Evaluations");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Nurse", b =>
+                {
+                    b.Property<string>("NurseId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("NurseId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Nurses");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
+                {
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BloodType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PatientId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Payment", b =>
@@ -182,11 +217,6 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -250,10 +280,6 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("Person");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Prescription", b =>
@@ -443,59 +469,6 @@ namespace Clinics_Websites_Shops.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Clinics_Websites_Shops.Models.Nurse", b =>
-                {
-                    b.HasBaseType("Clinics_Websites_Shops.Models.Person");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("NurseId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("AspNetUsers", t =>
-                        {
-                            t.Property("ApplicationUserId")
-                                .HasColumnName("Nurse_ApplicationUserId");
-
-                            t.Property("UserId")
-                                .HasColumnName("Nurse_UserId");
-                        });
-
-                    b.HasDiscriminator().HasValue("Nurse");
-                });
-
-            modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
-                {
-                    b.HasBaseType("Clinics_Websites_Shops.Models.Person");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BloodType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("Patient");
-                });
-
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Appointment", b =>
                 {
                     b.HasOne("Clinics_Websites_Shops.Models.Doctor", "Doctor")
@@ -517,7 +490,9 @@ namespace Clinics_Websites_Shops.Migrations
                 {
                     b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Clinics_Websites_Shops.Models.Department", null)
                         .WithMany("Doctors")
@@ -534,6 +509,28 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasForeignKey("PatientId1");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Nurse", b =>
+                {
+                    b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
+                {
+                    b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Payment", b =>
@@ -624,24 +621,6 @@ namespace Clinics_Websites_Shops.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Clinics_Websites_Shops.Models.Nurse", b =>
-                {
-                    b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
-                {
-                    b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.Navigation("ApplicationUser");
-                });
-
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Appointment", b =>
                 {
                     b.Navigation("Payment");
@@ -659,16 +638,16 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Navigation("Reports");
                 });
 
-            modelBuilder.Entity("Clinics_Websites_Shops.Models.Report", b =>
-                {
-                    b.Navigation("Prescriptions");
-                });
-
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
                 {
                     b.Navigation("Appointments");
 
                     b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Report", b =>
+                {
+                    b.Navigation("Prescriptions");
                 });
 #pragma warning restore 612, 618
         }
