@@ -25,7 +25,6 @@
 
 	<ItemGroup>
 		<Folder Include="Middleware\" />
-		<Folder Include="Repositories\IRepositories\" />
 	</ItemGroup>
 	
 </Project>

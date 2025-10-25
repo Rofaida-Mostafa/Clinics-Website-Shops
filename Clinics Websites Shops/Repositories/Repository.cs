@@ -1,4 +1,5 @@
 ﻿using Clinics_Websites_Shops.DataAccess;
+using Clinics_Websites_Shops.Repositories.IRepositories;
 using System.Linq.Expressions;
 
 namespace Clinics_Websites_Shops.Repositories
