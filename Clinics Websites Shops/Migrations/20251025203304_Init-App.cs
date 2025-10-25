@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Clinics_Websites_Shops.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUsersApp : Migration
+    public partial class InitApp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -189,7 +189,7 @@ namespace Clinics_Websites_Shops.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,7 +197,6 @@ namespace Clinics_Websites_Shops.Migrations
                 columns: table => new
                 {
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BloodType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -208,7 +207,7 @@ namespace Clinics_Websites_Shops.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,7 +229,7 @@ namespace Clinics_Websites_Shops.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Doctors_Departments_DepartmentId",
                         column: x => x.DepartmentId,
@@ -297,6 +296,7 @@ namespace Clinics_Websites_Shops.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BloodType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true)

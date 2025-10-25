@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinics_Websites_Shops.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251025191638_Add-Users-App")]
-    partial class AddUsersApp
+    [Migration("20251025203304_Init-App")]
+    partial class InitApp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,9 +162,6 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BloodType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PatientId");
 
@@ -317,6 +314,9 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BloodType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -494,7 +494,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Clinics_Websites_Shops.Models.Department", null)
@@ -519,7 +519,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
@@ -530,7 +530,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasOne("Clinics_Websites_Shops.Models.Person", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
