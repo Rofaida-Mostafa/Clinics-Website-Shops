@@ -64,9 +64,9 @@ namespace Clinics_Websites_Shops.DataAccess
 
             //  Person inheritance
             modelBuilder.Entity<Person>().HasKey(p => p.Id);
-            modelBuilder.Entity<Doctor>().HasBaseType<Person>();
-            modelBuilder.Entity<Nurse>().HasBaseType<Person>();
-            modelBuilder.Entity<Patient>().HasBaseType<Person>();
+            //modelBuilder.Entity<Doctor>().HasBaseType<Person>();
+            //modelBuilder.Entity<Nurse>().HasBaseType<Person>();
+            //modelBuilder.Entity<Patient>().HasBaseType<Person>();
 
             // Doctor - Appointment
             modelBuilder.Entity<Appointment>()
