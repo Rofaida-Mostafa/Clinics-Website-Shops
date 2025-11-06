@@ -7,5 +7,7 @@
         public ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
         public string TenantId { get; set; }
 
+        
+        //department localzation
     }
 }
