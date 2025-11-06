@@ -24,8 +24,11 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             _tenantService = tenantService;
             _httpContextAccessor = httpContextAccessor;
-            TenantId = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext)?.TId;
 
+            if (_tenantService != null && _httpContextAccessor?.HttpContext != null)
+            {
+                TenantId = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext)?.TId;
+            }
         }
 
         public DbSet<Doctor> Doctors { get; set; } = null!;
