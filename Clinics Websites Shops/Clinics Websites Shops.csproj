@@ -8,13 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\**" />
     <Compile Remove="Middleware\**" />
-    <Content Remove="Areas\**" />
     <Content Remove="Middleware\**" />
-    <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Middleware\**" />
-    <None Remove="Areas\**" />
     <None Remove="Middleware\**" />
   </ItemGroup>
 
@@ -32,6 +28,15 @@
 	  </PackageReference>
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
 	  <PackageReference Include="Stripe.net" Version="48.5.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\ViewModel\" />
+    <Folder Include="Areas\Customer\ViewModel\" />
+    <Folder Include="Areas\Identity\Controller\" />
+    <Folder Include="Areas\Tenance\ViewModel\" />
   </ItemGroup>
 	
 </Project>

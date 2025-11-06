@@ -1,4 +1,4 @@
-﻿namespace Clinics_Websites_Shops.ViewModels
+﻿namespace Clinics_Websites_Shops.Areas.Identity.ViewModels
 {
     public class RegisterVM
     {
@@ -7,5 +7,6 @@
         public string ConfirmPassword { get; set; } = null!;
         public string ClinicName { get; set; } = null!;
         public string DomainName { get; set; } = null!; // example: nameclinic.com
+
     }
 }
