@@ -1,4 +1,5 @@
 ﻿using Clinics_Websites_Shops.Services.IServices;
+using Clinics_Websites_Shops.Settings;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,7 @@ namespace Clinics_Websites_Shops.DataAccess
             }
         }
 
+        public DbSet<ApplicationUser> Doctors { get; set; } = null!;
         public DbSet<Doctor> Doctors { get; set; } = null!;
         public DbSet<Nurse> Nurses { get; set; } = null!;
         public DbSet<Patient> Patients { get; set; } = null!;
