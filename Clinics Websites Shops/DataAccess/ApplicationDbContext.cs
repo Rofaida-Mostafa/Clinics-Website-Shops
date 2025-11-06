@@ -1,4 +1,5 @@
 ﻿using Clinics_Websites_Shops.Services.IServices;
+using Clinics_Websites_Shops.Settings;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
