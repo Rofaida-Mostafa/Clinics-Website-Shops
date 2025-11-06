@@ -1,6 +1,6 @@
 ﻿namespace Clinics_Websites_Shops.Models
 {
-    public class Report
+    public class Report : IMustHaveTenant
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -10,6 +10,7 @@
         public Patient? Patient { get; set; }
         public string? DoctorId { get; set; }
         public Doctor? Doctor { get; set; }
-        public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
+        public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>(); 
+        public string TenantId { get; set; }
     }
 }

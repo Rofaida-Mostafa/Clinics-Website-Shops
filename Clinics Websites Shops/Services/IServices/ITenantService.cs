@@ -1,4 +1,4 @@
-﻿namespace Clinics_Websites_Shops.Services
+﻿namespace Clinics_Websites_Shops.Services.IServices
 {
     public interface ITenantService
     {

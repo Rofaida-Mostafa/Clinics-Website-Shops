@@ -1,6 +1,6 @@
 ﻿namespace Clinics_Websites_Shops.Models
 {
-    public class Appointment
+    public class Appointment : IMustHaveTenant
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
@@ -11,5 +11,6 @@
         public string? PatientId { get; set; }
         public Patient? Patient { get; set; }
         public Payment? Payment { get; set; }
+        public string TenantId { get; set; }
     }
 }

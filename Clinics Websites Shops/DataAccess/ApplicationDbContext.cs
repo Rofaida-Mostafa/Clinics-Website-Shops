@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Clinics_Websites_Shops.Services.IServices;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clinics_Websites_Shops.DataAccess
 {
-    public partial class ApplicationDbContext : IdentityDbContext<Person>
+    public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly ITenantService? _tenantService;
         private readonly IHttpContextAccessor? _httpContextAccessor;
+        public string TenantId { get; set; }
 
-        // ✅ Empty Constructor for design-time (EF Tools)
+        // ✅ Empty Constructor for design-time
         public ApplicationDbContext()
         {
         }
@@ -22,6 +24,11 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             _tenantService = tenantService;
             _httpContextAccessor = httpContextAccessor;
+
+            if (_tenantService != null && _httpContextAccessor?.HttpContext != null)
+            {
+                TenantId = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext)?.TId;
+            }
         }
 
         public DbSet<Doctor> Doctors { get; set; } = null!;
@@ -60,10 +67,12 @@ namespace Clinics_Websites_Shops.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApplicationUser>().HasQueryFilter(u => u.TenantId == TenantId);
+          
             base.OnModelCreating(modelBuilder);
 
             // Person primary key
-            modelBuilder.Entity<Person>().HasKey(p => p.Id);
+            modelBuilder.Entity<ApplicationUser>().HasKey(p => p.Id);
 
             // Doctor, Patient, Nurse link to Person via ApplicationUserId
             modelBuilder.Entity<Doctor>()

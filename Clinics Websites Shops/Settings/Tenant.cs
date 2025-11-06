@@ -17,6 +17,7 @@ namespace Clinics_Websites_Shops.Settings
         public string Domain { get; set; } = string.Empty;
 
         public bool Status { get; set; } = true;
+        public string Locals { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
