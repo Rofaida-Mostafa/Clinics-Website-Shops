@@ -1,5 +1,6 @@
 using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.Migrations;
+using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -16,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("Server=.\\SQLEXPRESS;Database=Placeholder;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 // Identity
-builder.Services.AddIdentity<Person, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireNonAlphanumeric = false;
     options.User.RequireUniqueEmail = true;
