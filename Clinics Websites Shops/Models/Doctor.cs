@@ -10,7 +10,7 @@
         public ICollection<Report> Reports { get; set; } = new List<Report>();
         public string ApplicationUserId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
-        public string TenantId { get; set; } = string.Empty;
+        public string TenantId { get; set; }
 
     }
 }
