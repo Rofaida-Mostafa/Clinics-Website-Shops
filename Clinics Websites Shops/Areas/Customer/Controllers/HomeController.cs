@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Clinics_Websites_Shops.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Clinics_Websites_Shops.Controllers
+namespace Clinics_Websites_Shops.Areas.Customer.Controllers
 {
     public class HomeController : Controller
     {
