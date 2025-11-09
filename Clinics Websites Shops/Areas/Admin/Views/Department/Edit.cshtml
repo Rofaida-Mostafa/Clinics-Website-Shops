@@ -23,18 +23,6 @@
                             <!-- Default Information -->
                             <div class="col-md-6">
                                 <h5>@localizer["defaultInformation"]</h5>
-                                
-                                <div class="mb-3">
-                                    <label asp-for="Name" class="form-label">@localizer["name"]</label>
-                                    <input asp-for="Name" class="form-control" placeholder="@localizer["departmentNameRequired"]" />
-                                    <span asp-validation-for="Name" class="text-danger"></span>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label asp-for="Description" class="form-label">@localizer["description"]</label>
-                                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="@localizer["departmentDescriptionRequired"]"></textarea>
-                                    <span asp-validation-for="Description" class="text-danger"></span>
-                                </div>
 
                                 <div class="mb-3">
                                     <label asp-for="MainImg" class="form-label">@localizer["mainImage"]</label>

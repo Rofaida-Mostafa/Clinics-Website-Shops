@@ -1,5 +1,4 @@
 ﻿@using System.Globalization
-@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization
 
 @inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.HomeController> localizer
@@ -256,8 +255,14 @@
                     </a>
                   </li>
                   <li>
-                    <a href="@Url.Action("Index", "Home", new { area = "Admin" })">
+                    <a href="@Url.Action("Index", "Doctor", new { area = "Admin" })">
                       <span class="label">@localizer["doctors"]</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="@Url.Action("Index", "Department", new { area = "Admin" })">
+                      <span class="label">@localizer["departments"]</span>
                     </a>
                   </li>
                 </ul>
@@ -329,18 +334,7 @@
 
       <main>
         <div class="container">
-          <!-- Title and Top Buttons Start -->
-          <div class="page-title-container">
-            <div class="row">
-              <!-- Title Start -->
-              <div class="col-12 col-md-7">
-                <span class="align-middle text-muted d-inline-block lh-1 pb-2 pt-2 text-small">Home</span>
-                <h1 class="mb-0 pb-0 display-4" id="title">@localizer["welcome"], Alicia!</h1>
-              </div>
-              <!-- Title End -->
-            </div>
-          </div>
-          <!-- Title and Top Buttons End -->
+         
           
           @RenderBody()
         </div>

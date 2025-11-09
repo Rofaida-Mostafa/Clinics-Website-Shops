@@ -37,6 +37,7 @@
     <Folder Include="Areas\Customer\ViewModel\" />
     <Folder Include="Areas\Identity\Controller\" />
     <Folder Include="Areas\Tenance\ViewModel\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

@@ -1,0 +1,304 @@
+@model EditDoctorViewModel
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Areas.Admin.ViewModel
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.DoctorController> localizer
+
+@{
+    ViewData["Title"] = localizer["edit"] + " " + localizer["doctor"];
+}
+
+<div class="container">
+    <partial name="_BreadcrumbAdmin" />
+    <div class="row my-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit"></i> @localizer["editDoctor"]
+                    </h5>
+                </div>
+                
+                <form method="post" enctype="multipart/form-data">
+                    <input asp-for="Id" type="hidden" />
+                    
+                    <div class="card-body">
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-md-6">
+                                <h6 class="text-primary border-bottom pb-2">@localizer["basicInformation"]</h6>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="DoctorId" class="form-label">@localizer["doctorId"] *</label>
+                                    <input asp-for="DoctorId" class="form-control" placeholder="DOC001" />
+                                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="ApplicationUserId" class="form-label">@localizer["applicationUser"] *</label>
+                                    <select asp-for="ApplicationUserId" asp-items="Model.ApplicationUsers" class="form-select">
+                                        <option value="">@localizer["selectUser"]</option>
+                                    </select>
+                                    <span asp-validation-for="ApplicationUserId" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="LicenseNumber" class="form-label">@localizer["licenseNumber"] *</label>
+                                    <input asp-for="LicenseNumber" class="form-control" />
+                                    <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="MedicalDegree" class="form-label">@localizer["medicalDegree"] *</label>
+                                    <input asp-for="MedicalDegree" class="form-control" placeholder="MBBS, MD, etc." />
+                                    <span asp-validation-for="MedicalDegree" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="AdditionalCertifications" class="form-label">@localizer["additionalCertifications"]</label>
+                                    <textarea asp-for="AdditionalCertifications" class="form-control" rows="3" placeholder="Board certifications, fellowships, etc."></textarea>
+                                    <span asp-validation-for="AdditionalCertifications" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Department & Experience -->
+                            <div class="col-md-6">
+                                <h6 class="text-primary border-bottom pb-2">@localizer["departmentAndExperience"]</h6>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="DepartmentId" class="form-label">@localizer["department"]</label>
+                                    <select asp-for="DepartmentId" asp-items="Model.Departments" class="form-select" id="departmentSelect">
+                                        <option value="">@localizer["selectDepartment"]</option>
+                                    </select>
+                                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="YearsOfExperience" class="form-label">@localizer["yearsOfExperience"]</label>
+                                    <input asp-for="YearsOfExperience" type="number" class="form-control" min="0" max="60" />
+                                    <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="MedicalSchool" class="form-label">@localizer["medicalSchool"]</label>
+                                    <input asp-for="MedicalSchool" class="form-control" />
+                                    <span asp-validation-for="MedicalSchool" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="GraduationDate" class="form-label">@localizer["graduationDate"]</label>
+                                    <input asp-for="GraduationDate" type="date" class="form-control" />
+                                    <span asp-validation-for="GraduationDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Professional Status -->
+                            <div class="col-md-6">
+                                <h6 class="text-primary border-bottom pb-2">@localizer["professionalStatus"]</h6>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Rank" class="form-label">@localizer["doctorRank"]</label>
+                                    <select asp-for="Rank" class="form-select" asp-items="Html.GetEnumSelectList<DoctorRank>()">
+                                    </select>
+                                    <span asp-validation-for="Rank" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="EmploymentStatus" class="form-label">@localizer["employmentStatus"]</label>
+                                    <select asp-for="EmploymentStatus" class="form-select" asp-items="Html.GetEnumSelectList<EmploymentStatus>()">
+                                    </select>
+                                    <span asp-validation-for="EmploymentStatus" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="JoinedDate" class="form-label">@localizer["joinedDate"]</label>
+                                    <input asp-for="JoinedDate" type="date" class="form-control" />
+                                    <span asp-validation-for="JoinedDate" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Financial Information -->
+                            <div class="col-md-6">
+                                <h6 class="text-primary border-bottom pb-2">@localizer["financialInformation"]</h6>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="BaseSalary" class="form-label">@localizer["baseSalary"]</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="BaseSalary" type="number" class="form-control" step="0.01" />
+                                    </div>
+                                    <span asp-validation-for="BaseSalary" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="ConsultationFee" class="form-label">@localizer["consultationFee"]</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="ConsultationFee" type="number" class="form-control" step="0.01" />
+                                    </div>
+                                    <span asp-validation-for="ConsultationFee" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="HourlyRate" class="form-label">@localizer["hourlyRate"]</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="HourlyRate" type="number" class="form-control" step="0.01" />
+                                    </div>
+                                    <span asp-validation-for="HourlyRate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Additional Information -->
+                        <div class="accordion" id="additionalInfoAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        <i class="fas fa-info-circle me-2"></i> @localizer["additionalInformation"]
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#additionalInfoAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label asp-for="WorkingHoursStart" class="form-label">@localizer["workingHoursStart"]</label>
+                                                    <input asp-for="WorkingHoursStart" type="time" class="form-control" />
+                                                    <span asp-validation-for="WorkingHoursStart" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label asp-for="WorkingHoursEnd" class="form-label">@localizer["workingHoursEnd"]</label>
+                                                    <input asp-for="WorkingHoursEnd" type="time" class="form-control" />
+                                                    <span asp-validation-for="WorkingHoursEnd" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label asp-for="WorkingDays" class="form-label">@localizer["workingDays"]</label>
+                                                    <input asp-for="WorkingDays" class="form-control" placeholder="Monday,Tuesday,Wednesday" />
+                                                    <span asp-validation-for="WorkingDays" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label asp-for="Languages" class="form-label">@localizer["languages"]</label>
+                                                    <input asp-for="Languages" class="form-control" placeholder="English, Arabic, French" />
+                                                    <span asp-validation-for="Languages" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label asp-for="DirectPhone" class="form-label">@localizer["directPhone"]</label>
+                                                    <input asp-for="DirectPhone" class="form-control" />
+                                                    <span asp-validation-for="DirectPhone" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label asp-for="OfficeLocation" class="form-label">@localizer["officeLocation"]</label>
+                                                    <input asp-for="OfficeLocation" class="form-control" />
+                                                    <span asp-validation-for="OfficeLocation" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label asp-for="RoomNumber" class="form-label">@localizer["roomNumber"]</label>
+                                                    <input asp-for="RoomNumber" class="form-control" />
+                                                    <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label asp-for="Awards" class="form-label">@localizer["awards"]</label>
+                                                    <textarea asp-for="Awards" class="form-control" rows="2"></textarea>
+                                                    <span asp-validation-for="Awards" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Biography" class="form-label">@localizer["biography"]</label>
+                            <textarea asp-for="Biography" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Biography" class="text-danger"></span>
+                        </div>
+
+                        <!-- Emergency Contact -->
+                        <h6 class="text-secondary mt-4 mb-3">@localizer["emergencyContact"]</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="EmergencyContactName" class="form-label">@localizer["emergencyContactName"]</label>
+                                    <input asp-for="EmergencyContactName" class="form-control" />
+                                    <span asp-validation-for="EmergencyContactName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="EmergencyContactPhone" class="form-label">@localizer["emergencyContactPhone"]</label>
+                                    <input asp-for="EmergencyContactPhone" class="form-control" />
+                                    <span asp-validation-for="EmergencyContactPhone" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="EmergencyContactRelation" class="form-label">@localizer["emergencyContactRelation"]</label>
+                                    <input asp-for="EmergencyContactRelation" class="form-control" />
+                                    <span asp-validation-for="EmergencyContactRelation" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Checkboxes -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2">@localizer["status"]</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsActive" class="form-check-label">@localizer["active"]</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input asp-for="IsAvailableForEmergency" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsAvailableForEmergency" class="form-check-label">@localizer["availableForEmergency"]</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-check">
+                            <input asp-for="IsAcceptingNewPatients" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsAcceptingNewPatients" class="form-check-label">@localizer["acceptingNewPatients"]</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-footer">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> @localizer["update"]
+        </button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">
+            <i class="fas fa-arrow-left"></i> @localizer["back"]
+        </a>
+    </div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // No additional JavaScript needed for simplified form
+    </script>
+}

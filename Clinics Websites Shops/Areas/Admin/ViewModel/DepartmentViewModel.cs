@@ -7,51 +7,57 @@ namespace Clinics_Websites_Shops.Areas.Admin.ViewModel
         public string LanguageCode { get; set; } = null!;
         public string LanguageName { get; set; } = null!;
         
-        [Required]
         [StringLength(255)]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
         
-        [Required]
         [StringLength(1000)]
-        public string Description { get; set; } = null!;
+        public string Description { get; set; } = string.Empty;
     }
 
-    public class CreateDepartmentViewModel
+    public class CreateDepartmentViewModel : IValidatableObject
     {
-        [Required]
-        [StringLength(255)]
-        public string Name { get; set; } = null!; // Default name (fallback)
-        
-        [Required]
-        [StringLength(1000)]
-        public string Description { get; set; } = null!; // Default description
-        
-        public string MainImg { get; set; } = null!;
+        public string? MainImg { get; set; }
         
         public bool Status { get; set; } = true;
         
         // Dynamic translations for all supported languages
         public List<DepartmentTranslationViewModel> Translations { get; set; } = new();
+        
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            // At least one translation must have a name
+            if (!Translations.Any(t => !string.IsNullOrWhiteSpace(t.Name)))
+            {
+                yield return new ValidationResult(
+                    "At least one language translation must have a name.",
+                    new[] { nameof(Translations) }
+                );
+            }
+        }
     }
 
-    public class EditDepartmentViewModel
+    public class EditDepartmentViewModel : IValidatableObject
     {
         public int Id { get; set; }
         
-        [Required]
-        [StringLength(255)]
-        public string Name { get; set; } = null!; // Default name (fallback)
-        
-        [Required]
-        [StringLength(1000)]
-        public string Description { get; set; } = null!; // Default description
-        
-        public string MainImg { get; set; } = null!;
+        public string? MainImg { get; set; }
         
         public bool Status { get; set; } = true;
         
         // Dynamic translations for all supported languages
         public List<DepartmentTranslationViewModel> Translations { get; set; } = new();
+        
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            // At least one translation must have a name
+            if (!Translations.Any(t => !string.IsNullOrWhiteSpace(t.Name)))
+            {
+                yield return new ValidationResult(
+                    "At least one language translation must have a name.",
+                    new[] { nameof(Translations) }
+                );
+            }
+        }
     }
 
     public class DepartmentListViewModel
@@ -59,7 +65,7 @@ namespace Clinics_Websites_Shops.Areas.Admin.ViewModel
         public int Id { get; set; }
         public string Name { get; set; } = null!; // Localized based on current culture
         public string Description { get; set; } = null!; // Localized based on current culture
-        public string MainImg { get; set; } = null!;
+        public string? MainImg { get; set; }
         public bool Status { get; set; }
         public int DoctorsCount { get; set; }
         

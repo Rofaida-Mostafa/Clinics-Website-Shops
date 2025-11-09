@@ -93,7 +93,15 @@ namespace Clinics_Websites_Shops.Services
         private string BuildMySqlConnectionString(string host, string port, string database, string username, string password)
         {
             var portPart = string.IsNullOrEmpty(port) ? "" : $";Port={port}";
-            return $"Server={host}{portPart};Database={database};User={username};Password={password};";
+            var passwordPart = string.IsNullOrEmpty(password) ? "" : $";Password={password}";
+            
+            // For MySQL, if username is empty, try to connect without credentials (socket connection)
+            if (string.IsNullOrEmpty(username))
+            {
+                return $"Server={host}{portPart};Database={database};SslMode=None;AllowPublicKeyRetrieval=true;";
+            }
+            
+            return $"Server={host}{portPart};Database={database};User={username}{passwordPart};SslMode=None;AllowPublicKeyRetrieval=true;";
         }
 
         private string BuildSqlServerConnectionString(string host, string port, string database, string username, string password)

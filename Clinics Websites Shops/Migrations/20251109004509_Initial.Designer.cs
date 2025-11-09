@@ -4,6 +4,7 @@ using Clinics_Websites_Shops.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinics_Websites_Shops.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251109004509_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,7 +185,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("appointments", (string)null);
+                    b.ToTable("appointments");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Department", b =>
@@ -193,11 +196,26 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
                     b.Property<string>("MainImg")
+                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("MainImg"), "utf8mb4");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
 
                     b.Property<bool>("Status")
                         .HasColumnType("tinyint(1)");
@@ -211,7 +229,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("departments", (string)null);
+                    b.ToTable("departments");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.DepartmentTranslation", b =>
@@ -253,7 +271,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("DepartmentId", "LanguageCode")
                         .IsUnique();
 
-                    b.ToTable("departmenttranslations", (string)null);
+                    b.ToTable("departmenttranslations");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Doctor", b =>
@@ -275,8 +293,7 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Salary")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Specialization")
                         .IsRequired()
@@ -301,7 +318,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("doctors", (string)null);
+                    b.ToTable("doctors");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Evaluation", b =>
@@ -344,7 +361,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("PatientId1");
 
-                    b.ToTable("evaluations", (string)null);
+                    b.ToTable("evaluations");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Nurse", b =>
@@ -363,8 +380,7 @@ namespace Clinics_Websites_Shops.Migrations
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ApplicationUserId"), "utf8mb4");
 
                     b.Property<decimal>("Salary")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -377,7 +393,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("nurses", (string)null);
+                    b.ToTable("nurses");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
@@ -406,7 +422,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("patients", (string)null);
+                    b.ToTable("patients");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Payment", b =>
@@ -418,8 +434,7 @@ namespace Clinics_Websites_Shops.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
@@ -451,7 +466,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("AppointmentId")
                         .IsUnique();
 
-                    b.ToTable("payments", (string)null);
+                    b.ToTable("payments");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Prescription", b =>
@@ -486,7 +501,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("ReportId");
 
-                    b.ToTable("prescriptions", (string)null);
+                    b.ToTable("prescriptions");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Report", b =>
@@ -537,7 +552,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("reports", (string)null);
+                    b.ToTable("reports");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

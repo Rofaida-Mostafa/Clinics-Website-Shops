@@ -67,8 +67,17 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateDepartmentViewModel viewModel)
         {
+            // Debug ModelState validation
             if (!ModelState.IsValid)
             {
+                // Log validation errors for debugging
+                var errors = ModelState
+                    .Where(x => x.Value?.Errors.Count > 0)
+                    .Select(x => $"{x.Key}: {string.Join("; ", x.Value!.Errors.Select(e => e.ErrorMessage))}")
+                    .ToList();
+                
+                TempData["error-notification"] = $"Validation failed: {string.Join(" | ", errors)}";
+                
                 // Repopulate language names in case of validation errors
                 var supportedLanguages = _localizationService.GetSupportedLanguages();
                 foreach (var translation in viewModel.Translations)
@@ -83,12 +92,25 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
 
             try
             {
-                var currentTenant = _tenantService.GetCurrentTenant(HttpContext);
+                //var currentTenant = _tenantService.GetCurrentTenant(HttpContext);
+                var currentTenant = _tenantService.GetFirstTenant();
+                
                 var tenantId = currentTenant?.TId ?? throw new InvalidOperationException("Tenant not found");
+                
+                // Debug logging
+                Console.WriteLine($"Creating department for tenant: {tenantId}");
+                Console.WriteLine($"Translations count: {viewModel.Translations.Count}");
+                
                 var department = viewModel.ToEntity(tenantId);
                 
+                Console.WriteLine($"Department entity created. Translations: {department.Translations.Count}");
+                Console.WriteLine($"Department Status: {department.Status}, MainImg: {department.MainImg}");
+                
                 await _departmentRepository.CreateAsync(department);
+                Console.WriteLine("Department added to repository");
+                
                 await _departmentRepository.CommitAsync();
+                Console.WriteLine("Changes committed to database");
 
                 var successMessage = _localizer["addDepartmentSuccess"];
                 TempData["success-notification"] = successMessage.Value;
@@ -100,10 +122,15 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // Log the actual exception for debugging
                 var errorMessage = _localizer["invalidDepartmentData"];
-                TempData["error-notification"] = errorMessage.Value;
+                TempData["error-notification"] = $"{errorMessage.Value} - Debug: {ex.Message}";
+                
+                // For debugging - you can remove this later
+                Console.WriteLine($"Department creation error: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 
                 // Repopulate language names in case of error
                 var supportedLanguages = _localizationService.GetSupportedLanguages();

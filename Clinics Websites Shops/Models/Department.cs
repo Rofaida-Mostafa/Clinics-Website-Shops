@@ -2,14 +2,17 @@
 {
     public class Department : IMustHaveTenant
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = null!; // Default name (fallback)
+        public int Id { get; set; } 
+        
+        // Navigation Properties
         public ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
-        public string TenantId { get; set; }
+        
+        public string TenantId { get; set; } = null!;
+        
         //Status
         public bool Status { get; set; } = true;
-        public string Description { get; set; } = null!;
-        public string MainImg { get; set; } = null!;
+        public string? MainImg { get; set; }
+        
         // Multi-language support
         public ICollection<DepartmentTranslation> Translations { get; set; } = new List<DepartmentTranslation>();
     }

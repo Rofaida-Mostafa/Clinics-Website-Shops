@@ -9,26 +9,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0019882-115c-41d9-bf31-022af58d6471" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_BreadcrumbAdmin.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/HomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/Home/Index.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/Home/Privacy.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/_ViewImports.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/_ViewStart.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/DepartmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/DepartmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Shared/_Breadcrumb.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/ViewModel/DepartmentViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/ViewModel/DepartmentViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Department/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Department/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Department/CreateExample.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Department/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Department/Edit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Department/IndexExample.cshtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContextFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContextFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/Extensions/DbContextConfigurationExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/Extensions/DbContextConfigurationExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContextFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContextFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/GlobalUsings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/GlobalUsings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/DepartmentExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/DepartmentExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251025203304_Init-App.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251025203304_Init-App.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251106045049_updated.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251106045049_updated.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251108133531_AddDepartmentTranslations.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251108133531_AddDepartmentTranslations.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/Master/20251025111307_Init_Master.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/Master/20251025111307_Init_Master.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/Master/20251106190159_addLocals.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/Master/20251106190159_addLocals.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/Master/MasterDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Appointment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Appointment.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Department.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Department.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/IRepositories/IRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/IRepositories/IRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/Repository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/Repository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Utilities/SD.CS" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Utilities/SD.CS" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Doctor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Doctor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Patient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Report.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Report.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Resources/ar.json" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Resources/ar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Resources/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Resources/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Services/EnvironmentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/EnvironmentService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Services/IServices/ITenantService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/IServices/ITenantService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Services/LocalizationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/LocalizationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Services/TenantService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/TenantService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/TestDbConnection.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,6 +116,9 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="34wwQYl8EzsYishYlQRD0apleng" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -160,7 +181,7 @@
       <workItem from="1762137929120" duration="5402000" />
       <workItem from="1762642907404" duration="478000" />
       <workItem from="1762643401018" duration="2169000" />
-      <workItem from="1762646440838" duration="2103000" />
+      <workItem from="1762646440838" duration="15044000" />
     </task>
     <servers />
   </component>

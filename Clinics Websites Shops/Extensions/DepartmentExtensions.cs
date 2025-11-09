@@ -35,12 +35,12 @@ namespace Clinics_Websites_Shops.Extensions
                 return string.Empty;
 
             if (string.IsNullOrEmpty(culture))
-                return department.Name;
+                return string.Empty;
 
             var translation = department.Translations?
                 .FirstOrDefault(t => t.LanguageCode.Equals(culture, StringComparison.OrdinalIgnoreCase));
 
-            return translation?.Name ?? department.Name;
+            return translation?.Name ?? string.Empty;
         }
 
         /// <summary>
@@ -160,12 +160,12 @@ namespace Clinics_Websites_Shops.Extensions
                 return string.Empty;
 
             if (string.IsNullOrEmpty(culture))
-                return department.Description ?? string.Empty;
+                return  string.Empty;
 
             var translation = department.Translations?
                 .FirstOrDefault(t => t.LanguageCode.Equals(culture, StringComparison.OrdinalIgnoreCase));
 
-            return translation?.Description ?? department.Description ?? string.Empty;
+            return translation?.Description ??  string.Empty;
         }
 
         /// <summary>
@@ -175,9 +175,7 @@ namespace Clinics_Websites_Shops.Extensions
         {
             var viewModel = new CreateDepartmentViewModel
             {
-                Name = department.Name ?? string.Empty,
-                Description = department.Description ?? string.Empty,
-                MainImg = department.MainImg ?? string.Empty,
+                MainImg = department.MainImg,
                 Status = department.Status
             };
 
@@ -207,9 +205,7 @@ namespace Clinics_Websites_Shops.Extensions
             var viewModel = new EditDepartmentViewModel
             {
                 Id = department.Id,
-                Name = department.Name ?? string.Empty,
-                Description = department.Description ?? string.Empty,
-                MainImg = department.MainImg ?? string.Empty,
+                MainImg = department.MainImg,
                 Status = department.Status
             };
 
@@ -238,8 +234,6 @@ namespace Clinics_Websites_Shops.Extensions
         {
             var department = new Department
             {
-                Name = viewModel.Name,
-                Description = viewModel.Description,
                 MainImg = viewModel.MainImg,
                 Status = viewModel.Status,
                 TenantId = tenantId
@@ -264,8 +258,6 @@ namespace Clinics_Websites_Shops.Extensions
         /// </summary>
         public static void UpdateFromViewModel(this Department department, EditDepartmentViewModel viewModel)
         {
-            department.Name = viewModel.Name;
-            department.Description = viewModel.Description;
             department.MainImg = viewModel.MainImg;
             department.Status = viewModel.Status;
 

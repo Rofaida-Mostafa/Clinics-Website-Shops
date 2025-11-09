@@ -32,7 +32,7 @@ namespace Clinics_Websites_Shops.Services
                 .FirstOrDefault(t => t.LanguageCode.Equals(targetCulture, StringComparison.OrdinalIgnoreCase));
 
             // Return translated name if found, otherwise return default name
-            return translation?.Name ?? department.Name;
+            return translation?.Name ?? String.Empty;
         }
 
         public string GetLocalizedDepartmentDescription(Department department, string? culture = null)
@@ -48,7 +48,7 @@ namespace Clinics_Websites_Shops.Services
                 .FirstOrDefault(t => t.LanguageCode.Equals(targetCulture, StringComparison.OrdinalIgnoreCase));
 
             // Return translated description if found, otherwise return default description
-            return translation?.Description ?? department.Description;
+            return translation?.Description ?? String.Empty;
         }
 
         public string GetCurrentCulture()

@@ -79,7 +79,7 @@ namespace Clinics_Websites_Shops.DataAccess.Extensions
             // MySQL specific configurations
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
-                // Configure string properties for MySQL
+                // Configure properties for MySQL
                 foreach (var property in entity.GetProperties())
                 {
                     if (property.ClrType == typeof(string))
@@ -94,9 +94,25 @@ namespace Clinics_Websites_Shops.DataAccess.Extensions
                     {
                         property.SetColumnType("tinyint(1)");
                     }
+                    
+                    // Configure DateTime properties for MySQL
+                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetColumnType("datetime(6)"); // Use datetime with microseconds
+                    }
+                    
+                    // Configure decimal properties for MySQL
+                    if (property.ClrType == typeof(decimal) || property.ClrType == typeof(decimal?))
+                    {
+                        if (property.GetPrecision() == null)
+                        {
+                            property.SetPrecision(18);
+                            property.SetScale(2);
+                        }
+                    }
                 }
 
-                // Configure table names to use lowercase for MySQL conventions
+                // Configure table names to use lowercase for MySQL conventions  
                 var tableName = entity.GetTableName();
                 if (!string.IsNullOrEmpty(tableName))
                 {

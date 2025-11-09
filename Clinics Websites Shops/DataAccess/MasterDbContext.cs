@@ -60,7 +60,7 @@ namespace Clinics_Websites_Shops.DataAccess
                 }
                 else if (databaseProvider == DatabaseProvider.MySQL)
                 {
-                    entity.Property(e => e.CreatedAt).HasDefaultValueSql("UTC_TIMESTAMP()");
+                    entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
                 }
             });
         }
