@@ -1,0 +1,119 @@
+@model CreateDepartmentViewModel
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Areas.Admin.ViewModel
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.DepartmentController> Localizer
+
+@{
+    ViewData["Title"] = Localizer["create"] + " " + Localizer["department"];
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewData["Title"]</h3>
+                </div>
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Default Information -->
+                            <div class="col-md-6">
+                                <h5>@Localizer["defaultInformation"]</h5>
+                                
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label">@Localizer["name"]</label>
+                                    <input asp-for="Name" class="form-control" placeholder="@Localizer["departmentNameRequired"]" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Description" class="control-label">@Localizer["description"]</label>
+                                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="@Localizer["departmentDescriptionRequired"]"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="MainImg" class="control-label">@Localizer["mainImage"]</label>
+                                    <input asp-for="MainImg" class="form-control" type="file" accept="image/*" />
+                                    <span asp-validation-for="MainImg" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input asp-for="Status" class="form-check-input" type="checkbox" />
+                                        <label asp-for="Status" class="form-check-label">@Localizer["active"]</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Multi-Language Translations -->
+                            <div class="col-md-6">
+                                <h5>@Localizer["translations"]</h5>
+                                
+                                @for (int i = 0; i < Model.Translations.Count; i++)
+                                {
+                                    <div class="translation-group mb-4 p-3 border rounded">
+                                        <h6 class="text-primary">
+                                            <i class="fas fa-language"></i> 
+                                            @Model.Translations[i].LanguageName
+                                        </h6>
+                                        
+                                        <input asp-for="Translations[i].LanguageCode" type="hidden" />
+                                        <input asp-for="Translations[i].LanguageName" type="hidden" />
+                                        
+                                        <div class="form-group">
+                                            <label asp-for="Translations[i].Name" class="control-label">@Localizer["name"]</label>
+                                            <input asp-for="Translations[i].Name" class="form-control" 
+                                                   placeholder="@Localizer["name"] (@Model.Translations[i].LanguageName)" />
+                                            <span asp-validation-for="Translations[i].Name" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Translations[i].Description" class="control-label">@Localizer["description"]</label>
+                                            <textarea asp-for="Translations[i].Description" class="form-control" rows="3"
+                                                      placeholder="@Localizer["description"] (@Model.Translations[i].LanguageName)"></textarea>
+                                            <span asp-validation-for="Translations[i].Description" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> @Localizer["save"]
+                                </button>
+                                <a asp-action="Index" class="btn btn-secondary ml-2">
+                                    <i class="fas fa-arrow-left"></i> @Localizer["back"]
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Optional: Add dynamic translation management
+            $('.translation-group').each(function() {
+                const $group = $(this);
+                const languageCode = $group.find('input[name*="LanguageCode"]').val();
+                
+                // You can add specific validation or formatting based on language
+                if (languageCode === 'ar') {
+                    $group.find('input, textarea').attr('dir', 'rtl');
+                }
+            });
+        });
+    </script>
+}

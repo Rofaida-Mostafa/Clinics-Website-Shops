@@ -8,7 +8,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0019882-115c-41d9-bf31-022af58d6471" name="Changes" comment="" />
+    <list default="true" id="c0019882-115c-41d9-bf31-022af58d6471" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/Home/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/Home/Privacy.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Customer/Views/_ViewStart.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContextFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContextFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContextFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/MasterDbContextFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/GlobalUsings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/GlobalUsings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Department.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Department.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/IRepositories/IRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/IRepositories/IRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/Repository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Repositories/Repository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Utilities/SD.CS" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Utilities/SD.CS" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +38,13 @@
   </component>
   <component name="DpaMonitoringSettings">
     <option name="firstShow" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -32,6 +61,39 @@
     &quot;accountId&quot;: &quot;1dfaa89e-bbb9-4b89-bced-7fab7aa7e77d&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.json" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -40,20 +102,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Clinics Websites Shops: http.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Clinics Websites Shops: http.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;AdminDashboard&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Clinics Websites Shops: http">
     <configuration name="Clinics Websites Shops: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" />
@@ -94,6 +158,9 @@
       <option name="presentableId" value="Default" />
       <updated>1762137927360</updated>
       <workItem from="1762137929120" duration="5402000" />
+      <workItem from="1762642907404" duration="478000" />
+      <workItem from="1762643401018" duration="2169000" />
+      <workItem from="1762646440838" duration="2103000" />
     </task>
     <servers />
   </component>

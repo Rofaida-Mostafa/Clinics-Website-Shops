@@ -1,53 +1,83 @@
-﻿using Clinics_Websites_Shops.DataAccess;
+﻿using Clinics_Websites_Shops.Models;
 using Clinics_Websites_Shops.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Clinics_Websites_Shops.DataAccess;
 
 namespace Clinics_Websites_Shops.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly ApplicationDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        private readonly ApplicationDbContext _context;
+        private readonly DbSet<T> _db;
 
         public Repository(ApplicationDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
+            _db = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        // CRUD
+        public async Task CreateAsync(T entity)
         {
-            return await _dbSet.ToListAsync();
-        }
-
-        public async Task<T?> GetByIdAsync(object id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _dbSet.Where(predicate).ToListAsync();
-        }
-
-        public async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
+            await _db.AddAsync(entity);
         }
 
         public void Update(T entity)
         {
-            _dbSet.Update(entity);
+            _db.Update(entity);
         }
 
         public void Delete(T entity)
         {
-            _dbSet.Remove(entity);
+            _db.Remove(entity);
         }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task CommitAsync()
         {
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<T>> GetAsync(Expression<Func<T, bool>>? expression = null,
+            Expression<Func<T, object>>[]? includes = null, bool tracked = true, string sort = "ASC")
+        {
+            var entities = _db.AsQueryable();
+            
+            //sort
+            if (sort == "ASC")
+            {
+                entities = entities.OrderBy(x => x);
+            }
+            else
+            {
+                entities = entities.OrderByDescending(x => x);
+            }
+
+            if (expression is not null)
+            {
+                entities = entities.Where(expression);
+            }
+
+            if (includes is not null)
+            {
+                foreach (var item in includes)
+                {
+                    entities = entities.Include(item);
+                }
+            }
+
+            if (!tracked)
+            {
+                entities = entities.AsNoTracking();
+            }
+
+            return await entities.ToListAsync();
+        }
+
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>>[]? includes = null, bool tracked = true)
+        {
+            return (await GetAsync(expression, includes, tracked)).FirstOrDefault();
         }
     }
 }

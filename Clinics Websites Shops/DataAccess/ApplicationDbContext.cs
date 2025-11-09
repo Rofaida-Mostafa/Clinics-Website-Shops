@@ -1,5 +1,7 @@
 ﻿using Clinics_Websites_Shops.Services.IServices;
+using Clinics_Websites_Shops.Services;
 using Clinics_Websites_Shops.Settings;
+using Clinics_Websites_Shops.DataAccess.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,22 +11,26 @@ namespace Clinics_Websites_Shops.DataAccess
     {
         private readonly ITenantService? _tenantService;
         private readonly IHttpContextAccessor? _httpContextAccessor;
-        public string TenantId { get; set; }
+        private readonly EnvironmentService? _environmentService;
+        public string? TenantId { get; set; }
 
         // ✅ Empty Constructor for design-time
         public ApplicationDbContext()
         {
+            _environmentService = new EnvironmentService();
         }
 
         // ✅ Constructor runtime
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
             ITenantService tenantService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            EnvironmentService environmentService)
             : base(options)
         {
             _tenantService = tenantService;
             _httpContextAccessor = httpContextAccessor;
+            _environmentService = environmentService;
 
             if (_tenantService != null && _httpContextAccessor?.HttpContext != null)
             {
@@ -36,6 +42,7 @@ namespace Clinics_Websites_Shops.DataAccess
         public DbSet<Nurse> Nurses { get; set; } = null!;
         public DbSet<Patient> Patients { get; set; } = null!;
         public DbSet<Department> Departments { get; set; } = null!;
+        public DbSet<DepartmentTranslation> DepartmentTranslations { get; set; } = null!;
         public DbSet<Appointment> Appointments { get; set; } = null!;
         public DbSet<Payment> Payments { get; set; } = null!;
         public DbSet<Report> Reports { get; set; } = null!;
@@ -46,21 +53,33 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
+                var environmentService = _environmentService ?? new EnvironmentService();
+                var connectionString = string.Empty;
+                var databaseProvider = environmentService.GetDatabaseProvider();
+
                 // Using Tenant Service to get the connection string dynamically
-                if (_tenantService != null && _httpContextAccessor != null)
+                if (_tenantService != null && _httpContextAccessor?.HttpContext != null)
                 {
                     var tenant = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext);
 
-                    if (tenant == null)
-                        throw new Exception("Tenant not found for the current request");
-
-                    optionsBuilder.UseSqlServer(tenant.ConnectionString);
+                    if (tenant != null && !string.IsNullOrEmpty(tenant.ConnectionString))
+                    {
+                        connectionString = tenant.ConnectionString;
+                    }
+                    else
+                    {
+                        // Fallback to environment configuration
+                        connectionString = environmentService.GetConnectionString();
+                    }
                 }
                 else
                 {
-                    //  Implement DB using EF core ( For Migration only)
-                    optionsBuilder.UseSqlServer("Server=.;Database=ClinicOneDb;Trusted_Connection=True;TrustServerCertificate=True;");
+                    // For design-time and migrations
+                    connectionString = environmentService.GetConnectionString();
                 }
+
+                // Configure the database provider
+                optionsBuilder.ConfigureDatabase(connectionString, databaseProvider);
             }
 
             base.OnConfiguring(optionsBuilder);
@@ -71,6 +90,11 @@ namespace Clinics_Websites_Shops.DataAccess
             modelBuilder.Entity<ApplicationUser>().HasQueryFilter(u => u.TenantId == TenantId);
           
             base.OnModelCreating(modelBuilder);
+
+            // Apply database-specific configurations
+            var environmentService = _environmentService ?? new EnvironmentService();
+            var databaseProvider = environmentService.GetDatabaseProvider();
+            modelBuilder.ApplyDatabaseSpecificConfigurations(databaseProvider);
 
             // Person primary key
             modelBuilder.Entity<ApplicationUser>().HasKey(p => p.Id);
@@ -140,6 +164,30 @@ namespace Clinics_Websites_Shops.DataAccess
                 .WithOne()
                 .HasForeignKey("DepartmentId")
                 .OnDelete(DeleteBehavior.SetNull);
+
+            // Department - DepartmentTranslation
+            modelBuilder.Entity<DepartmentTranslation>()
+                .HasKey(dt => dt.Id);
+
+            modelBuilder.Entity<DepartmentTranslation>()
+                .HasOne(dt => dt.Department)
+                .WithMany(d => d.Translations)
+                .HasForeignKey(dt => dt.DepartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DepartmentTranslation>()
+                .HasIndex(dt => new { dt.DepartmentId, dt.LanguageCode })
+                .IsUnique();
+
+            modelBuilder.Entity<DepartmentTranslation>()
+                .Property(dt => dt.LanguageCode)
+                .HasMaxLength(10)
+                .IsRequired();
+
+            modelBuilder.Entity<DepartmentTranslation>()
+                .Property(dt => dt.Name)
+                .HasMaxLength(200)
+                .IsRequired();
         }
     }
 

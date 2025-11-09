@@ -1,0 +1,149 @@
+@model List<DepartmentListViewModel>
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Areas.Admin.ViewModel
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.DepartmentController> Localizer
+
+@{
+    ViewData["Title"] = Localizer["departments"];
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewData["Title"]</h3>
+                    <div class="card-tools">
+                        <a asp-action="Create" class="btn btn-success btn-sm">
+                            <i class="fas fa-plus"></i> @Localizer["create"] @Localizer["department"]
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>@Localizer["name"]</th>
+                                        <th>@Localizer["description"]</th>
+                                        <th>@Localizer["status"]</th>
+                                        <th>@Localizer["doctors"]</th>
+                                        <th>@Localizer["actions"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var department in Model)
+                                    {
+                                        <tr>
+                                            <td>@department.Id</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (!string.IsNullOrEmpty(department.MainImg))
+                                                    {
+                                                        <img src="@department.MainImg" alt="@department.Name" 
+                                                             class="img-circle elevation-2 mr-2" width="40" height="40">
+                                                    }
+                                                    <div>
+                                                        <strong>@department.Name</strong>
+                                                        @* Show available languages indicator *@
+                                                        @if (department.OriginalDepartment.Translations.Any())
+                                                        {
+                                                            <div class="small text-muted">
+                                                                <i class="fas fa-language"></i> 
+                                                                @string.Join(", ", department.OriginalDepartment.Translations.Select(t => t.LanguageCode.ToUpper()))
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span title="@department.Description">
+                                                    @(department.Description.Length > 100 ? department.Description.Substring(0, 100) + "..." : department.Description)
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if (department.Status)
+                                                {
+                                                    <span class="badge badge-success">@Localizer["active"]</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">@Localizer["inactive"]</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info">@department.DoctorsCount</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a asp-action="Edit" asp-route-id="@department.Id" 
+                                                       class="btn btn-sm btn-warning" title="@Localizer["edit"]">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="#" onclick="confirmDelete(@department.Id, '@department.Name')" 
+                                                       class="btn btn-sm btn-danger" title="@Localizer["delete"]">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">@Localizer["noDepartmentsFound"]</h5>
+                            <a asp-action="Create" class="btn btn-success mt-3">
+                                <i class="fas fa-plus"></i> @Localizer["create"] @Localizer["department"]
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Delete Confirmation Modal *@
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["confirmDelete"]</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    @Localizer["cancel"]
+                </button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">
+                    @Localizer["delete"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(departmentId, departmentName) {
+            const message = '@Localizer["areYouSureDelete"]'.replace('{0}', departmentName);
+            document.getElementById('deleteMessage').innerText = message;
+            document.getElementById('confirmDeleteBtn').href = '@Url.Action("Delete", "Department")/' + departmentId;
+            $('#deleteModal').modal('show');
+        }
+    </script>
+}

@@ -9,7 +9,7 @@
 
 
             // Controllers
-            public const string CategoryController = "Category";
+            public const string CategoryController = "Department";
             public const string HomeController = "Home";
 
             // Actions
