@@ -1,15 +1,20 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Clinics_Websites_Shops.Repositories.IRepositories
 {
     public interface IRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(object id);
-        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
-        Task AddAsync(T entity);
+        Task CreateAsync(T entity);
+
         void Update(T entity);
+
         void Delete(T entity);
-        Task<int> SaveChangesAsync();
+        Task CommitAsync();
+
+        Task<List<T>> GetAsync(Expression<Func<T, bool>>? expression = null,
+            Expression<Func<T, object>>[]? includes = null, bool tracked = true, string sort = "ASC");
+
+        Task<T?> GetOneAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>>[]? includes = null, bool tracked = true);
     }
 }

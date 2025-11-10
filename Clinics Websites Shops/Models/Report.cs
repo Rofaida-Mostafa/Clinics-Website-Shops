@@ -1,4 +1,6 @@
-﻿namespace Clinics_Websites_Shops.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Clinics_Websites_Shops.Models
 {
     public class Report : IMustHaveTenant
     {
@@ -11,6 +13,8 @@
         public string? DoctorId { get; set; }
         public Doctor? Doctor { get; set; }
         public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>(); 
-        public string TenantId { get; set; }
+        
+        [Required]
+        public string TenantId { get; set; } = null!;
     }
 }

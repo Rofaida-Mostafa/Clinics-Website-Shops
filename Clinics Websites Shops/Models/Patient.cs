@@ -1,13 +1,20 @@
-﻿namespace Clinics_Websites_Shops.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Clinics_Websites_Shops.Models
 {
     public class Patient : IMustHaveTenant
     {
-        public string PatientId { get; set; }
+        [Key, StringLength(50)]
+        public string PatientId { get; set; } = null!; // Keep as primary key
+        
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<Report> Reports { get; set; } = new List<Report>();
-        public string ApplicationUserId { get; set; }
+        
+        [Required]
+        public string ApplicationUserId { get; set; } = null!;
         public ApplicationUser? ApplicationUser { get; set; }
-         public string TenantId { get; set; }
+        
+        [Required]
+        public string TenantId { get; set; } = null!;
     }
-
 }
