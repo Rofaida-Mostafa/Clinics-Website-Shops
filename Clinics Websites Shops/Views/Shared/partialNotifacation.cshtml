@@ -1,0 +1,13 @@
+﻿// This partial view displays success or error notifications using Toastr.js based on TempData values.
+    @if (TempData.Peek("success-notification") != null)
+    {
+        <script>
+            toastr.success('@TempData["success-notification"]');
+        </script>
+    }
+    else if (TempData.Peek("error-notification") != null)
+    {
+        <script>
+            toastr.error('@TempData["error-notification"]');
+        </script>
+    }

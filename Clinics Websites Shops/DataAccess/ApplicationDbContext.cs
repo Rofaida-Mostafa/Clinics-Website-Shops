@@ -15,7 +15,10 @@ namespace Clinics_Websites_Shops.DataAccess
         public ApplicationDbContext()
         {
         }
-
+    
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        {
+        }
         // ✅ Constructor runtime
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,

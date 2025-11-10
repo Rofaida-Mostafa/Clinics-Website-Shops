@@ -36,7 +36,9 @@
     <Folder Include="Areas\Admin\ViewModel\" />
     <Folder Include="Areas\Customer\ViewModel\" />
     <Folder Include="Areas\Identity\Controller\" />
-    <Folder Include="Areas\Tenance\ViewModel\" />
+    <Folder Include="Areas\Identity\ViewModels\" />
+    <Folder Include="Areas\Tenance\Controllers\" />
+    <Folder Include="Areas\Tenance\Views\" />
   </ItemGroup>
 	
 </Project>
