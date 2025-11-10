@@ -82,7 +82,7 @@ DB_DATABASE=ClinicsWebsiteShops
 
 # Master database for tenant management
 MASTER_DB_HOST=localhost
-MASTER_DB_DATABASE=ClinicsMaster
+MASTER_DB_DATABASE=MasterDb
 MASTER_DB_USERNAME=sa
 MASTER_DB_PASSWORD=YourPassword123!
 ```
@@ -109,7 +109,7 @@ DB_HOST=.\SQLEXPRESS
 DB_DATABASE=ClinicsWebsiteShops
 DB_USERNAME=
 DB_PASSWORD=
-MASTER_DB_DATABASE=ClinicsMaster
+MASTER_DB_DATABASE=MasterDb
 DEFAULT_LANGUAGE=en
 SUPPORTED_LANGUAGES=en,ar
 ```
@@ -140,7 +140,7 @@ DB_DATABASE=ClinicsProduction
 DB_USERNAME=clinic_app
 DB_PASSWORD=VerySecurePassword123!
 MASTER_DB_HOST=192.168.1.100
-MASTER_DB_DATABASE=ClinicsMasterProd
+MASTER_DB_DATABASE=MasterDbProd
 MASTER_DB_USERNAME=clinic_app
 MASTER_DB_PASSWORD=VerySecurePassword123!
 ```
@@ -157,7 +157,7 @@ MASTER_DB_PASSWORD=VerySecurePassword123!
 | `DB_PASSWORD` | Database password | | No* |
 | `MASTER_DB_HOST` | Master database hostname | Same as `DB_HOST` | No |
 | `MASTER_DB_PORT` | Master database port | Same as `DB_PORT` | No |
-| `MASTER_DB_DATABASE` | Master database name | `ClinicsMaster` | No |
+| `MASTER_DB_DATABASE` | Master database name | `MasterDb` | No |
 | `MASTER_DB_USERNAME` | Master database username | Same as `DB_USERNAME` | No |
 | `MASTER_DB_PASSWORD` | Master database password | Same as `DB_PASSWORD` | No |
 | `DEFAULT_LANGUAGE` | Default application language | `en` | No |

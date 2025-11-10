@@ -1,17 +1,19 @@
+using Clinics_Websites_Shops;
 using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.DataAccess.Extensions;
+using Clinics_Websites_Shops.Middlewares;
 using Clinics_Websites_Shops.Migrations;
 using Clinics_Websites_Shops.Services;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Localization;
+using Stripe;
 using System.Globalization;
-using Clinics_Websites_Shops;
-using Clinics_Websites_Shops.Middlewares;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,24 @@ builder.Services.AddDbContext<MasterDbContext>((serviceProvider, options) =>
     var envService = serviceProvider.GetRequiredService<EnvironmentService>();
     options.ConfigureDatabase(masterConnectionString, databaseProvider);
 });
+/// To Detremine Current Tenant By Domain
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+    var tenantService = serviceProvider.GetRequiredService<ITenantService>();
+
+    var tenant = tenantService.GetCurrentTenant(httpContextAccessor.HttpContext);
+
+    if (tenant != null)
+    {
+        options.UseSqlServer(tenant.ConnectionString);
+    }
+    else
+    {
+        // For design-time or fallback (migrations)
+        options.UseSqlServer("Server=.;Database=MasterDb;Trusted_Connection=True;TrustServerCertificate=True;");
+    }
+});
 
 // Tenant-aware ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
@@ -39,14 +59,24 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =
     options.ConfigureDatabase(appConnectionString, databaseProvider);
 });
 
-// Identity
+/// Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+/// Email sender
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+// Tenant services
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ITenantService, TenantService>();
 
 // Tenant services
 builder.Services.AddHttpContextAccessor();
@@ -83,6 +113,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     
     options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider());
 });
+
+/// Time out for session
+builder.Services.AddSession(option =>
+{
+    option.IdleTimeout = TimeSpan.FromMinutes(50);
+});
+
+/// Configure Stripe API key
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 
 var app = builder.Build();
 
@@ -129,5 +168,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

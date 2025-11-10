@@ -19,7 +19,7 @@ You're getting a "Unable to connect to any of the specified MySQL hosts" error. 
    ```bash
    mysql -u root -p
    CREATE DATABASE IF NOT EXISTS ClinicsWebsiteShops;
-   CREATE DATABASE IF NOT EXISTS ClinicsMaster;
+   CREATE DATABASE IF NOT EXISTS MasterDb;
    SHOW DATABASES;
    EXIT;
    ```
@@ -33,7 +33,7 @@ You're getting a "Unable to connect to any of the specified MySQL hosts" error. 
    DB_USERNAME=root
    DB_PASSWORD=your_password_here
    
-   MASTER_DB_DATABASE=ClinicsMaster
+   MASTER_DB_DATABASE=MasterDb
    MASTER_DB_USERNAME=root
    MASTER_DB_PASSWORD=your_password_here
    ```
@@ -51,7 +51,7 @@ DB_PASSWORD=
 
 MASTER_DB_HOST=localhost
 MASTER_DB_PORT=1433
-MASTER_DB_DATABASE=ClinicsMaster
+MASTER_DB_DATABASE=MasterDb
 MASTER_DB_USERNAME=
 MASTER_DB_PASSWORD=
 ```
@@ -81,7 +81,7 @@ Instead of using root, create a dedicated user:
 ```sql
 CREATE USER 'clinic_user'@'localhost' IDENTIFIED BY 'clinic_password_123';
 GRANT ALL PRIVILEGES ON ClinicsWebsiteShops.* TO 'clinic_user'@'localhost';
-GRANT ALL PRIVILEGES ON ClinicsMaster.* TO 'clinic_user'@'localhost';
+GRANT ALL PRIVILEGES ON MasterDb.* TO 'clinic_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -123,7 +123,7 @@ DB_PASSWORD=your_mysql_password
 
 MASTER_DB_HOST=127.0.0.1
 MASTER_DB_PORT=3306
-MASTER_DB_DATABASE=ClinicsMaster
+MASTER_DB_DATABASE=MasterDb
 MASTER_DB_USERNAME=root
 MASTER_DB_PASSWORD=your_mysql_password
 ```
@@ -139,7 +139,7 @@ DB_PASSWORD=
 
 MASTER_DB_HOST=localhost
 MASTER_DB_PORT=1433
-MASTER_DB_DATABASE=ClinicsMaster
+MASTER_DB_DATABASE=MasterDb
 MASTER_DB_USERNAME=
 MASTER_DB_PASSWORD=
 ```

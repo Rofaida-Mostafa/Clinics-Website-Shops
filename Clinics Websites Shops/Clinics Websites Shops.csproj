@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Tenance\Controller\**" />
     <Compile Remove="Middleware\**" />
+    <Content Remove="Areas\Tenance\Controller\**" />
     <Content Remove="Middleware\**" />
+    <EmbeddedResource Remove="Areas\Tenance\Controller\**" />
     <EmbeddedResource Remove="Middleware\**" />
+    <None Remove="Areas\Tenance\Controller\**" />
     <None Remove="Middleware\**" />
   </ItemGroup>
 
@@ -36,7 +40,6 @@
     <Folder Include="Areas\Admin\ViewModel\" />
     <Folder Include="Areas\Customer\ViewModel\" />
     <Folder Include="Areas\Identity\Controller\" />
-    <Folder Include="Areas\Tenance\ViewModel\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
