@@ -3,7 +3,7 @@
     public interface ITenantService
     {
         Tenant? GetCurrentTenant(HttpContext context);
-
+        Tenant? GetFirstTenant();
    
     }
 }

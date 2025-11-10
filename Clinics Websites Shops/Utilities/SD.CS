@@ -2,26 +2,24 @@
 {
     public class SD
     {
-        // Areas
-        public const string AdminArea = "Admin";
-        public const string CustomerArea = "Customer";
-        public const string IdentityArea = "Identity";
-        public const string TenanceArea = "Tenance";
+            // Areas
+            public const string AdminArea = "Admin";
+            public const string CustomerArea = "Customer";
+            public const string IdentityArea = "Identity";
 
 
-        // Controllers
-        public const string CategoryController = "Category";
-        public const string HomeController = "Home";
-        public const string TenantAccountController = "TenantAccount";
+            // Controllers
+            public const string CategoryController = "Department";
+            public const string HomeController = "Home";
 
-        // Actions
-        public const string NotFoundPage = "NotFoundPage";
+            // Actions
+            public const string NotFoundPage = "NotFoundPage";
 
-        //Roles
-        public const string SuperAdminRole = "SuperAdminRole";
-        public const string AdminRole = "AdminRole";
-        public const string CompanyRole = "CompanyRole";
-        public const string CustomerRole = "CustomerRole";
+            //Roles
+            public const string SuperAdminRole = "SuperAdminRole";
+            public const string AdminRole = "AdminRole";
+            public const string CompanyRole = "CompanyRole";
+            public const string CustomerRole = "CustomerRole";
 
     }
 }
