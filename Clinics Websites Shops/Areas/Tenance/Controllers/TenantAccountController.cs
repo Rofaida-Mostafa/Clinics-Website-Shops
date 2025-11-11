@@ -36,7 +36,7 @@ namespace Clinics_Websites_Shops.Areas.Tenance.Controllers
             return View(new RegisterVM());
         }
         [HttpPost]
-        public async Task<IActionResult> SaveRegister(RegisterVM registerVM)
+        public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (!ModelState.IsValid)
                 return View(registerVM);
@@ -76,7 +76,7 @@ namespace Clinics_Websites_Shops.Areas.Tenance.Controllers
             await _masterDbContext.SaveChangesAsync();
 
             // Create user in Identity
-            var user = new ApplicationUser
+            var applicationUser = new ApplicationUser
             {
                 Name = registerVM.Name,
                 UserName = registerVM.Email,
@@ -84,27 +84,87 @@ namespace Clinics_Websites_Shops.Areas.Tenance.Controllers
                 TenantId = tenant.TId
             };
 
-            var result = await _userManager.CreateAsync(user, registerVM.Password);
-
-            if (result.Succeeded)
+            // create the tenant database + run migrations
+            var tenantOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer(connectionString).Options;
+            try
             {
-                // Generate email confirmation token
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                using (var tenantDb = new ApplicationDbContext(tenantOptions))
+                {
+                    // Apply pending migrations dynamically
+                    var pending = await tenantDb.Database.GetPendingMigrationsAsync();
+                    if (pending.Any())
+                    {
+                        await tenantDb.Database.MigrateAsync();
+                    }
 
-                var confirmUrl = Url.Action("ConfirmEmail", "TenantAccount",
-                    new { userId = user.Id, token = token, domain = tenant.Domain },
-                    protocol: Request.Scheme);
+                    // Setup Identity inside tenant DB via temporary service provider
+                    var services = new ServiceCollection();
 
-                // Send confirmation email
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your account",
-                    $"<h2>Welcome {registerVM.Name}!</h2><p>Please confirm your account by clicking <a href='{confirmUrl}'>here</a>.</p>");
+                    services.AddLogging();
+                    services.AddIdentityCore<ApplicationUser>(options =>
+                    {
+                        options.User.RequireUniqueEmail = true;
+                    })
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-                TempData["Info"] = "Registration successful! Please check your email to confirm your account.";
-                return View("RegisterConfirmation");
+                    services.AddSingleton(tenantDb);
+
+                    using var serviceProvider = services.BuildServiceProvider();
+
+                    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                    // Check if user already exists
+                    var existingUser = await userManager.FindByEmailAsync(registerVM.Email);
+                    if (existingUser == null)
+                    {
+                        var superAdmin = new ApplicationUser
+                        {
+                            Name = registerVM.Name,
+                            UserName = registerVM.UserName,
+                            Email = registerVM.Email,
+                            EmailConfirmed = true,
+                            TenantId = tenant.TId
+                        };
+
+                        var createResult = await userManager.CreateAsync(superAdmin, registerVM.Password);
+
+                        if (createResult.Succeeded)
+                        {
+                            // Generate email confirmation token
+                            var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
+
+                            var confirmUrl = Url.Action("ConfirmEmail", "TenantAccount",
+                                new { userId = applicationUser.Id, token = token, domain = tenant.Domain },
+                                protocol: Request.Scheme);
+
+                            // Send confirmation email
+                            await _emailSender.SendEmailAsync(applicationUser.Email, "Confirm your account",
+                                $"<h2>Welcome {registerVM.Name}!</h2><p>Please confirm your account by clicking <a href='{confirmUrl}'>here</a>.</p>");
+
+                            TempData["Info"] = "Registration successful! Please check your email to confirm your account.";
+
+                        
+                        }
+
+                       if (!createResult.Succeeded)
+                                {
+                            foreach (var error in createResult.Errors)
+                                ModelState.AddModelError("", error.Description);
+                        }
+         
+
+             return View("RegisterConfirmation");
+  
+                    }
+                }
             }
-
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                TempData["Error"] = "An error occurred while setting up your clinic. Please try again.";
+                return RedirectToAction("Register", "Tenance");
+            }
 
             return View(registerVM);
         }
@@ -142,50 +202,6 @@ namespace Clinics_Websites_Shops.Areas.Tenance.Controllers
                 return RedirectToAction("Register", "Account");
             }
 
-            try
-            {
-                // Create tenant DB and apply migrations
-                var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-                optionsBuilder.UseSqlServer(tenant.ConnectionString);
-
-                using (var tenantDb = new ApplicationDbContext(optionsBuilder.Options))
-                {
-                    await tenantDb.Database.MigrateAsync();
-
-                    // Setup Identity in the tenant DB
-                    var services = new ServiceCollection();
-                    services.AddLogging();
-                    services.AddIdentityCore<ApplicationUser>(options =>
-                    {
-                        options.User.RequireUniqueEmail = true;
-                    })
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-                    services.AddSingleton(tenantDb);
-                    using var serviceProvider = services.BuildServiceProvider();
-                    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-                    // Add SuperAdmin user if not exists
-                    var existingUser = await userManager.FindByEmailAsync(user.Email);
-                    if (existingUser == null)
-                    {
-                        var superAdmin = new ApplicationUser
-                        {
-                            Name = user.Name,
-                            UserName = user.UserName,
-                            Email = user.Email,
-                            EmailConfirmed = true,
-                            TenantId = user.TenantId
-                        };
-
-                        var createResult = await userManager.CreateAsync(superAdmin, "Default@123");
-                        if (!createResult.Succeeded)
-                        {
-                            foreach (var error in createResult.Errors)
-                                Console.WriteLine(error.Description);
-                        }
-                    }
-                }
 
                 // Build new domain login URL
                 var loginUrl = $"https://{tenant.Domain}/Admin/Login";
@@ -200,13 +216,8 @@ namespace Clinics_Websites_Shops.Areas.Tenance.Controllers
 
                 TempData["Success"] = "Your email has been confirmed and your clinic is ready! Redirecting to login page...";
                 return Redirect(loginUrl);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                TempData["Error"] = "An error occurred while setting up your clinic. Please try again.";
-                return RedirectToAction("Register", "Tenance");
-            }
+            
+          
         }
 
 

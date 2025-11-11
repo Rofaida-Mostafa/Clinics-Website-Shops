@@ -4,43 +4,71 @@
     ViewData["Title"] = "Register Page";
 }
 
-<div class="container mt-5">
-
-
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg rounded-3">
-                <div class="card-header bg-success text-white text-center">
-                    <h3 class="mb-0">Create Your Account</h3>
-                </div>
-                <div class="card-body">
-                    <form asp-area="Tenance" asp-controller="TenantAccount" asp-action="SaveRegister" method="post">
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
-
-                        <div class="form-group mb-3">
+<div class="row">
+    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+        <div class="send_message_box_content">
+            <h6>READY TO</h6>
+            <h2>Get Started With Us</h2>
+            <div class="btn_wrapper">
+                <a class="text-decoration-none get_started_btn" href="./index.html">Send Us a messange</a>
+            </div>
+            <i class="fa-solid fa-headphones"></i>
+            <span class="call_us d-block">Call us Today:</span>
+            <span class="phone_num">000 8596 256</span>
+        </div>
+    </div>
+    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+        <div class="font-weight-bold send_message_form_box_content">
+            <h4 class="text-center my-2">Register Now</h4>
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <div class="row card-body">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group mb-0">
                             <label asp-for="Name" class="form-label">Name</label>
                             <input asp-for="Name" name="Name" class="form-control" placeholder="Enter your full name" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group mb-3">
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group mb-0">
+                            <label asp-for="UserName" class="form-label"></label>
+                            <input asp-for="UserName" name="UserName" class="form-control" placeholder="Enter your UserName" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group mb-0">
                             <label asp-for="Email" class="form-label"></label>
                             <input asp-for="Email" name="Email" class="form-control" placeholder="Enter your email" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
 
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-0">
                             <label asp-for="Password" class="form-label"></label>
                             <input asp-for="Password" name="Password" class="form-control" type="password" placeholder="Enter your password" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
 
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-0">
                             <label asp-for="ConfirmPassword" class="form-label"></label>
                             <input asp-for="ConfirmPassword" name="ConfirmPassword" class="form-control" type="password" placeholder="Confirm your password" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
 
+                        <div class="form-group mb-0">
+                            <label asp-for="ClinicName" class="form-label"></label>
+                            <input asp-for="ClinicName" name="ClinicName" class="form-control" type="text" placeholder="Confirm your ClinicName" />
+                            <span asp-validation-for="ClinicName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
                         <div class="mb-3">
                             <label asp-for="AvailableLocales" class="form-label fw-semibold">Available Locales</label>
                             <select asp-for="AvailableLocales" class="form-select" multiple size="3">
@@ -58,16 +86,18 @@
                             </select>
                             <small class="form-text text-muted">Select multiple locales.</small>
                         </div>
-
-                        <button type="submit" asp class="btn btn-outline-success w-100">Register</button>
-                    </form>
+                    </div>
+                </div>             
+                <div class="form_button_wrapper text-center">
+                    <button type="submit" asp class="btn btn-outline-success w-100">Register</button>
                 </div>
-              
-            </div>
+            </form>
         </div>
+        <figure class="send_message_yellow_icon mb-0">
+            <img src="~/tenant/images/send_message_yellow_icon.png" alt="" class="img-fluid">
+        </figure>
     </div>
 </div>
-
 
 @section Scripts
 {
