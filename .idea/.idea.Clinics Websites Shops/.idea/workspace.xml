@@ -8,7 +8,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0019882-115c-41d9-bf31-022af58d6471" name="Changes" comment="" />
+    <list default="true" id="c0019882-115c-41d9-bf31-022af58d6471" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/AppointmentController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/PatientController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/ViewModel/AppointmentViewModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/ViewModel/PatientViewModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Appointment/Create.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Appointment/Details.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Appointment/Edit.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Appointment/Index.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Patient/Create.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Patient/Edit.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Views/Patient/Index.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/AppointmentViewModelExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/PatientViewModelExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Clinics Websites Shops.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/DepartmentExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/DepartmentExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109004509_Initial.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109004509_Initial.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109005642_InitialMaster.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109005642_InitialMaster.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109012339_RemoveDepartmentNameDescription.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109012339_RemoveDepartmentNameDescription.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109020643_SeedTestTenant.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109020643_SeedTestTenant.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109020839_AddTestTenantSeed.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/20251109020839_AddTestTenantSeed.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/MasterDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Appointment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Appointment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Patient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Report.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Report.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Resources/ar.json" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Resources/ar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Resources/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Resources/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Services/LocalizationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/LocalizationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,6 +65,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="AdminDashboard" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -40,37 +85,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4ff6559c98ab83a5ea8236f65a38b1e8b98627a155a5c9b762c9c1b3f7e0bc0/CultureInfo.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -150,6 +165,17 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

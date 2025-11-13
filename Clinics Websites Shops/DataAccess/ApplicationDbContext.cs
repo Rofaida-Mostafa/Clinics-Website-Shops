@@ -118,25 +118,39 @@ namespace Clinics_Websites_Shops.DataAccess
                 .HasForeignKey(n => n.ApplicationUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure Doctor alternate key for relationships
+            // Configure unique indexes for business keys
             modelBuilder.Entity<Doctor>()
-                .HasAlternateKey(d => d.DoctorId);
+                .HasIndex(d => d.DoctorId)
+                .IsUnique();
 
-            // Doctor - Appointment (using DoctorId as foreign key)
+            modelBuilder.Entity<Patient>()
+                .HasIndex(p => p.PatientId)
+                .IsUnique();
+
+            modelBuilder.Entity<Appointment>()
+                .HasIndex(a => a.AppointmentNumber)
+                .IsUnique();
+
+            // Doctor - Appointment (using Id as foreign key)
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Doctor)
                 .WithMany(d => d.Appointments)
                 .HasForeignKey(a => a.DoctorId)
-                .HasPrincipalKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Patient - Appointment (using PatientId as primary key)
+            // Patient - Appointment (using Id as foreign key)
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Patient)
                 .WithMany(p => p.Appointments)
                 .HasForeignKey(a => a.PatientId)
-                .HasPrincipalKey(p => p.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Department - Appointment (optional relationship)
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Department)
+                .WithMany()
+                .HasForeignKey(a => a.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Payment - Appointment (1:1)
             modelBuilder.Entity<Payment>()
@@ -149,14 +163,12 @@ namespace Clinics_Websites_Shops.DataAccess
                 .HasOne(r => r.Patient)
                 .WithMany(p => p.Reports)
                 .HasForeignKey(r => r.PatientId)
-                .HasPrincipalKey(p => p.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Report>()
                 .HasOne(r => r.Doctor)
                 .WithMany(d => d.Reports)
                 .HasForeignKey(r => r.DoctorId)
-                .HasPrincipalKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             // Prescription -> Report
@@ -196,13 +208,6 @@ namespace Clinics_Websites_Shops.DataAccess
                 .Property(dt => dt.Name)
                 .HasMaxLength(200)
                 .IsRequired();
-
-            // Doctor Department relationships
-            modelBuilder.Entity<Doctor>()
-                .HasOne(d => d.Department)
-                .WithMany()
-                .HasForeignKey(d => d.DepartmentId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

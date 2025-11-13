@@ -1,6 +1,5 @@
 using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.DataAccess.Extensions;
-using Clinics_Websites_Shops.Migrations;
 using Clinics_Websites_Shops.Services;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;

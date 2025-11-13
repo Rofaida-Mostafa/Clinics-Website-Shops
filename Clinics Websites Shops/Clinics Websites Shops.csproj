@@ -33,7 +33,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\ViewModel\" />
     <Folder Include="Areas\Customer\ViewModel\" />
     <Folder Include="Areas\Identity\Controller\" />
     <Folder Include="Areas\Tenance\ViewModel\" />

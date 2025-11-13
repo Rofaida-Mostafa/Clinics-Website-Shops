@@ -1,0 +1,340 @@
+@model Appointment
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Models
+@using Clinics_Websites_Shops.Extensions
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.AppointmentController> localizer
+
+@{
+    ViewData["Title"] = localizer["appointmentDetails"];
+}
+
+<div class="container">
+    <partial name="_BreadcrumbAdmin" />
+
+    <div class="row my-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar-check"></i> @localizer["appointmentDetails"]
+                    </h5>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> @localizer["edit"]
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> @localizer["back"]
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-6">
+                            <h6 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-info-circle"></i> @localizer["appointmentDetails"]
+                            </h6>
+
+                            <dl class="row">
+                                <dt class="col-sm-4">@localizer["appointmentNumber"]:</dt>
+                                <dd class="col-sm-8"><strong>@Model.AppointmentNumber</strong></dd>
+
+                                <dt class="col-sm-4">@localizer["appointmentDate"]:</dt>
+                                <dd class="col-sm-8">
+                                    <i class="fas fa-calendar"></i> @Model.AppointmentDate.ToString("MMMM dd, yyyy")
+                                </dd>
+
+                                <dt class="col-sm-4">@localizer["appointmentTime"]:</dt>
+                                <dd class="col-sm-8">
+                                    <i class="fas fa-clock"></i> @Model.AppointmentTime.ToString(@"hh\:mm")
+                                </dd>
+                                
+                                <dt class="col-sm-4">Duration:</dt>
+                                <dd class="col-sm-8">@Model.DurationMinutes minutes</dd>
+                                
+                                <dt class="col-sm-4">End Time:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.EndTime.HasValue)
+                                    {
+                                        <span>@Model.EndTime.Value.ToString("hh:mm tt")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-4">Type:</dt>
+                                <dd class="col-sm-8">
+                                    <span class="badge bg-info">@Model.AppointmentType</span>
+                                </dd>
+                                
+                                <dt class="col-sm-4">Priority:</dt>
+                                <dd class="col-sm-8">
+                                    @if (!string.IsNullOrEmpty(Model.Priority))
+                                    {
+                                        var badgeClass = Model.Priority.ToLower() switch
+                                        {
+                                            "normal" => "bg-success",
+                                            "urgent" => "bg-warning",
+                                            "emergency" => "bg-danger",
+                                            _ => "bg-secondary"
+                                        };
+                                        <span class="badge @badgeClass">@Model.Priority</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-4">Status:</dt>
+                                <dd class="col-sm-8">
+                                    @{
+                                        var statusBadgeClass = Model.Status?.ToLower() switch
+                                        {
+                                            "scheduled" => "bg-info",
+                                            "confirmed" => "bg-primary",
+                                            "inprogress" => "bg-warning",
+                                            "completed" => "bg-success",
+                                            "cancelled" => "bg-danger",
+                                            "noshow" => "bg-secondary",
+                                            "rescheduled" => "bg-info",
+                                            _ => "bg-secondary"
+                                        };
+                                    }
+                                    <span class="badge @statusBadgeClass">@Model.Status</span>
+                                    @if (Model.IsConfirmed)
+                                    {
+                                        <br/><small class="text-success"><i class="fas fa-check-circle"></i> Confirmed</small>
+                                    }
+                                </dd>
+                            </dl>
+                            
+                            <h6 class="border-bottom pb-2 mb-3 mt-4">
+                                <i class="fas fa-user-injured"></i> Patient Information
+                            </h6>
+                            
+                            <dl class="row">
+                                <dt class="col-sm-4">Patient ID:</dt>
+                                <dd class="col-sm-8">@Model.PatientId</dd>
+                                
+                                <dt class="col-sm-4">Name:</dt>
+                                <dd class="col-sm-8">@Model.Patient?.ApplicationUser?.Name</dd>
+                                
+                                <dt class="col-sm-4">Email:</dt>
+                                <dd class="col-sm-8">@Model.Patient?.ApplicationUser?.Email</dd>
+                                
+                                <dt class="col-sm-4">Phone:</dt>
+                                <dd class="col-sm-8">@Model.Patient?.ApplicationUser?.PhoneNumber</dd>
+                            </dl>
+                        </div>
+                        
+                        <!-- Right Column -->
+                        <div class="col-md-6">
+                            <h6 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-user-md"></i> Doctor Information
+                            </h6>
+                            
+                            <dl class="row">
+                                <dt class="col-sm-4">Doctor ID:</dt>
+                                <dd class="col-sm-8">@Model.DoctorId</dd>
+                                
+                                <dt class="col-sm-4">Name:</dt>
+                                <dd class="col-sm-8">@Model.Doctor?.ApplicationUser?.Name</dd>
+                                
+                                <dt class="col-sm-4">Email:</dt>
+                                <dd class="col-sm-8">@Model.Doctor?.ApplicationUser?.Email</dd>
+                                
+                                <dt class="col-sm-4">Phone:</dt>
+                                <dd class="col-sm-8">@Model.Doctor?.ApplicationUser?.PhoneNumber</dd>
+                                
+                                <dt class="col-sm-4">Department:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.Department != null)
+                                    {
+                                        <span class="badge bg-secondary">@Model.Department.GetLocalizedName()</span>
+                                    }
+                                    else if (Model.Doctor?.Department != null)
+                                    {
+                                        <span class="badge bg-secondary">@Model.Doctor.Department.GetLocalizedName()</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
+                            </dl>
+                            
+                            <h6 class="border-bottom pb-2 mb-3 mt-4">
+                                <i class="fas fa-dollar-sign"></i> Payment Information
+                            </h6>
+                            
+                            <dl class="row">
+                                <dt class="col-sm-4">Consultation Fee:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.ConsultationFee.HasValue)
+                                    {
+                                        <span>@Model.ConsultationFee.Value.ToString("C")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-4">Paid Amount:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.PaidAmount.HasValue)
+                                    {
+                                        <span>@Model.PaidAmount.Value.ToString("C")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-4">Payment Status:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.IsPaid)
+                                    {
+                                        <span class="badge bg-success"><i class="fas fa-check"></i> Paid</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning"><i class="fas fa-clock"></i> Pending</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-4">Payment Method:</dt>
+                                <dd class="col-sm-8">
+                                    @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+                                    {
+                                        <span>@Model.PaymentMethod</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <!-- Notes Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h6 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-notes-medical"></i> Notes & Details
+                            </h6>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <strong>Reason for Visit:</strong>
+                                <p class="text-muted">@(Model.ReasonForVisit ?? "N/A")</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <strong>Doctor's Notes:</strong>
+                                <p class="text-muted">@(Model.Notes ?? "N/A")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <strong>Patient's Notes:</strong>
+                                <p class="text-muted">@(Model.PatientNotes ?? "N/A")</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Check-in/Check-out Section -->
+                    @if (Model.CheckInTime.HasValue || Model.CheckOutTime.HasValue)
+                    {
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-clock"></i> Check-in/Check-out
+                                </h6>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-4">Check-in Time:</dt>
+                                    <dd class="col-sm-8">
+                                        @if (Model.CheckInTime.HasValue)
+                                        {
+                                            <span>@Model.CheckInTime.Value.ToString("MMM dd, yyyy hh:mm tt")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Not checked in</span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-4">Check-out Time:</dt>
+                                    <dd class="col-sm-8">
+                                        @if (Model.CheckOutTime.HasValue)
+                                        {
+                                            <span>@Model.CheckOutTime.Value.ToString("MMM dd, yyyy hh:mm tt")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Not checked out</span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    }
+                    
+                    <!-- System Information -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h6 class="border-bottom pb-2 mb-3">
+                                <i class="fas fa-info"></i> System Information
+                            </h6>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-4">Created At:</dt>
+                                <dd class="col-sm-8">@Model.CreatedAt.ToString("MMM dd, yyyy hh:mm tt")</dd>
+                                
+                                <dt class="col-sm-4">Created By:</dt>
+                                <dd class="col-sm-8">@(Model.CreatedBy ?? "System")</dd>
+                            </dl>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-4">Last Modified:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.LastModified.HasValue)
+                                    {
+                                        <span>@Model.LastModified.Value.ToString("MMM dd, yyyy hh:mm tt")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Never</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-4">Modified By:</dt>
+                                <dd class="col-sm-8">@(Model.ModifiedBy ?? "N/A")</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

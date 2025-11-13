@@ -1,0 +1,181 @@
+@model List<PatientListViewModel>
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Areas.Admin.ViewModel
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.PatientController> localizer
+
+@{
+    ViewData["Title"] = localizer["patientsList"];
+}
+
+<div class="container">
+    <partial name="_BreadcrumbAdmin" />
+    
+    <div class="row my-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users"></i> @localizer["patientsList"]
+                    </h5>
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> @localizer["addPatient"]
+                    </a>
+                </div>
+                
+                <div class="card-body">
+                    @if (Model.Count == 0)
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">@localizer["noPatientsFound"]</h5>
+                            <p class="text-muted">@localizer["addFirstPatient"]</p>
+                            <a asp-action="Create" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> @localizer["addPatient"]
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>@localizer["profileImage"]</th>
+                                        <th>@localizer["patientId"]</th>
+                                        <th>@localizer["name"]</th>
+                                        <th>@localizer["email"]</th>
+                                        <th>@localizer["phone"]</th>
+                                        <th>@localizer["nationalId"]</th>
+                                        <th>@localizer["age"]</th>
+                                        <th>@localizer["gender"]</th>
+                                        <th>@localizer["bloodType"]</th>
+                                        <th>@localizer["insurance"]</th>
+                                        <th>@localizer["status"]</th>
+                                        <th>@localizer["registrationDate"]</th>
+                                        <th>@localizer["actions"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var patient in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(patient.ProfileImageUrl))
+                                                {
+                                                    <img src="@patient.ProfileImageUrl" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                                }
+                                                else
+                                                {
+                                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                        <i class="fas fa-user text-white"></i>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td>
+                                                <strong>@patient.PatientId</strong>
+                                            </td>
+                                            <td>@patient.ApplicationUserName</td>
+                                            <td>@patient.ApplicationUserEmail</td>
+                                            <td>@patient.ApplicationUserPhone</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(patient.NationalId))
+                                                {
+                                                    <span class="badge bg-info">@patient.NationalId</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">N/A</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (patient.Age.HasValue)
+                                                {
+                                                    <span>@patient.Age @localizer["years"]</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">N/A</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">@patient.Gender</span>
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(patient.BloodType))
+                                                {
+                                                    <span class="badge bg-danger">@patient.BloodType</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">N/A</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(patient.InsuranceProvider))
+                                                {
+                                                    <small class="text-muted">@patient.InsuranceProvider</small>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">N/A</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (patient.IsActive)
+                                                {
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check"></i> @localizer["active"]
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-times"></i> @localizer["inactive"]
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <small>@patient.RegistrationDate.ToString("MMM dd, yyyy")</small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a asp-action="Edit" asp-route-id="@patient.Id" class="btn btn-sm btn-warning" title="@localizer["edit"]">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-sm btn-danger" 
+                                                       onclick="return confirm('@localizer["confirmDelete"]');" title="@localizer["delete"]">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add some interactivity
+        $(document).ready(function() {
+            // Initialize DataTable if needed
+            if ($('.table').length > 0 && @Model.Count > 10) {
+                $('.table').DataTable({
+                    "pageLength": 25,
+                    "responsive": true,
+                    "order": [[11, "desc"]], // Sort by registration date descending
+                    "columnDefs": [
+                        { "orderable": false, "targets": [0, 12] } // Disable sorting for image and actions columns
+                    ]
+                });
+            }
+        });
+    </script>
+}
+

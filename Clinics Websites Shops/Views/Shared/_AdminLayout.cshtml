@@ -250,7 +250,7 @@
                 </a>
                 <ul id="dashboards">
                   <li>
-                    <a href="@Url.Action("Index", "Home", new { area = "Admin" })">
+                    <a href="@Url.Action("Index", "Patient", new { area = "Admin" })">
                       <span class="label">@localizer["patients"]</span>
                     </a>
                   </li>
@@ -268,9 +268,9 @@
                 </ul>
               </li>
               <li>
-                <a href="~/admin/Appointments.html">
+                <a href="@Url.Action("Index", "Appointment", new { area = "Admin" })">
                   <i data-acorn-icon="calendar" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Appointments</span>
+                  <span class="label">@localizer["appointments"]</span>
                 </a>
               </li>
               <li>
@@ -285,12 +285,7 @@
                   <span class="label">Prescriptions</span>
                 </a>
               </li>
-              <li>
-                <a href="~/admin/Doctors.html">
-                  <i data-acorn-icon="health" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Doctors</span>
-                </a>
-              </li>
+             
               <li>
                 <a href="~/admin/Consult.html">
                   <i data-acorn-icon="messages" class="icon" data-acorn-size="18"></i>

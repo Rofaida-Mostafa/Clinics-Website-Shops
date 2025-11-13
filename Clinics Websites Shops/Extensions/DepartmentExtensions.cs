@@ -35,12 +35,26 @@ namespace Clinics_Websites_Shops.Extensions
                 return string.Empty;
 
             if (string.IsNullOrEmpty(culture))
-                return string.Empty;
+            {
+                // Fallback to first available translation (preferably English)
+                var fallback = department.Translations?
+                    .FirstOrDefault(t => t.LanguageCode.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                    ?? department.Translations?.FirstOrDefault();
+                return fallback?.Name ?? $"Department {department.Id}";
+            }
 
             var translation = department.Translations?
                 .FirstOrDefault(t => t.LanguageCode.Equals(culture, StringComparison.OrdinalIgnoreCase));
 
-            return translation?.Name ?? string.Empty;
+            if (translation != null)
+                return translation.Name;
+
+            // Fallback to first available translation (preferably English)
+            var fallbackTranslation = department.Translations?
+                .FirstOrDefault(t => t.LanguageCode.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                ?? department.Translations?.FirstOrDefault();
+
+            return fallbackTranslation?.Name ?? $"Department {department.Id}";
         }
 
         /// <summary>
@@ -160,12 +174,26 @@ namespace Clinics_Websites_Shops.Extensions
                 return string.Empty;
 
             if (string.IsNullOrEmpty(culture))
-                return  string.Empty;
+            {
+                // Fallback to first available translation (preferably English)
+                var fallback = department.Translations?
+                    .FirstOrDefault(t => t.LanguageCode.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                    ?? department.Translations?.FirstOrDefault();
+                return fallback?.Description ?? string.Empty;
+            }
 
             var translation = department.Translations?
                 .FirstOrDefault(t => t.LanguageCode.Equals(culture, StringComparison.OrdinalIgnoreCase));
 
-            return translation?.Description ??  string.Empty;
+            if (translation != null)
+                return translation.Description ?? string.Empty;
+
+            // Fallback to first available translation (preferably English)
+            var fallbackTranslation = department.Translations?
+                .FirstOrDefault(t => t.LanguageCode.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                ?? department.Translations?.FirstOrDefault();
+
+            return fallbackTranslation?.Description ?? string.Empty;
         }
 
         /// <summary>
