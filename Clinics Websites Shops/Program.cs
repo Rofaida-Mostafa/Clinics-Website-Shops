@@ -52,12 +52,12 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =
 });
 
 // Tenant-aware ApplicationDbContext
-builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
-{
-    var envService = serviceProvider.GetRequiredService<EnvironmentService>();
-    // This will be overridden by tenant-specific connection string in OnConfiguring
-    options.ConfigureDatabase(appConnectionString, databaseProvider);
-});
+//builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+//{
+//    var envService = serviceProvider.GetRequiredService<EnvironmentService>();
+//    // This will be overridden by tenant-specific connection string in OnConfiguring
+//    options.ConfigureDatabase(appConnectionString, databaseProvider);
+//});
 
 /// Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

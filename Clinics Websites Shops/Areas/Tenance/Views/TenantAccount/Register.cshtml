@@ -99,10 +99,6 @@
     </div>
 </div>
 
-@section Scripts
-{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        <partial name="partialNotifacation.cshtml" />
-
-}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
 }

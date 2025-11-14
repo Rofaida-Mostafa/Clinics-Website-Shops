@@ -20,7 +20,7 @@ namespace Clinics_Websites_Shops.DataAccess
             _environmentService = new EnvironmentService();
         }
     
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
         // ✅ Constructor runtime
@@ -84,9 +84,9 @@ namespace Clinics_Websites_Shops.DataAccess
             base.OnModelCreating(modelBuilder);
 
             // Apply database-specific configurations
-            //var environmentService = _environmentService ?? new EnvironmentService();
-            //var databaseProvider = environmentService.GetDatabaseProvider();
-            //modelBuilder.ApplyDatabaseSpecificConfigurations(databaseProvider);
+            var environmentService = _environmentService ?? new EnvironmentService();
+            var databaseProvider = environmentService.GetDatabaseProvider();
+            modelBuilder.ApplyDatabaseSpecificConfigurations(databaseProvider);
             modelBuilder.Entity<ApplicationUser>().HasQueryFilter(u => u.TenantId == TenantId);
 
             base.OnModelCreating(modelBuilder);

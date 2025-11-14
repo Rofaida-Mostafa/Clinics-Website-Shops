@@ -23,9 +23,9 @@ namespace Clinics_Websites_Shops.Areas.Tenance.ViewModel
         [Required]
         public List<string> AvailableLocales { get; set; } = new List<string>
     {
-        "en-US",
-        "ar-EG",
-        "fr-FR"
+        "en",
+        "ar",
+        "fr"
     };
     }
 }
