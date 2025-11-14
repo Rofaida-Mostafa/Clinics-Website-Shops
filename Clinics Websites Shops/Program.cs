@@ -2,18 +2,11 @@ using Clinics_Websites_Shops;
 using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.DataAccess.Extensions;
 using Clinics_Websites_Shops.Middlewares;
-using Clinics_Websites_Shops.Migrations;
-using Clinics_Websites_Shops.Services;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Localization;
 using Stripe;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
