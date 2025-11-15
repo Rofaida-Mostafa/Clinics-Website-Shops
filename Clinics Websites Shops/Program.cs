@@ -63,6 +63,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+// Configure application cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Customer/Home/NotFoundPage";
+});
 /// Email sender
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
@@ -72,8 +78,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITenantService, TenantService>();
 
 // Tenant services
-builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<TenantManager>();
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 
 // Config binding
@@ -116,7 +124,10 @@ builder.Services.AddSession(option =>
 /// Configure Stripe API key
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 
+
 var app = builder.Build();
+
+app.UseMiddleware<TenantMiddleware>();
 
 
 if (!app.Environment.IsDevelopment())
