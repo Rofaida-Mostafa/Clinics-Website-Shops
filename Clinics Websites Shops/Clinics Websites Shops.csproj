@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Clinics_Websites_Shops</RootNamespace>
+    <UserSecretsId>b8796b73-8807-408f-948f-55a57edd7fca</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
