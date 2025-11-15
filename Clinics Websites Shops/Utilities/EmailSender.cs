@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 
-namespace Clinics_Websites_Shops.Services
+namespace Clinics_Websites_Shops.Utilities
 {
     public class EmailSender : IEmailSender
     {
