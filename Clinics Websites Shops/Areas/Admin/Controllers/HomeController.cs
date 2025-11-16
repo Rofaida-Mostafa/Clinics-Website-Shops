@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Clinics_Websites_Shops.Areas.Admin.Controllers
 {
     [Area(SD.AdminArea)]
+    [Authorize]
     public class HomeController : Controller
     {
-        // [Authorize(Roles = $"{SD.SuperAdminRole},{SD.AdminArea}")]
         private readonly ILogger<HomeController> _logger;
         private readonly IStringLocalizer<HomeController> _localizer;
 

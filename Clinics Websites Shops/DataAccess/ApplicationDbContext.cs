@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Clinics_Websites_Shops.DataAccess
 {
-    public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         private readonly ITenantService? _tenantService;
         private readonly IHttpContextAccessor? _httpContextAccessor;
@@ -48,6 +48,10 @@ namespace Clinics_Websites_Shops.DataAccess
         public DbSet<Report> Reports { get; set; } = null!;
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
         public DbSet<Evaluation> Evaluations { get; set; } = null!;
+
+        // Permission System
+        public DbSet<Permission> Permissions { get; set; } = null!;
+        public DbSet<RolePermission> RolePermissions { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -121,6 +125,10 @@ namespace Clinics_Websites_Shops.DataAccess
             // Configure unique indexes for business keys
             modelBuilder.Entity<Doctor>()
                 .HasIndex(d => d.DoctorId)
+                .IsUnique();
+
+            modelBuilder.Entity<Nurse>()
+                .HasIndex(n => n.NurseId)
                 .IsUnique();
 
             modelBuilder.Entity<Patient>()
@@ -208,6 +216,33 @@ namespace Clinics_Websites_Shops.DataAccess
                 .Property(dt => dt.Name)
                 .HasMaxLength(200)
                 .IsRequired();
+
+            // Permission System Configuration
+            modelBuilder.Entity<Permission>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Permission>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(rp => rp.Id);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasIndex(rp => new { rp.RoleId, rp.PermissionId })
+                .IsUnique();
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany(r => r.RolePermissions)
+                .HasForeignKey(rp => rp.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey(rp => rp.PermissionId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

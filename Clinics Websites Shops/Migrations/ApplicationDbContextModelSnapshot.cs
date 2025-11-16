@@ -22,6 +22,59 @@ namespace Clinics_Websites_Shops.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Id"), "utf8mb4");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConcurrencyStamp"), "utf8mb4");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
+                    b.Property<bool>("IsSystemRole")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("NormalizedName"), "utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("aspnetroles", (string)null);
+                });
+
             modelBuilder.Entity("Clinics_Websites_Shops.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -332,7 +385,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("appointments");
+                    b.ToTable("appointments", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Department", b =>
@@ -361,7 +414,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("departments");
+                    b.ToTable("departments", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.DepartmentTranslation", b =>
@@ -403,7 +456,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("DepartmentId", "LanguageCode")
                         .IsUnique();
 
-                    b.ToTable("departmenttranslations");
+                    b.ToTable("departmenttranslations", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Doctor", b =>
@@ -617,7 +670,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("DoctorId")
                         .IsUnique();
 
-                    b.ToTable("doctors");
+                    b.ToTable("doctors", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Evaluation", b =>
@@ -654,7 +707,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("evaluations");
+                    b.ToTable("evaluations", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Nurse", b =>
@@ -687,7 +740,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("nurses");
+                    b.ToTable("nurses", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
@@ -980,7 +1033,7 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("PatientId")
                         .IsUnique();
 
-                    b.ToTable("patients");
+                    b.ToTable("patients", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Payment", b =>
@@ -1025,7 +1078,68 @@ namespace Clinics_Websites_Shops.Migrations
                     b.HasIndex("AppointmentId")
                         .IsUnique();
 
-                    b.ToTable("payments");
+                    b.ToTable("payments", (string)null);
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Action"), "utf8mb4");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DisplayName"), "utf8mb4");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Module")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Module"), "utf8mb4");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("permissions", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Prescription", b =>
@@ -1060,7 +1174,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("ReportId");
 
-                    b.ToTable("prescriptions");
+                    b.ToTable("prescriptions", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Report", b =>
@@ -1105,45 +1219,44 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("reports");
+                    b.ToTable("reports", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.RolePermission", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Id"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
+                    b.Property<DateTime>("GrantedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("GrantedBy")
                         .HasColumnType("longtext")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConcurrencyStamp"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("GrantedBy"), "utf8mb4");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("NormalizedName"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("RoleId"), "utf8mb4");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                    b.HasIndex("PermissionId");
 
-                    b.ToTable("aspnetroles", (string)null);
+                    b.HasIndex("RoleId", "PermissionId")
+                        .IsUnique();
+
+                    b.ToTable("rolepermissions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1423,9 +1536,28 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.RolePermission", b =>
+                {
+                    b.HasOne("Clinics_Websites_Shops.Models.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinics_Websites_Shops.Models.ApplicationRole", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Clinics_Websites_Shops.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1452,7 +1584,7 @@ namespace Clinics_Websites_Shops.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Clinics_Websites_Shops.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1472,6 +1604,11 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.ApplicationRole", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Appointment", b =>
@@ -1498,6 +1635,11 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Report", b =>

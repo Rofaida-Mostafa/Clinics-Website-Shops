@@ -1,0 +1,117 @@
+@model List<RoleListViewModel>
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Areas.Admin.ViewModel
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.RoleController> localizer
+
+@{
+    ViewData["Title"] = localizer["rolesList"];
+}
+
+<div class="container">
+    <partial name="_BreadcrumbAdmin" />
+    
+    <div class="row my-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-shield"></i> @localizer["rolesList"]
+                    </h5>
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> @localizer["addRole"]
+                    </a>
+                </div>
+                
+                <div class="card-body">
+                    @if (Model.Count == 0)
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-user-shield fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">@localizer["noRolesFound"]</h5>
+                            <p class="text-muted">@localizer["addFirstRole"]</p>
+                            <a asp-action="Create" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> @localizer["addRole"]
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>@localizer["roleName"]</th>
+                                        <th>@localizer["description"]</th>
+                                        <th>@localizer["userCount"]</th>
+                                        <th>@localizer["permissionCount"]</th>
+                                        <th>@localizer["createdAt"]</th>
+                                        <th>@localizer["actions"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var role in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@role.Name</strong>
+                                                @if (role.IsSystemRole)
+                                                {
+                                                    <span class="badge bg-info ms-2">@localizer["systemRole"]</span>
+                                                }
+                                            </td>
+                                            <td>@(role.Description ?? "-")</td>
+                                            <td>
+                                                <span class="badge bg-primary">@role.UserCount</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-success">@role.PermissionCount</span>
+                                            </td>
+                                            <td>@role.CreatedAt.ToString("yyyy-MM-dd")</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a asp-action="ManagePermissions" asp-route-id="@role.Id" 
+                                                       class="btn btn-sm btn-info" title="@localizer["managePermissions"]">
+                                                        <i class="fas fa-key"></i>
+                                                    </a>
+                                                    <a asp-action="Edit" asp-route-id="@role.Id" 
+                                                       class="btn btn-sm btn-warning" title="@localizer["edit"]">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    @if (!role.IsSystemRole)
+                                                    {
+                                                        <button type="button" class="btn btn-sm btn-danger" 
+                                                                onclick="confirmDelete('@role.Id', '@role.Name')" 
+                                                                title="@localizer["delete"]">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Form -->
+<form id="deleteForm" method="post" asp-action="Delete" style="display: none;">
+    <input type="hidden" id="deleteRoleId" name="id" />
+</form>
+
+@section Scripts {
+    <script>
+        function confirmDelete(roleId, roleName) {
+            if (confirm('@localizer["confirmDeleteRole"]'.replace('{0}', roleName))) {
+                document.getElementById('deleteRoleId').value = roleId;
+                document.getElementById('deleteForm').submit();
+            }
+        }
+    </script>
+}
+

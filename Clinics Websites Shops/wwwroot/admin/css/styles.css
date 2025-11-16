@@ -16033,3 +16033,8 @@ html[data-radius=standard] #settings .figure {
 html[data-show=true] .settings-button {
   opacity: 1;
 }
+
+.bg-foreground {
+  background-color: var(--foreground) !important;
+  color: var(--primary) !important;
+}
