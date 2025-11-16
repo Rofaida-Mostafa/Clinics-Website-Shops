@@ -76,6 +76,7 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 // Tenant services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<ITenantDbContextFactory, TenantDbContextFactory>();
 
 // Tenant services
 
@@ -95,7 +96,7 @@ builder.Services.AddLocalization();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
-
+builder.Configuration.AddUserSecrets<Program>();
 // Register JSON localization
 builder.Services.AddSingleton<JsonLocalizationOptions>(new JsonLocalizationOptions { ResourcesPath = "Resources" });
 builder.Services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
