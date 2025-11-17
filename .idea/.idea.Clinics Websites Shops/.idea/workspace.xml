@@ -9,30 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0019882-115c-41d9-bf31-022af58d6471" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/NurseController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/RoleController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/ViewModel/NurseViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/ViewModel/RoleViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Attributes/PermissionAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/DbInitializer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Extensions/NurseViewModelExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/ApplicationRole.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Permission.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/RolePermission.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/IServices/IPermissionService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/Services/PermissionService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clinics Websites Shops/wwwroot/admin/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Clinics Websites Shops/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Areas/Admin/Controllers/HomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/DataAccess/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Models/Nurse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Models/Nurse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Resources/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Resources/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/Views/Shared/_AdminLayout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/wwwroot/admin/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/Clinics Websites Shops/wwwroot/admin/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clinics Websites Shops/.gitignore" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +128,7 @@
       <workItem from="1762646440838" duration="15044000" />
       <workItem from="1762712883350" duration="1702000" />
       <workItem from="1763296167957" duration="3210000" />
-      <workItem from="1763300299405" duration="6283000" />
+      <workItem from="1763300299405" duration="9496000" />
     </task>
     <servers />
   </component>
