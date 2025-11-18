@@ -19,7 +19,10 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             _environmentService = new EnvironmentService();
         }
-
+    
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
         // ✅ Constructor runtime
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
@@ -62,34 +65,23 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var environmentService = _environmentService ?? new EnvironmentService();
-                var connectionString = string.Empty;
-                var databaseProvider = environmentService.GetDatabaseProvider();
-
-                // Using Tenant Service to get the connection string dynamically
-                if (_tenantService != null && _httpContextAccessor?.HttpContext != null)
-                {
-                    var tenant = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext);
-
-                    if (tenant != null && !string.IsNullOrEmpty(tenant.ConnectionString))
+               
+                    // Using Tenant Service to get the connection string dynamically
+                    if (_tenantService != null && _httpContextAccessor != null)
                     {
-                        connectionString = tenant.ConnectionString;
+                        var tenant = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext);
+
+                        if (tenant == null)
+                            throw new Exception("Tenant not found for the current request");
+
+                        optionsBuilder.UseSqlServer(tenant.ConnectionString);
                     }
                     else
                     {
-                        // Fallback to environment configuration
-                        connectionString = environmentService.GetConnectionString();
+                        //  Implement DB using EF core ( For Migration only)
+                        optionsBuilder.UseSqlServer("Server=.;Database=ClinicOneDb;Trusted_Connection=True;TrustServerCertificate=True;");
                     }
                 }
-                else
-                {
-                    // For design-time and migrations
-                    connectionString = environmentService.GetConnectionString();
-                }
-
-                // Configure the database provider
-                optionsBuilder.ConfigureDatabase(connectionString, databaseProvider);
-            }
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -104,7 +96,9 @@ namespace Clinics_Websites_Shops.DataAccess
             var environmentService = _environmentService ?? new EnvironmentService();
             var databaseProvider = environmentService.GetDatabaseProvider();
             modelBuilder.ApplyDatabaseSpecificConfigurations(databaseProvider);
+            modelBuilder.Entity<ApplicationUser>().HasQueryFilter(u => u.TenantId == TenantId);
 
+            base.OnModelCreating(modelBuilder);
             // Person primary key
             modelBuilder.Entity<ApplicationUser>().HasKey(p => p.Id);
 

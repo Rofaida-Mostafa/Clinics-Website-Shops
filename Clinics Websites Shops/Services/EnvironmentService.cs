@@ -67,7 +67,7 @@ namespace Clinics_Websites_Shops.Services
             var password = GetValue("DB_PASSWORD");
             return dbType switch
             {
-                "mysql" => BuildMySqlConnectionString(host, port, database, username, password),
+                //"mysql" => BuildMySqlConnectionString(host, port, database, username, password),
                 "sqlserver" => BuildSqlServerConnectionString(host, port, database, username, password),
                 _ => throw new InvalidOperationException($"Unsupported database type: {dbType}")
             };
@@ -78,13 +78,13 @@ namespace Clinics_Websites_Shops.Services
             var dbType = GetValue("DB_CONNECTION", "sqlserver").ToLower();
             var host = GetValue("MASTER_DB_HOST", GetValue("DB_HOST", "localhost"));
             var port = GetValue("MASTER_DB_PORT", GetValue("DB_PORT"));
-            var database = GetValue("MASTER_DB_DATABASE", "ClinicsMaster");
+            var database = GetValue("MASTER_DB_DATABASE", "MasterDb");
             var username = GetValue("MASTER_DB_USERNAME", GetValue("DB_USERNAME"));
             var password = GetValue("MASTER_DB_PASSWORD", GetValue("DB_PASSWORD"));
 
             return dbType switch
             {
-                "mysql" => BuildMySqlConnectionString(host, port, database, username, password),
+                //"mysql" => BuildMySqlConnectionString(host, port, database, username, password),
                 "sqlserver" => BuildSqlServerConnectionString(host, port, database, username, password),
                 _ => throw new InvalidOperationException($"Unsupported database type: {dbType}")
             };
@@ -125,7 +125,7 @@ namespace Clinics_Websites_Shops.Services
             var dbType = GetValue("DB_CONNECTION", "sqlserver").ToLower();
             return dbType switch
             {
-                "mysql" => DatabaseProvider.MySQL,
+                //"mysql" => DatabaseProvider.MySQL,
                 "sqlserver" => DatabaseProvider.SqlServer,
                 _ => throw new InvalidOperationException($"Unsupported database type: {dbType}")
             };

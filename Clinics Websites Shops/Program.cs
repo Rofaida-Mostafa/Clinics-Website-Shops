@@ -1,4 +1,4 @@
-using Clinics_Websites_Shops.DataAccess;
+﻿using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.DataAccess.Extensions;
 using Clinics_Websites_Shops.Services;
 using Clinics_Websites_Shops.Services.IServices;
@@ -99,7 +99,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SetDefaultCulture(defaultCulture)
            .AddSupportedCultures(supportedCultures)
            .AddSupportedUICultures(supportedCultures);
-    
+
     options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider());
 });
 
@@ -140,7 +140,7 @@ app.MapControllerRoute(
     constraints: new { culture = cultureConstraint });
 
 app.MapControllerRoute(
-    name: "localizedAdmin", 
+    name: "localizedAdmin",
     pattern: "{culture}/{area=Admin}/{controller=Home}/{action=Index}/{id?}",
     constraints: new { culture = cultureConstraint });
 

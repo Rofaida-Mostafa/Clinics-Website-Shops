@@ -5,7 +5,8 @@
             // Areas
             public const string AdminArea = "Admin";
             public const string CustomerArea = "Customer";
-            public const string IdentityArea = "Identity";
+            public const string IdentityArea = "CustomerArea";
+            public const string TenanceArea = "Tenance";
 
 
             // Controllers
