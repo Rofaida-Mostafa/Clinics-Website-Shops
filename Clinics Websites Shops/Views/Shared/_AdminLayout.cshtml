@@ -11,7 +11,8 @@
 <html  lang="en" dir="@(isRTL ? "rtl" : "ltr")" data-footer="true">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />    <title>Acorn Admin Template | Medical Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />    
+    <title>Acorn Admin Template | Medical Assistant</title>
     <meta name="description" content="Medical Assistant" />
     <!-- Favicon Tags Start -->
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="~/admin/img/favicon/apple-touch-icon-57x57.png" />
@@ -70,7 +71,8 @@
     <script src="~/admin/js/base/loader.js"></script>
     @if (isRTL)
     {
-      <link rel="stylesheet" href="~/admin/css/styles-ar.css" />    }
+      <link rel="stylesheet" href="~/admin/css/styles-ar.css" />    
+    }
   </head>
 
   <body>
@@ -93,7 +95,7 @@
           <div class="user-container d-flex">
             <a href="~/admin/#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img class="profile" alt="profile" src="~/admin/img/profile/profile-1.webp" />
-              <div class="name">Alicia Owens</div>
+              <div class="name">@(User.Identity?.IsAuthenticated == true ? User.Identity.Name : "Guest")</div>
             </a>
             <div class="dropdown-menu dropdown-menu-end user-menu wide">
               <div class="row mb-3 ms-0 me-0">
@@ -178,10 +180,12 @@
                       </a>
                     </li>
                     <li>
-                      <a href="~/admin/#">
-                        <i data-acorn-icon="logout" class="me-2" data-acorn-size="17"></i>
-                        <span class="align-middle">Logout</span>
-                      </a>
+                      <form asp-area="Identity" asp-controller="Account" asp-action="Logout" method="post" style="display: inline;">
+                        <button type="submit" style="background: none; border: none; padding: 0; color: inherit; cursor: pointer; text-align: left; width: 100%;">
+                          <i data-acorn-icon="logout" class="me-2" data-acorn-size="17"></i>
+                          <span class="align-middle">Logout</span>
+                        </button>
+                      </form>
                     </li>
                   </ul>
                 </div>
@@ -260,13 +264,31 @@
                 </a>
                 <ul id="dashboards">
                   <li>
-                    <a href="@Url.Action("Index", "Home", new { area = "Admin" })">
+                    <a href="@Url.Action("Index", "Patient", new { area = "Admin" })">
                       <span class="label">@localizer["patients"]</span>
                     </a>
                   </li>
                   <li>
-                    <a href="@Url.Action("Index", "Doctor", new { area = "Admin" })">
+                    <a href="~/admin/#doctors" data-href="~/admin/Doctors.html">
                       <span class="label">@localizer["doctors"]</span>
+                    </a>
+                    <ul id="doctors">
+                      <li>
+                        <a href="@Url.Action("Index", "Doctor", new { area = "Admin" })">
+                          <span class="label">All Doctors</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="@Url.Action("Index", "DoctorCalendar", new { area = "Admin" })">
+                          <span class="label">Doctor Calendar</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  
+                  <li>
+                    <a href="@Url.Action("Index", "Nurse", new { area = "Admin" })">
+                      <span class="label">@localizer["nurses"]</span>
                     </a>
                   </li>
 
@@ -278,52 +300,54 @@
                 </ul>
               </li>
               <li>
-                <a href="~/admin/Appointments.html">
+                <a href="@Url.Action("Index", "Appointment", new { area = "Admin" })">
                   <i data-acorn-icon="calendar" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Appointments</span>
+                  <span class="label">@localizer["appointments"]</span>
                 </a>
               </li>
               <li>
-                <a href="~/admin/Results.html">
+                <a href="@Url.Action("Index", "MedicalResult", new { area = "Admin" })">
                   <i data-acorn-icon="form-check" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Results</span>
+                  <span class="label">@localizer["results"]</span>
                 </a>
               </li>
               <li>
-                <a href="~/admin/Prescriptions.html">
+                <a href="@Url.Action("Index", "Prescription", new { area = "Admin" })">
                   <i data-acorn-icon="inbox" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Prescriptions</span>
+                  <span class="label">@localizer["prescriptions"]</span>
                 </a>
               </li>
-              <li>
-                <a href="~/admin/Doctors.html">
-                  <i data-acorn-icon="health" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Doctors</span>
-                </a>
-              </li>
+             
               <li>
                 <a href="~/admin/Consult.html">
                   <i data-acorn-icon="messages" class="icon" data-acorn-size="18"></i>
                   <span class="label">Consult</span>
                 </a>
               </li>
+          
               <li>
-                <a href="~/admin/Guidebook.html">
-                  <i data-acorn-icon="book-open" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Guidebook</span>
-                </a>
-              </li>
-              <li>
-                <a href="~/admin/Articles.html">
+                <a href="@Url.Action("Index", "Role", new { area = "Admin" })">
                   <i data-acorn-icon="book" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Articles</span>
+                  <span class="label">@localizer["roles"]</span>
                 </a>
               </li>
               <li>
-                <a href="~/admin/Settings.html">
+                <a href="~/admin/#settings" data-href="~/admin/Settings.html">
                   <i data-acorn-icon="gear" class="icon" data-acorn-size="18"></i>
                   <span class="label">Settings</span>
                 </a>
+                <ul id="settings">
+                  <li>
+                    <a href="@Url.Action("Index", "Settings", new { area = "Admin" })">
+                      <span class="label">General Settings</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="@Url.Action("Index", "Location", new { area = "Admin" })">
+                      <span class="label">Locations</span>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

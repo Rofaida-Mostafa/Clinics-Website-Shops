@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Clinics_Websites_Shops.DataAccess
 {
-    public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         private readonly ITenantService? _tenantService;
         private readonly IHttpContextAccessor? _httpContextAccessor;
@@ -51,6 +51,15 @@ namespace Clinics_Websites_Shops.DataAccess
         public DbSet<Report> Reports { get; set; } = null!;
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
         public DbSet<Evaluation> Evaluations { get; set; } = null!;
+        public DbSet<MedicalResult> MedicalResults { get; set; } = null!;
+        public DbSet<ClinicSettings> ClinicSettings { get; set; } = null!;
+        public DbSet<ClinicLocation> ClinicLocations { get; set; } = null!;
+        public DbSet<DoctorSchedule> DoctorSchedules { get; set; } = null!;
+        public DbSet<DoctorHoliday> DoctorHolidays { get; set; } = null!;
+
+        // Permission System
+        public DbSet<Permission> Permissions { get; set; } = null!;
+        public DbSet<RolePermission> RolePermissions { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -112,25 +121,43 @@ namespace Clinics_Websites_Shops.DataAccess
                 .HasForeignKey(n => n.ApplicationUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure Doctor alternate key for relationships
+            // Configure unique indexes for business keys
             modelBuilder.Entity<Doctor>()
-                .HasAlternateKey(d => d.DoctorId);
+                .HasIndex(d => d.DoctorId)
+                .IsUnique();
 
-            // Doctor - Appointment (using DoctorId as foreign key)
+            modelBuilder.Entity<Nurse>()
+                .HasIndex(n => n.NurseId)
+                .IsUnique();
+
+            modelBuilder.Entity<Patient>()
+                .HasIndex(p => p.PatientNumber)
+                .IsUnique();
+
+            modelBuilder.Entity<Appointment>()
+                .HasIndex(a => a.AppointmentNumber)
+                .IsUnique();
+
+            // Doctor - Appointment (using Id as foreign key)
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Doctor)
                 .WithMany(d => d.Appointments)
                 .HasForeignKey(a => a.DoctorId)
-                .HasPrincipalKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Patient - Appointment (using PatientId as primary key)
+            // Patient - Appointment (using Id as foreign key)
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Patient)
                 .WithMany(p => p.Appointments)
                 .HasForeignKey(a => a.PatientId)
-                .HasPrincipalKey(p => p.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Department - Appointment (optional relationship)
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Department)
+                .WithMany()
+                .HasForeignKey(a => a.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Payment - Appointment (1:1)
             modelBuilder.Entity<Payment>()
@@ -143,22 +170,86 @@ namespace Clinics_Websites_Shops.DataAccess
                 .HasOne(r => r.Patient)
                 .WithMany(p => p.Reports)
                 .HasForeignKey(r => r.PatientId)
-                .HasPrincipalKey(p => p.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Report>()
                 .HasOne(r => r.Doctor)
                 .WithMany(d => d.Reports)
                 .HasForeignKey(r => r.DoctorId)
-                .HasPrincipalKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            // Prescription -> Report
+            // Prescription relationships
             modelBuilder.Entity<Prescription>()
                 .HasOne(p => p.Report)
                 .WithMany(r => r.Prescriptions)
                 .HasForeignKey(p => p.ReportId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Patient)
+                .WithMany(pat => pat.Prescriptions)
+                .HasForeignKey(p => p.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Doctor)
+                .WithMany()
+                .HasForeignKey(p => p.DoctorId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Appointment)
+                .WithMany()
+                .HasForeignKey(p => p.AppointmentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Prescription>()
+                .HasIndex(p => p.PrescriptionNumber)
+                .IsUnique();
+
+            // Explicitly configure Prescription.PatientId as the foreign key
+            modelBuilder.Entity<Prescription>()
+                .Property(p => p.PatientId)
+                .IsRequired();
+
+            // MedicalResult relationships
+            modelBuilder.Entity<MedicalResult>()
+                .HasOne(mr => mr.Patient)
+                .WithMany(p => p.MedicalResults)
+                .HasForeignKey(mr => mr.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MedicalResult>()
+                .HasOne(mr => mr.Doctor)
+                .WithMany()
+                .HasForeignKey(mr => mr.DoctorId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<MedicalResult>()
+                .HasOne(mr => mr.Appointment)
+                .WithMany()
+                .HasForeignKey(mr => mr.AppointmentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<MedicalResult>()
+                .HasOne(mr => mr.Report)
+                .WithMany()
+                .HasForeignKey(mr => mr.ReportId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<MedicalResult>()
+                .HasIndex(mr => mr.ResultNumber)
+                .IsUnique();
+
+            // Explicitly configure MedicalResult.PatientId as the foreign key
+            modelBuilder.Entity<MedicalResult>()
+                .Property(mr => mr.PatientId)
+                .IsRequired();
+
+            // ClinicSettings - One per tenant
+            modelBuilder.Entity<ClinicSettings>()
+                .HasIndex(cs => cs.TenantId)
+                .IsUnique();
 
             // Department - Doctor
             modelBuilder.Entity<Doctor>()
@@ -191,12 +282,32 @@ namespace Clinics_Websites_Shops.DataAccess
                 .HasMaxLength(200)
                 .IsRequired();
 
-            // Doctor Department relationships
-            modelBuilder.Entity<Doctor>()
-                .HasOne(d => d.Department)
-                .WithMany()
-                .HasForeignKey(d => d.DepartmentId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Permission System Configuration
+            modelBuilder.Entity<Permission>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Permission>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(rp => rp.Id);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasIndex(rp => new { rp.RoleId, rp.PermissionId })
+                .IsUnique();
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany(r => r.RolePermissions)
+                .HasForeignKey(rp => rp.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey(rp => rp.PermissionId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

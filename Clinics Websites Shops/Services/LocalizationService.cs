@@ -31,8 +31,16 @@ namespace Clinics_Websites_Shops.Services
             var translation = department.Translations?
                 .FirstOrDefault(t => t.LanguageCode.Equals(targetCulture, StringComparison.OrdinalIgnoreCase));
 
-            // Return translated name if found, otherwise return default name
-            return translation?.Name ?? String.Empty;
+            // If translation found, return it
+            if (translation != null)
+                return translation.Name;
+
+            // Fallback: try to get first available translation (preferably English)
+            var fallbackTranslation = department.Translations?
+                .FirstOrDefault(t => t.LanguageCode.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                ?? department.Translations?.FirstOrDefault();
+
+            return fallbackTranslation?.Name ?? $"Department {department.Id}";
         }
 
         public string GetLocalizedDepartmentDescription(Department department, string? culture = null)
@@ -47,8 +55,16 @@ namespace Clinics_Websites_Shops.Services
             var translation = department.Translations?
                 .FirstOrDefault(t => t.LanguageCode.Equals(targetCulture, StringComparison.OrdinalIgnoreCase));
 
-            // Return translated description if found, otherwise return default description
-            return translation?.Description ?? String.Empty;
+            // If translation found, return it
+            if (translation != null)
+                return translation.Description ?? string.Empty;
+
+            // Fallback: try to get first available translation (preferably English)
+            var fallbackTranslation = department.Translations?
+                .FirstOrDefault(t => t.LanguageCode.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                ?? department.Translations?.FirstOrDefault();
+
+            return fallbackTranslation?.Description ?? string.Empty;
         }
 
         public string GetCurrentCulture()

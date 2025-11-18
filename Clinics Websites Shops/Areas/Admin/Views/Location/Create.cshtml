@@ -1,0 +1,307 @@
+@model Clinics_Websites_Shops.Models.ClinicLocation
+
+@{
+    ViewData["Title"] = "Add New Location";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Back to List
+                    </a>
+                </div>
+                <h4 class="page-title">
+                    <i class="fas fa-map-marker-alt me-2"></i>Add New Location
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Create" method="post">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="LocationName" class="form-label">Location Name *</label>
+                            <input asp-for="LocationName" class="form-control" placeholder="Main Clinic" />
+                            <span asp-validation-for="LocationName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="LocationCode" class="form-label">Location Code</label>
+                            <input asp-for="LocationCode" class="form-control" placeholder="MAIN" />
+                            <span asp-validation-for="LocationCode" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Brief description of this location"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="IsDefault" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsDefault" class="form-check-label">
+                                Set as Default Location
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
+                            <label asp-for="IsActive" class="form-check-label">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2"></i>Address Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Street Address *</label>
+                            <input asp-for="Address" class="form-control" placeholder="123 Main Street" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Area" class="form-label">Area/District</label>
+                            <input asp-for="Area" class="form-control" placeholder="Downtown" />
+                            <span asp-validation-for="Area" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="City" class="form-label">City *</label>
+                                <input asp-for="City" class="form-control" placeholder="New York" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="State" class="form-label">State/Province</label>
+                                <input asp-for="State" class="form-control" placeholder="NY" />
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PostalCode" class="form-label">Postal Code</label>
+                                <input asp-for="PostalCode" class="form-control" placeholder="10001" />
+                                <span asp-validation-for="PostalCode" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Country" class="form-label">Country *</label>
+                                <input asp-for="Country" class="form-control" placeholder="USA" />
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-phone me-2"></i>Contact Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="PrimaryPhone" class="form-label">Primary Phone *</label>
+                            <input asp-for="PrimaryPhone" class="form-control" placeholder="+1 (555) 123-4567" />
+                            <span asp-validation-for="PrimaryPhone" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SecondaryPhone" class="form-label">Secondary Phone</label>
+                            <input asp-for="SecondaryPhone" class="form-control" placeholder="+1 (555) 123-4568" />
+                            <span asp-validation-for="SecondaryPhone" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Fax" class="form-label">Fax</label>
+                            <input asp-for="Fax" class="form-control" placeholder="+1 (555) 123-4569" />
+                            <span asp-validation-for="Fax" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email *</label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="info@clinic.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AlternativeEmail" class="form-label">Alternative Email</label>
+                            <input asp-for="AlternativeEmail" class="form-control" type="email" placeholder="support@clinic.com" />
+                            <span asp-validation-for="AlternativeEmail" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Website" class="form-label">Website</label>
+                            <input asp-for="Website" class="form-control" placeholder="https://www.clinic.com" />
+                            <span asp-validation-for="Website" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-map me-2"></i>Map & Coordinates</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Latitude" class="form-label">Latitude</label>
+                                <input asp-for="Latitude" class="form-control" placeholder="40.7128" step="0.0000001" />
+                                <span asp-validation-for="Latitude" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Longitude" class="form-label">Longitude</label>
+                                <input asp-for="Longitude" class="form-control" placeholder="-74.0060" step="0.0000001" />
+                                <span asp-validation-for="Longitude" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MapEmbedUrl" class="form-label">Google Maps Embed URL</label>
+                            <textarea asp-for="MapEmbedUrl" class="form-control" rows="2" placeholder="https://www.google.com/maps/embed?pb=..."></textarea>
+                            <small class="text-muted">Get this from Google Maps → Share → Embed a map</small>
+                            <span asp-validation-for="MapEmbedUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DirectionsUrl" class="form-label">Directions URL</label>
+                            <input asp-for="DirectionsUrl" class="form-control" placeholder="https://goo.gl/maps/..." />
+                            <small class="text-muted">Get this from Google Maps → Share → Copy link</small>
+                            <span asp-validation-for="DirectionsUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TimeZone" class="form-label">Time Zone</label>
+                            <input asp-for="TimeZone" class="form-control" placeholder="America/New_York" />
+                            <span asp-validation-for="TimeZone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="fas fa-cog me-2"></i>Location Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check mb-3">
+                                    <input asp-for="AcceptsAppointments" class="form-check-input" type="checkbox" checked />
+                                    <label asp-for="AcceptsAppointments" class="form-check-label">
+                                        Accepts Appointments
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input asp-for="AcceptsWalkIns" class="form-check-input" type="checkbox" checked />
+                                    <label asp-for="AcceptsWalkIns" class="form-check-label">
+                                        Accepts Walk-ins
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input asp-for="HasEmergencyServices" class="form-check-input" type="checkbox" />
+                                    <label asp-for="HasEmergencyServices" class="form-check-label">
+                                        Has Emergency Services
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input asp-for="HasPharmacy" class="form-check-input" type="checkbox" />
+                                    <label asp-for="HasPharmacy" class="form-check-label">
+                                        Has Pharmacy
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mb-3">
+                                    <input asp-for="HasLaboratory" class="form-check-input" type="checkbox" />
+                                    <label asp-for="HasLaboratory" class="form-check-label">
+                                        Has Laboratory
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input asp-for="HasRadiology" class="form-check-input" type="checkbox" />
+                                    <label asp-for="HasRadiology" class="form-check-label">
+                                        Has Radiology
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="NumberOfRooms" class="form-label">Number of Rooms</label>
+                                <input asp-for="NumberOfRooms" class="form-control" type="number" min="0" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="NumberOfBeds" class="form-label">Number of Beds</label>
+                                <input asp-for="NumberOfBeds" class="form-control" type="number" min="0" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="ParkingCapacity" class="form-label">Parking Capacity</label>
+                                <input asp-for="ParkingCapacity" class="form-control" type="number" min="0" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Facilities" class="form-label">Facilities</label>
+                            <input asp-for="Facilities" class="form-control" placeholder="WiFi, Parking, Wheelchair Access" />
+                            <small class="text-muted">Comma-separated list</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ServicesOffered" class="form-label">Services Offered</label>
+                            <input asp-for="ServicesOffered" class="form-control" placeholder="General Practice, Pediatrics, Cardiology" />
+                            <small class="text-muted">Comma-separated list</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SpecialNotes" class="form-label">Special Notes</label>
+                            <textarea asp-for="SpecialNotes" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Save Location
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

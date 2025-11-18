@@ -22,6 +22,59 @@ namespace Clinics_Websites_Shops.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Id"), "utf8mb4");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConcurrencyStamp"), "utf8mb4");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
+                    b.Property<bool>("IsSystemRole")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("NormalizedName"), "utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("aspnetroles", (string)null);
+                });
+
             modelBuilder.Entity("Clinics_Websites_Shops.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -145,23 +198,171 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("varchar(255)")
+                    b.Property<string>("AppointmentNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DoctorId"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AppointmentNumber"), "utf8mb4");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("varchar(255)")
+                    b.Property<TimeSpan>("AppointmentTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<string>("AppointmentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PatientId"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AppointmentType"), "utf8mb4");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CancellationReason"), "utf8mb4");
+
+                    b.Property<DateTime?>("CancelledAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CancelledBy")
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CancelledBy"), "utf8mb4");
+
+                    b.Property<DateTime?>("CheckInTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("CheckOutTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ConfirmedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ConfirmedBy")
+                        .HasColumnType("longtext")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConfirmedBy"), "utf8mb4");
+
+                    b.Property<decimal?>("ConsultationFee")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CreatedBy"), "utf8mb4");
+
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsRescheduled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ModifiedBy"), "utf8mb4");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Notes"), "utf8mb4");
+
+                    b.Property<decimal?>("PaidAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PatientNotes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PatientNotes"), "utf8mb4");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PaymentMethod"), "utf8mb4");
+
+                    b.Property<int?>("PreviousAppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Priority")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Priority"), "utf8mb4");
+
+                    b.Property<string>("ReasonForVisit")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ReasonForVisit"), "utf8mb4");
+
+                    b.Property<DateTime?>("ReminderSentAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("RescheduledAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("SendEmail")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("SendReminder")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("SendSMS")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Status")
-                        .HasColumnType("longtext")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Status"), "utf8mb4");
@@ -173,10 +374,12 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TenantId"), "utf8mb4");
 
-                    b.Property<TimeSpan?>("Time")
-                        .HasColumnType("time(6)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentNumber")
+                        .IsUnique();
+
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("DoctorId");
 
@@ -258,11 +461,18 @@ namespace Clinics_Websites_Shops.Migrations
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Doctor", b =>
                 {
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdditionalCertifications")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DoctorId"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AdditionalCertifications"), "utf8mb4");
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -271,19 +481,162 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ApplicationUserId"), "utf8mb4");
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("Awards")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    b.Property<decimal>("Salary")
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Awards"), "utf8mb4");
+
+                    b.Property<decimal>("BaseSalary")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasColumnType("longtext")
+                    b.Property<string>("Biography")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Specialization"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Biography"), "utf8mb4");
+
+                    b.Property<decimal?>("ConsultationFee")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CreatedBy"), "utf8mb4");
+
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DirectPhone")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DirectPhone"), "utf8mb4");
+
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DoctorId"), "utf8mb4");
+
+                    b.Property<string>("EmergencyContactName")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactName"), "utf8mb4");
+
+                    b.Property<string>("EmergencyContactPhone")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactPhone"), "utf8mb4");
+
+                    b.Property<string>("EmergencyContactRelation")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactRelation"), "utf8mb4");
+
+                    b.Property<int>("EmploymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("GraduationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal?>("HourlyRate")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsAcceptingNewPatients")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsAvailableForEmergency")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("JoinedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Languages")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Languages"), "utf8mb4");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("LicenseNumber"), "utf8mb4");
+
+                    b.Property<string>("MedicalDegree")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("MedicalDegree"), "utf8mb4");
+
+                    b.Property<string>("MedicalSchool")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("MedicalSchool"), "utf8mb4");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ModifiedBy"), "utf8mb4");
+
+                    b.Property<string>("OfficeLocation")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("OfficeLocation"), "utf8mb4");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ProfileImageUrl"), "utf8mb4");
+
+                    b.Property<int>("Rank")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("RoomNumber"), "utf8mb4");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -292,14 +645,30 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TenantId"), "utf8mb4");
 
+                    b.Property<string>("WorkingDays")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("WorkingDays"), "utf8mb4");
+
+                    b.Property<TimeSpan?>("WorkingHoursEnd")
+                        .HasColumnType("time(6)");
+
+                    b.Property<TimeSpan?>("WorkingHoursStart")
+                        .HasColumnType("time(6)");
+
                     b.Property<int>("YearsOfExperience")
                         .HasColumnType("int");
 
-                    b.HasKey("DoctorId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DepartmentId");
+
+                    b.HasIndex("DoctorId")
+                        .IsUnique();
 
                     b.ToTable("doctors", (string)null);
                 });
@@ -324,12 +693,6 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PatientId1")
-                        .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PatientId1"), "utf8mb4");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -342,7 +705,7 @@ namespace Clinics_Websites_Shops.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId1");
+                    b.HasIndex("PatientId");
 
                     b.ToTable("evaluations", (string)null);
                 });
@@ -382,11 +745,41 @@ namespace Clinics_Websites_Shops.Migrations
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Patient", b =>
                 {
-                    b.Property<string>("PatientId")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PatientId"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Address"), "utf8mb4");
+
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Allergies")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Allergies"), "utf8mb4");
+
+                    b.Property<bool>("AllowEmailNotifications")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("AllowSmsNotifications")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("AlternatePhone")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AlternatePhone"), "utf8mb4");
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -395,6 +788,233 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ApplicationUserId"), "utf8mb4");
 
+                    b.Property<string>("BloodType")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("BloodType"), "utf8mb4");
+
+                    b.Property<string>("ChronicDiseases")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ChronicDiseases"), "utf8mb4");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("City"), "utf8mb4");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Country"), "utf8mb4");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CreatedBy"), "utf8mb4");
+
+                    b.Property<string>("CurrentMedications")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CurrentMedications"), "utf8mb4");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("EmergencyContactAddress")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactAddress"), "utf8mb4");
+
+                    b.Property<string>("EmergencyContactName")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactName"), "utf8mb4");
+
+                    b.Property<string>("EmergencyContactPhone")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactPhone"), "utf8mb4");
+
+                    b.Property<string>("EmergencyContactRelation")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("EmergencyContactRelation"), "utf8mb4");
+
+                    b.Property<string>("FamilyMedicalHistory")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("FamilyMedicalHistory"), "utf8mb4");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Height")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal?>("InsuranceCoverageAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("InsuranceExpiryDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("InsurancePolicyNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("InsurancePolicyNumber"), "utf8mb4");
+
+                    b.Property<string>("InsuranceProvider")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("InsuranceProvider"), "utf8mb4");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsAlcoholConsumer")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsSmoker")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("LastVisitDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("MaritalStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ModifiedBy"), "utf8mb4");
+
+                    b.Property<string>("NationalId")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("NationalId"), "utf8mb4");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Nationality"), "utf8mb4");
+
+                    b.Property<string>("Occupation")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Occupation"), "utf8mb4");
+
+                    b.Property<string>("PassportNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PassportNumber"), "utf8mb4");
+
+                    b.Property<string>("PatientId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PatientId"), "utf8mb4");
+
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PostalCode"), "utf8mb4");
+
+                    b.Property<string>("PreferredContactMethod")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PreferredContactMethod"), "utf8mb4");
+
+                    b.Property<string>("PreferredLanguage")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PreferredLanguage"), "utf8mb4");
+
+                    b.Property<string>("PreviousSurgeries")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PreviousSurgeries"), "utf8mb4");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ProfileImageUrl"), "utf8mb4");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("SpecialNotes")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("SpecialNotes"), "utf8mb4");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("State"), "utf8mb4");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("TenantId")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -402,9 +1022,16 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TenantId"), "utf8mb4");
 
-                    b.HasKey("PatientId");
+                    b.Property<decimal?>("Weight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PatientId")
+                        .IsUnique();
 
                     b.ToTable("patients", (string)null);
                 });
@@ -452,6 +1079,67 @@ namespace Clinics_Websites_Shops.Migrations
                         .IsUnique();
 
                     b.ToTable("payments", (string)null);
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Action"), "utf8mb4");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DisplayName"), "utf8mb4");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Module")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Module"), "utf8mb4");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("permissions", (string)null);
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Prescription", b =>
@@ -506,11 +1194,8 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DoctorId"), "utf8mb4");
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .HasColumnType("longtext")
@@ -518,11 +1203,8 @@ namespace Clinics_Websites_Shops.Migrations
 
                     MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Notes"), "utf8mb4");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PatientId"), "utf8mb4");
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -540,42 +1222,41 @@ namespace Clinics_Websites_Shops.Migrations
                     b.ToTable("reports", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.RolePermission", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Id"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
+                    b.Property<DateTime>("GrantedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("GrantedBy")
                         .HasColumnType("longtext")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConcurrencyStamp"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("GrantedBy"), "utf8mb4");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
                         .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
 
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_unicode_ci");
-
-                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("NormalizedName"), "utf8mb4");
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("RoleId"), "utf8mb4");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                    b.HasIndex("PermissionId");
 
-                    b.ToTable("aspnetroles", (string)null);
+                    b.HasIndex("RoleId", "PermissionId")
+                        .IsUnique();
+
+                    b.ToTable("rolepermissions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -734,15 +1415,24 @@ namespace Clinics_Websites_Shops.Migrations
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Appointment", b =>
                 {
+                    b.HasOne("Clinics_Websites_Shops.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Clinics_Websites_Shops.Models.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Clinics_Websites_Shops.Models.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Department");
 
                     b.Navigation("Doctor");
 
@@ -768,19 +1458,21 @@ namespace Clinics_Websites_Shops.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Clinics_Websites_Shops.Models.Department", null)
+                    b.HasOne("Clinics_Websites_Shops.Models.Department", "Department")
                         .WithMany("Doctors")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Evaluation", b =>
                 {
                     b.HasOne("Clinics_Websites_Shops.Models.Patient", "Patient")
                         .WithMany()
-                        .HasForeignKey("PatientId1");
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Patient");
                 });
@@ -844,9 +1536,28 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.RolePermission", b =>
+                {
+                    b.HasOne("Clinics_Websites_Shops.Models.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinics_Websites_Shops.Models.ApplicationRole", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Clinics_Websites_Shops.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -873,7 +1584,7 @@ namespace Clinics_Websites_Shops.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Clinics_Websites_Shops.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -893,6 +1604,11 @@ namespace Clinics_Websites_Shops.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.ApplicationRole", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Appointment", b =>
@@ -919,6 +1635,11 @@ namespace Clinics_Websites_Shops.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Clinics_Websites_Shops.Models.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Clinics_Websites_Shops.Models.Report", b =>

@@ -1,0 +1,130 @@
+@model RolePermissionsViewModel
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Areas.Admin.ViewModel
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.RoleController> localizer
+
+@{
+    ViewData["Title"] = localizer["managePermissions"];
+}
+
+<div class="container">
+    <partial name="_BreadcrumbAdmin" />
+    
+    <div class="row my-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-key"></i> @localizer["managePermissions"] - @Model.RoleName
+                    </h5>
+                </div>
+                
+                <div class="card-body">
+                    @if (Model.IsSystemRole)
+                    {
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> @localizer["systemRolePermissionWarning"]
+                        </div>
+                    }
+                    
+                    <form id="permissionsForm">
+                        <input type="hidden" name="roleId" value="@Model.RoleId" />
+                        
+                        @foreach (var group in Model.PermissionGroups)
+                        {
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-folder"></i> @group.Module
+                                        <button type="button" class="btn btn-sm btn-outline-primary float-end" 
+                                                onclick="toggleModulePermissions('@group.Module', true)">
+                                            @localizer["selectAll"]
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary float-end me-2" 
+                                                onclick="toggleModulePermissions('@group.Module', false)">
+                                            @localizer["deselectAll"]
+                                        </button>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        @foreach (var permission in group.Permissions)
+                                        {
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input permission-checkbox module-@group.Module" 
+                                                           type="checkbox" 
+                                                           name="permissionIds" 
+                                                           value="@permission.Id" 
+                                                           id="permission_@permission.Id"
+                                                           @(permission.IsAssigned ? "checked" : "") />
+                                                    <label class="form-check-label" for="permission_@permission.Id">
+                                                        <strong>@permission.Action</strong>
+                                                        @if (!string.IsNullOrEmpty(permission.Description))
+                                                        {
+                                                            <br /><small class="text-muted">@permission.Description</small>
+                                                        }
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> @localizer["back"]
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> @localizer["savePermissions"]
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleModulePermissions(module, select) {
+            const checkboxes = document.querySelectorAll('.module-' + module);
+            checkboxes.forEach(cb => cb.checked = select);
+        }
+        
+        document.getElementById('permissionsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                roleId: formData.get('roleId'),
+                permissionIds: formData.getAll('permissionIds').map(id => parseInt(id))
+            };
+            
+            try {
+                const response = await fetch('@Url.Action("UpdatePermissions")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    window.location.href = '@Url.Action("Index")';
+                } else {
+                    alert(result.message || '@localizer["updatePermissionsFailed"]');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('@localizer["updatePermissionsFailed"]');
+            }
+        });
+    </script>
+}
+

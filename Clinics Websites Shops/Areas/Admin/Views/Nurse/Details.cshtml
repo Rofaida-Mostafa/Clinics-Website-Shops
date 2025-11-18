@@ -1,0 +1,127 @@
+@model Nurse
+@using Microsoft.Extensions.Localization
+@using Clinics_Websites_Shops.Models
+@inject IStringLocalizer<Clinics_Websites_Shops.Areas.Admin.Controllers.NurseController> localizer
+
+@{
+    ViewData["Title"] = localizer["nurseDetails"];
+}
+
+<div class="container">
+    <partial name="_BreadcrumbAdmin" />
+    <div class="row my-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-nurse"></i> @localizer["nurseDetails"]
+                    </h5>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.NurseId" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> @localizer["edit"]
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-arrow-left"></i> @localizer["back"]
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Profile Section -->
+                        <div class="col-md-4 text-center border-end">
+                            <div class="mb-3">
+                                <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                                     style="width: 150px; height: 150px; font-size: 3rem;">
+                                    <i class="fas fa-user-nurse"></i>
+                                </div>
+                            </div>
+                            <h4>@Model.ApplicationUser?.Name</h4>
+                            <p class="text-muted">@localizer["nurse"]</p>
+                            <div class="text-warning mb-3">
+                                @if (Model.ApplicationUser?.Rate != null)
+                                {
+                                    @for (int i = 0; i < Model.ApplicationUser.Rate; i++)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                    @for (int i = Model.ApplicationUser.Rate; i < 10; i++)
+                                    {
+                                        <i class="far fa-star"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Details Section -->
+                        <div class="col-md-8">
+                            <h6 class="text-primary border-bottom pb-2 mb-3">@localizer["basicInformation"]</h6>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <strong>@localizer["nurseId"]:</strong>
+                                    <p class="text-muted">@Model.NurseId</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>@localizer["email"]:</strong>
+                                    <p class="text-muted">@Model.ApplicationUser?.Email</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <strong>@localizer["phoneNumber"]:</strong>
+                                    <p class="text-muted">@(Model.ApplicationUser?.PhoneNumber ?? "N/A")</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>@localizer["salary"]:</strong>
+                                    <p class="text-success fw-bold">$@Model.Salary.ToString("N2")</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <strong>@localizer["description"]:</strong>
+                                    <p class="text-muted">@(Model.ApplicationUser?.Description ?? "N/A")</p>
+                                </div>
+                            </div>
+
+                            <h6 class="text-primary border-bottom pb-2 mb-3 mt-4">@localizer["accountInformation"]</h6>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <strong>@localizer["userId"]:</strong>
+                                    <p class="text-muted"><small>@Model.ApplicationUserId</small></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>@localizer["tenantId"]:</strong>
+                                    <p class="text-muted"><small>@Model.TenantId</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> @localizer["backToList"]
+                        </a>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.NurseId" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> @localizer["edit"]
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@Model.NurseId" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger" 
+                                        onclick="return confirm('@localizer["confirmDeleteNurse"]')">
+                                    <i class="fas fa-trash"></i> @localizer["delete"]
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

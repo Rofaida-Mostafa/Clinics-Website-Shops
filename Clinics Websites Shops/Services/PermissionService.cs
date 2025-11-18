@@ -1,4 +1,4 @@
-﻿using Clinics_Websites_Shops.DataAccess;
+using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.Models;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
