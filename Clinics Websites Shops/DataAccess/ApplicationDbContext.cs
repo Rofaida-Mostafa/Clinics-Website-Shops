@@ -90,15 +90,15 @@ namespace Clinics_Websites_Shops.DataAccess
         {
             modelBuilder.Entity<ApplicationUser>().HasQueryFilter(u => u.TenantId == TenantId);
           
-            base.OnModelCreating(modelBuilder);
-
             // Apply database-specific configurations
             var environmentService = _environmentService ?? new EnvironmentService();
             var databaseProvider = environmentService.GetDatabaseProvider();
             modelBuilder.ApplyDatabaseSpecificConfigurations(databaseProvider);
             modelBuilder.Entity<ApplicationUser>().HasQueryFilter(u => u.TenantId == TenantId);
 
+            // Call the base method
             base.OnModelCreating(modelBuilder);
+
             // Person primary key
             modelBuilder.Entity<ApplicationUser>().HasKey(p => p.Id);
 
