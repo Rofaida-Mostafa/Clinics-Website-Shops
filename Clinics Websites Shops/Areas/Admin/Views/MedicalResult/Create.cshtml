@@ -1,0 +1,209 @@
+@model Clinics_Websites_Shops.Areas.Admin.ViewModels.MedicalResultViewModel
+
+@{
+    ViewData["Title"] = "Create Medical Result";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="ResultNumber" class="form-label"></label>
+                            <input asp-for="ResultNumber" class="form-control" readonly />
+                            <span asp-validation-for="ResultNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestDate" class="form-label"></label>
+                            <input asp-for="TestDate" class="form-control" type="date" />
+                            <span asp-validation-for="TestDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="PatientId" class="form-label"></label>
+                            <select asp-for="PatientId" class="form-select" asp-items="ViewBag.Patients">
+                                <option value="">-- Select Patient --</option>
+                            </select>
+                            <span asp-validation-for="PatientId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="DoctorId" class="form-label"></label>
+                            <select asp-for="DoctorId" class="form-select" asp-items="ViewBag.Doctors">
+                                <option value="">-- Select Doctor --</option>
+                            </select>
+                            <span asp-validation-for="DoctorId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="AppointmentId" class="form-label"></label>
+                            <select asp-for="AppointmentId" class="form-select" asp-items="ViewBag.Appointments">
+                                <option value="">-- Select Appointment (Optional) --</option>
+                            </select>
+                            <span asp-validation-for="AppointmentId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="ReportId" class="form-label"></label>
+                            <select asp-for="ReportId" class="form-select" asp-items="ViewBag.Reports">
+                                <option value="">-- Select Report (Optional) --</option>
+                            </select>
+                            <span asp-validation-for="ReportId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestName" class="form-label"></label>
+                            <input asp-for="TestName" class="form-control" />
+                            <span asp-validation-for="TestName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestCategory" class="form-label"></label>
+                            <select asp-for="TestCategory" class="form-select">
+                                <option value="">-- Select Category --</option>
+                                <option value="Blood Test">Blood Test</option>
+                                <option value="Urine Test">Urine Test</option>
+                                <option value="X-Ray">X-Ray</option>
+                                <option value="CT Scan">CT Scan</option>
+                                <option value="MRI">MRI</option>
+                                <option value="Ultrasound">Ultrasound</option>
+                                <option value="ECG">ECG</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span asp-validation-for="TestCategory" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestCode" class="form-label"></label>
+                            <input asp-for="TestCode" class="form-control" />
+                            <span asp-validation-for="TestCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Status" class="form-label"></label>
+                            <select asp-for="Status" class="form-select">
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="ResultDate" class="form-label"></label>
+                            <input asp-for="ResultDate" class="form-control" type="date" />
+                            <span asp-validation-for="ResultDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="AttachmentFile" class="form-label"></label>
+                            <input asp-for="AttachmentFile" class="form-control" type="file" />
+                            <span asp-validation-for="AttachmentFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label asp-for="ResultValue" class="form-label"></label>
+                            <textarea asp-for="ResultValue" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="ResultValue" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label asp-for="Findings" class="form-label"></label>
+                            <textarea asp-for="Findings" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Findings" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label asp-for="Notes" class="form-label"></label>
+                            <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check mb-3">
+                            <input asp-for="IsAbnormal" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsAbnormal" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check mb-3">
+                            <input asp-for="IsCritical" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsCritical" class="form-check-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Create Result
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

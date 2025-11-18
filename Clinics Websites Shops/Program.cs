@@ -41,7 +41,11 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =
 // Identity
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
@@ -144,5 +148,192 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+
+// Development endpoints
+if (app.Environment.IsDevelopment())
+{
+    // Seed roles and permissions
+    app.MapGet("/seed-data", async (
+        MasterDbContext masterDb,
+        ApplicationDbContext appDb,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager) =>
+    {
+        try
+        {
+            await DataSeeder.SeedAllData(masterDb, appDb, userManager, roleManager);
+            return Results.Ok(new { success = true, message = "Data seeded successfully! Check console for details." });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"✗ Error seeding data: {ex.Message}");
+            return Results.BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
+        }
+    });
+
+    // Create test tenant and admin
+    app.MapGet("/setup-test-tenant", async (
+        MasterDbContext masterDb,
+        ApplicationDbContext appDb,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager) =>
+    {
+        try
+        {
+            Console.WriteLine("=== Creating Test Tenant and Admin User ===");
+
+            // Step 1: Check if tenant already exists
+            var existingTenant = await masterDb.Tenants
+                .FirstOrDefaultAsync(t => t.Domain == "test.localhost");
+
+            string tenantId;
+
+            if (existingTenant != null)
+            {
+                Console.WriteLine($"Tenant already exists with ID: {existingTenant.TId}");
+                tenantId = existingTenant.TId;
+            }
+            else
+            {
+                // Create new tenant
+                tenantId = Guid.NewGuid().ToString();
+
+                var tenant = new Tenant
+                {
+                    TId = tenantId,
+                    Name = "Test Clinic",
+                    Domain = "test.localhost",
+                    ConnectionString = "Server=localhost;Port=3306;Database=ClinicsWebsiteShops;User=root;Password=;",
+                    Status = true,
+                    Locals = "en,ar",
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                await masterDb.Tenants.AddAsync(tenant);
+                await masterDb.SaveChangesAsync();
+
+                Console.WriteLine($"✓ Tenant created successfully with ID: {tenantId}");
+            }
+
+            // Step 2: Ensure SuperAdmin role exists
+            var superAdminRole = await roleManager.FindByNameAsync("SuperAdmin");
+            if (superAdminRole == null)
+            {
+                superAdminRole = new ApplicationRole
+                {
+                    Name = "SuperAdmin",
+                    NormalizedName = "SUPERADMIN",
+                    Description = "Super Administrator with full system access",
+                    IsSystemRole = true
+                };
+
+                var roleResult = await roleManager.CreateAsync(superAdminRole);
+                if (roleResult.Succeeded)
+                {
+                    Console.WriteLine("✓ SuperAdmin role created");
+                }
+                else
+                {
+                    Console.WriteLine("✗ Failed to create SuperAdmin role");
+                    var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                    return Results.BadRequest(new { error = "Failed to create SuperAdmin role", details = errors });
+                }
+            }
+
+            // Step 3: Check if admin user already exists
+            var existingUser = await userManager.FindByEmailAsync("test@test.com");
+
+            if (existingUser != null)
+            {
+                Console.WriteLine($"User already exists: {existingUser.Email}");
+
+                // Update tenant ID if needed
+                if (existingUser.TenantId != tenantId)
+                {
+                    existingUser.TenantId = tenantId;
+                    await userManager.UpdateAsync(existingUser);
+                    Console.WriteLine("✓ User tenant ID updated");
+                }
+
+                // Ensure user has SuperAdmin role
+                if (!await userManager.IsInRoleAsync(existingUser, "SuperAdmin"))
+                {
+                    await userManager.AddToRoleAsync(existingUser, "SuperAdmin");
+                    Console.WriteLine("✓ SuperAdmin role assigned to user");
+                }
+            }
+            else
+            {
+                // Create new admin user
+                var adminUser = new ApplicationUser
+                {
+                    UserName = "test@test.com",
+                    Email = "test@test.com",
+                    Name = "Test Admin",
+                    Description = "Test Administrator",
+                    Rate = 0,
+                    TenantId = tenantId,
+                    EmailConfirmed = true
+                };
+
+                var userResult = await userManager.CreateAsync(adminUser, "123456");
+
+                if (userResult.Succeeded)
+                {
+                    Console.WriteLine("✓ Admin user created successfully");
+
+                    // Assign SuperAdmin role
+                    var roleAssignResult = await userManager.AddToRoleAsync(adminUser, "SuperAdmin");
+                    if (roleAssignResult.Succeeded)
+                    {
+                        Console.WriteLine("✓ SuperAdmin role assigned to user");
+                    }
+                    else
+                    {
+                        Console.WriteLine("✗ Failed to assign SuperAdmin role");
+                        var errors = string.Join(", ", roleAssignResult.Errors.Select(e => e.Description));
+                        return Results.BadRequest(new { error = "Failed to assign SuperAdmin role", details = errors });
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("✗ Failed to create admin user");
+                    var errors = string.Join(", ", userResult.Errors.Select(e => e.Description));
+                    return Results.BadRequest(new { error = "Failed to create admin user", details = errors });
+                }
+            }
+
+            var summary = new
+            {
+                success = true,
+                message = "Test tenant and admin user created successfully!",
+                tenantId = tenantId,
+                tenantName = "Test Clinic",
+                domain = "test.localhost",
+                adminEmail = "test@test.com",
+                adminPassword = "123456",
+                loginUrl = "http://test.localhost:5292/Identity/Account/Login",
+                note = "Make sure to add 'test.localhost' to your hosts file pointing to 127.0.0.1"
+            };
+
+            Console.WriteLine("\n=== Summary ===");
+            Console.WriteLine($"Tenant ID: {tenantId}");
+            Console.WriteLine($"Tenant Name: Test Clinic");
+            Console.WriteLine($"Domain: test.localhost");
+            Console.WriteLine($"Admin Email: test@test.com");
+            Console.WriteLine($"Admin Password: 123456");
+            Console.WriteLine("\nYou can now login at: http://test.localhost:5292/Identity/Account/Login");
+            Console.WriteLine("(Make sure to add 'test.localhost' to your hosts file)");
+
+            return Results.Ok(summary);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"✗ Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            return Results.BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
+        }
+    });
+}
 
 app.Run();

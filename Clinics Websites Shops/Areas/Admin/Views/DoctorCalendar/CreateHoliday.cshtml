@@ -1,0 +1,191 @@
+@model DoctorHoliday
+
+@{
+    ViewData["Title"] = "Add Holiday/Time Off";
+    var doctorName = ViewBag.DoctorName as string;
+    var replacementDoctors = ViewBag.ReplacementDoctors as List<SelectListItem>;
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-umbrella-beach me-2"></i>Add Holiday/Time Off</h2>
+            <p class="text-muted">Schedule time off for <strong>@doctorName</strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-calendar-times me-2"></i>Holiday Details</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="CreateHoliday" method="post">
+                        <input type="hidden" asp-for="DoctorId" />
+                        <input type="hidden" asp-for="TenantId" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label asp-for="Title" class="form-label">Title *</label>
+                                <input asp-for="Title" class="form-control" placeholder="e.g., Annual Leave, Conference" required />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="HolidayType" class="form-label">Type *</label>
+                                <select asp-for="HolidayType" class="form-select" required>
+                                    <option value="PersonalLeave">Personal Leave</option>
+                                    <option value="SickLeave">Sick Leave</option>
+                                    <option value="Conference">Conference</option>
+                                    <option value="Training">Training</option>
+                                    <option value="PublicHoliday">Public Holiday</option>
+                                    <option value="Emergency">Emergency</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="2" placeholder="Additional details..."></textarea>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="StartDate" class="form-label">Start Date *</label>
+                                <input asp-for="StartDate" type="date" class="form-control" required />
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="EndDate" class="form-label">End Date *</label>
+                                <input asp-for="EndDate" type="date" class="form-control" required />
+                                <span asp-validation-for="EndDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input asp-for="IsFullDay" class="form-check-input" type="checkbox" id="isFullDayCheck" checked />
+                                <label asp-for="IsFullDay" class="form-check-label">Full Day(s)</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3" id="partialDayTimes" style="display: none;">
+                            <div class="col-md-6">
+                                <label asp-for="StartTime" class="form-label">Start Time</label>
+                                <input asp-for="StartTime" type="time" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="EndTime" class="form-label">End Time</label>
+                                <input asp-for="EndTime" type="time" class="form-control" />
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <h6 class="mb-3"><i class="fas fa-cog me-2"></i>Settings</h6>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch mb-2">
+                                    <input asp-for="BlockNewAppointments" class="form-check-input" type="checkbox" checked />
+                                    <label asp-for="BlockNewAppointments" class="form-check-label">Block New Appointments</label>
+                                </div>
+                                <small class="text-muted">Prevent patients from booking during this period</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch mb-2">
+                                    <input asp-for="CancelExistingAppointments" class="form-check-input" type="checkbox" />
+                                    <label asp-for="CancelExistingAppointments" class="form-check-label">Cancel Existing Appointments</label>
+                                </div>
+                                <small class="text-muted">Auto-cancel appointments during this period</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NotificationMessage" class="form-label">Notification Message</label>
+                            <textarea asp-for="NotificationMessage" class="form-control" rows="2" 
+                                      placeholder="Message to send to patients with affected appointments..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ReplacementDoctorId" class="form-label">Replacement Doctor (Optional)</label>
+                            <select asp-for="ReplacementDoctorId" class="form-select">
+                                <option value="">-- No Replacement --</option>
+                                @if (replacementDoctors != null)
+                                {
+                                    foreach (var doctor in replacementDoctors)
+                                    {
+                                        <option value="@doctor.Value">@doctor.Text</option>
+                                    }
+                                }
+                            </select>
+                            <small class="text-muted">Suggest an alternative doctor for patients</small>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Status" class="form-label">Status</label>
+                                <select asp-for="Status" class="form-select">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved" selected>Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch mt-4">
+                                    <input asp-for="IsApproved" class="form-check-input" type="checkbox" checked />
+                                    <label asp-for="IsApproved" class="form-check-label">Approved</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("Index", new { doctorId = Model.DoctorId })" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Back to Calendar
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save me-1"></i>Save Holiday
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Holiday Tips</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="small">
+                        <li><strong>Full Day:</strong> Blocks the entire day(s)</li>
+                        <li><strong>Partial Day:</strong> Blocks specific hours only</li>
+                        <li><strong>Block Appointments:</strong> Prevents new bookings</li>
+                        <li><strong>Cancel Existing:</strong> Auto-cancels current appointments</li>
+                        <li><strong>Replacement Doctor:</strong> Suggests alternative to patients</li>
+                        <li><strong>Notification:</strong> Custom message for affected patients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            $('#isFullDayCheck').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#partialDayTimes').hide();
+                } else {
+                    $('#partialDayTimes').show();
+                }
+            });
+        });
+    </script>
+}
+

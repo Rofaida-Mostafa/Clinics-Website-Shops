@@ -190,6 +190,9 @@
   "addPatient" : "Add Patient",
   "editPatient" : "Edit Patient",
   "noPatientsFound" : "No Patients found",
+  "accessDenied":"Access Denied",
+  "accessDeniedMessage":"You don't have access to open this page",
+  "contactAdministrator":"Contact Administrator",
   "loginToYourAccountDescribtion": "Dynamically target high-payoff intellectual capital for customized technologies. Objectively integrate emerging core competencies before process-centric communities..."
   
           

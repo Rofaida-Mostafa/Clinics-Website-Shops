@@ -35,7 +35,7 @@ namespace Clinics_Websites_Shops.Areas.Admin.ViewModel
         // Patient Identity
         [Required, StringLength(50)]
         [Display(Name = "Patient ID")]
-        public string PatientId { get; set; } = null!;
+        public string PatientNumber { get; set; } = null!;
         
         // Personal Information
         [StringLength(20)]
@@ -253,7 +253,7 @@ namespace Clinics_Websites_Shops.Areas.Admin.ViewModel
     public class PatientListViewModel
     {
         public int Id { get; set; }
-        public string PatientId { get; set; } = null!;
+        public string PatientNumber { get; set; } = null!;
         public string? NationalId { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public int? Age { get; set; }

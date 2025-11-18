@@ -33,10 +33,11 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Customer\ViewModel\" />
+    <Folder Include="Areas\Customer\Views\" />
     <Folder Include="Areas\Identity\Controller\" />
     <Folder Include="Areas\Tenance\ViewModel\" />
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\themes\default\" />
   </ItemGroup>
 
 

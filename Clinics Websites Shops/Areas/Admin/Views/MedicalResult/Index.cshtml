@@ -1,0 +1,102 @@
+@model IEnumerable<Clinics_Websites_Shops.Models.MedicalResult>
+
+@{
+    ViewData["Title"] = "Medical Results";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> New Result
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Result #</th>
+                            <th>Test Date</th>
+                            <th>Patient</th>
+                            <th>Test Name</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Doctor</th>
+                            <th>Flags</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ResultNumber</td>
+                                <td>@item.TestDate.ToString("MMM dd, yyyy")</td>
+                                <td>@item.Patient?.ApplicationUser?.Name</td>
+                                <td>@item.TestName</td>
+                                <td>@item.TestCategory</td>
+                                <td>
+                                    @if (item.Status == "Completed")
+                                    {
+                                        <span class="badge bg-success">@item.Status</span>
+                                    }
+                                    else if (item.Status == "Pending")
+                                    {
+                                        <span class="badge bg-warning">@item.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@item.Status</span>
+                                    }
+                                </td>
+                                <td>@item.Doctor?.ApplicationUser?.Name</td>
+                                <td>
+                                    @if (item.IsCritical)
+                                    {
+                                        <span class="badge bg-danger">Critical</span>
+                                    }
+                                    @if (item.IsAbnormal)
+                                    {
+                                        <span class="badge bg-warning">Abnormal</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info" title="Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#resultsTable').DataTable({
+                "order": [[1, "desc"]],
+                "pageLength": 25
+            });
+        });
+    </script>
+}
+

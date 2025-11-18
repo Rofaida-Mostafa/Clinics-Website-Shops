@@ -1,0 +1,270 @@
+@model Clinics_Websites_Shops.Models.ClinicLocation
+
+@{
+    ViewData["Title"] = "Location Details";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <i class="fas fa-edit me-1"></i> Edit
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Back to List
+                    </a>
+                </div>
+                <h4 class="page-title">
+                    <i class="fas fa-map-marker-alt me-2"></i>@Model.LocationName
+                    @if (Model.IsDefault)
+                    {
+                        <span class="badge bg-primary">Default</span>
+                    }
+                    @if (Model.IsActive)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inactive</span>
+                    }
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Location Name:</dt>
+                        <dd class="col-sm-8"><strong>@Model.LocationName</strong></dd>
+
+                        <dt class="col-sm-4">Location Code:</dt>
+                        <dd class="col-sm-8">@(Model.LocationCode ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">Description:</dt>
+                        <dd class="col-sm-8">@(Model.Description ?? "N/A")</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2"></i>Address</h5>
+                </div>
+                <div class="card-body">
+                    <address>
+                        <strong>@Model.Address</strong><br />
+                        @if (!string.IsNullOrEmpty(Model.Area))
+                        {
+                            @Model.Area<br />
+                        }
+                        @Model.City, @Model.State @Model.PostalCode<br />
+                        @Model.Country
+                    </address>
+
+                    @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+                    {
+                        <p class="mb-0">
+                            <strong>Coordinates:</strong> @Model.Latitude, @Model.Longitude
+                        </p>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.DirectionsUrl))
+                    {
+                        <a href="@Model.DirectionsUrl" target="_blank" class="btn btn-sm btn-primary mt-2">
+                            <i class="fas fa-directions me-1"></i> Get Directions
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-phone me-2"></i>Contact Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Primary Phone:</dt>
+                        <dd class="col-sm-8"><a href="tel:@Model.PrimaryPhone">@Model.PrimaryPhone</a></dd>
+
+                        @if (!string.IsNullOrEmpty(Model.SecondaryPhone))
+                        {
+                            <dt class="col-sm-4">Secondary Phone:</dt>
+                            <dd class="col-sm-8"><a href="tel:@Model.SecondaryPhone">@Model.SecondaryPhone</a></dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Fax))
+                        {
+                            <dt class="col-sm-4">Fax:</dt>
+                            <dd class="col-sm-8">@Model.Fax</dd>
+                        }
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8"><a href="mailto:@Model.Email">@Model.Email</a></dd>
+
+                        @if (!string.IsNullOrEmpty(Model.AlternativeEmail))
+                        {
+                            <dt class="col-sm-4">Alternative Email:</dt>
+                            <dd class="col-sm-8"><a href="mailto:@Model.AlternativeEmail">@Model.AlternativeEmail</a></dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Website))
+                        {
+                            <dt class="col-sm-4">Website:</dt>
+                            <dd class="col-sm-8"><a href="@Model.Website" target="_blank">@Model.Website</a></dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-cog me-2"></i>Location Settings</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fas @(Model.AcceptsAppointments ? "fa-check-circle text-success" : "fa-times-circle text-danger") me-2"></i>Accepts Appointments</p>
+                            <p><i class="fas @(Model.AcceptsWalkIns ? "fa-check-circle text-success" : "fa-times-circle text-danger") me-2"></i>Accepts Walk-ins</p>
+                            <p><i class="fas @(Model.HasEmergencyServices ? "fa-check-circle text-success" : "fa-times-circle text-danger") me-2"></i>Emergency Services</p>
+                            <p><i class="fas @(Model.HasPharmacy ? "fa-check-circle text-success" : "fa-times-circle text-danger") me-2"></i>Pharmacy</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><i class="fas @(Model.HasLaboratory ? "fa-check-circle text-success" : "fa-times-circle text-danger") me-2"></i>Laboratory</p>
+                            <p><i class="fas @(Model.HasRadiology ? "fa-check-circle text-success" : "fa-times-circle text-danger") me-2"></i>Radiology</p>
+                        </div>
+                    </div>
+
+                    @if (Model.NumberOfRooms.HasValue || Model.NumberOfBeds.HasValue || Model.ParkingCapacity.HasValue)
+                    {
+                        <hr />
+                        <dl class="row mb-0">
+                            @if (Model.NumberOfRooms.HasValue)
+                            {
+                                <dt class="col-sm-6">Number of Rooms:</dt>
+                                <dd class="col-sm-6">@Model.NumberOfRooms</dd>
+                            }
+                            @if (Model.NumberOfBeds.HasValue)
+                            {
+                                <dt class="col-sm-6">Number of Beds:</dt>
+                                <dd class="col-sm-6">@Model.NumberOfBeds</dd>
+                            }
+                            @if (Model.ParkingCapacity.HasValue)
+                            {
+                                <dt class="col-sm-6">Parking Capacity:</dt>
+                                <dd class="col-sm-6">@Model.ParkingCapacity</dd>
+                            }
+                        </dl>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Facilities))
+                    {
+                        <hr />
+                        <p class="mb-1"><strong>Facilities:</strong></p>
+                        <p>@Model.Facilities</p>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.ServicesOffered))
+                    {
+                        <hr />
+                        <p class="mb-1"><strong>Services Offered:</strong></p>
+                        <p>@Model.ServicesOffered</p>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.SpecialNotes))
+                    {
+                        <hr />
+                        <p class="mb-1"><strong>Special Notes:</strong></p>
+                        <p>@Model.SpecialNotes</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-6">
+            @if (!string.IsNullOrEmpty(Model.MapEmbedUrl))
+            {
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-map me-2"></i>Location Map</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="@Model.MapEmbedUrl"
+                                    style="border:0;"
+                                    allowfullscreen=""
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+            {
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-map me-2"></i>Location Map</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://maps.google.com/maps?q=@Model.Latitude,@Model.Longitude&z=15&output=embed"
+                                    style="border:0;"
+                                    allowfullscreen=""
+                                    loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="fas fa-image me-2"></i>Location Image</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <img src="@Model.ImageUrl" alt="@Model.LocationName" class="img-fluid" />
+                    </div>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>System Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Created:</dt>
+                        <dd class="col-sm-8">@Model.CreatedAt.ToString("MMM dd, yyyy hh:mm tt")</dd>
+
+                        @if (Model.LastModified.HasValue)
+                        {
+                            <dt class="col-sm-4">Last Modified:</dt>
+                            <dd class="col-sm-8">@Model.LastModified.Value.ToString("MMM dd, yyyy hh:mm tt")</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.TimeZone))
+                        {
+                            <dt class="col-sm-4">Time Zone:</dt>
+                            <dd class="col-sm-8">@Model.TimeZone</dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -38,15 +38,15 @@ namespace Clinics_Websites_Shops.DataAccess
         private static List<Permission> GetDefaultPermissions()
         {
             var permissions = new List<Permission>();
-            var modules = new[] { "Doctors", "Nurses", "Patients", "Appointments", "Departments", "Reports", "Payments", "Users", "Roles" };
+            var modules = new[] { "Doctors", "Nurses", "Patients", "Appointments", "Departments", "Reports", "Payments", "Users", "Roles", "Prescriptions", "Results", "Settings" };
             var actions = new[] { "View", "Create", "Edit", "Delete", "Manage" };
 
             foreach (var module in modules)
             {
                 foreach (var action in actions)
                 {
-                    // Skip "Manage" for most modules (only for Users and Roles)
-                    if (action == "Manage" && module != "Users" && module != "Roles")
+                    // Skip "Manage" for most modules (only for Users, Roles, and Settings)
+                    if (action == "Manage" && module != "Users" && module != "Roles" && module != "Settings")
                         continue;
 
                     permissions.Add(new Permission
@@ -155,14 +155,16 @@ namespace Clinics_Websites_Shops.DataAccess
                 }
             }
 
-            // Doctor - View/Edit Patients, Appointments, Reports
+            // Doctor - Full access to Patients, Appointments, Reports, Prescriptions, Results
             var doctorRole = roles.FirstOrDefault(r => r.Name == "Doctor");
             if (doctorRole != null)
             {
                 var doctorPermissions = permissions.Where(p =>
                     (p.Module == "Patients" && (p.Action == "View" || p.Action == "Edit")) ||
-                    (p.Module == "Appointments" && (p.Action == "View" || p.Action == "Edit")) ||
+                    (p.Module == "Appointments" && (p.Action == "View" || p.Action == "Edit" || p.Action == "Create")) ||
                     (p.Module == "Reports" && (p.Action == "View" || p.Action == "Create" || p.Action == "Edit")) ||
+                    (p.Module == "Prescriptions" && (p.Action == "View" || p.Action == "Create" || p.Action == "Edit" || p.Action == "Delete")) ||
+                    (p.Module == "Results" && (p.Action == "View" || p.Action == "Create" || p.Action == "Edit" || p.Action == "Delete")) ||
                     (p.Module == "Doctors" && p.Action == "View")
                 ).ToList();
 
@@ -176,13 +178,15 @@ namespace Clinics_Websites_Shops.DataAccess
                 }
             }
 
-            // Nurse - View/Edit Patients, View Appointments
+            // Nurse - View/Edit Patients, View Appointments, View Prescriptions/Results
             var nurseRole = roles.FirstOrDefault(r => r.Name == "Nurse");
             if (nurseRole != null)
             {
                 var nursePermissions = permissions.Where(p =>
                     (p.Module == "Patients" && (p.Action == "View" || p.Action == "Edit")) ||
                     (p.Module == "Appointments" && p.Action == "View") ||
+                    (p.Module == "Prescriptions" && p.Action == "View") ||
+                    (p.Module == "Results" && p.Action == "View") ||
                     (p.Module == "Nurses" && p.Action == "View")
                 ).ToList();
 

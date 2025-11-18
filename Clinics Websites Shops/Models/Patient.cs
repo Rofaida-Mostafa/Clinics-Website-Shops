@@ -9,7 +9,7 @@ namespace Clinics_Websites_Shops.Models
 
         // Patient Identity
         [Required, StringLength(50)]
-        public string PatientId { get; set; } = null!; // Unique patient identifier (e.g., "PAT001")
+        public string PatientNumber { get; set; } = null!; // Unique patient identifier (e.g., "PAT001")
 
         // Personal Information
         [StringLength(20)]
@@ -146,6 +146,8 @@ namespace Clinics_Websites_Shops.Models
         // Navigation Properties
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<Report> Reports { get; set; } = new List<Report>();
+        public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
+        public ICollection<MedicalResult> MedicalResults { get; set; } = new List<MedicalResult>();
 
         // User Account Reference
         [Required]

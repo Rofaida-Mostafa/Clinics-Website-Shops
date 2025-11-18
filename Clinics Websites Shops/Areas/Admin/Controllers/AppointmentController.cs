@@ -429,8 +429,8 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
 
             viewModel.Patients = patients.Select(p => new SelectListItem
             {
-                Value = p.PatientId,
-                Text = $"{p.ApplicationUser?.Name} - {p.PatientId}"
+                Value = p.Id.ToString(),
+                Text = $"{p.ApplicationUser?.Name} - {p.PatientNumber}"
             }).ToList();
 
             // Get departments
@@ -500,7 +500,7 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
             viewModel.Patients = patients.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
-                Text = $"{p.ApplicationUser?.Name} - {p.PatientId}",
+                Text = $"{p.ApplicationUser?.Name} - {p.PatientNumber}",
                 Selected = p.Id == viewModel.PatientId
             }).ToList();
 

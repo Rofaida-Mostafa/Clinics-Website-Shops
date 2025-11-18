@@ -9,7 +9,7 @@ namespace Clinics_Websites_Shops.Extensions
         {
             return new Patient
             {
-                PatientId = viewModel.PatientId,
+                PatientNumber = viewModel.PatientNumber,
                 ApplicationUserId = applicationUserId,
                 NationalId = viewModel.NationalId,
                 PassportNumber = viewModel.PassportNumber,
@@ -62,7 +62,7 @@ namespace Clinics_Websites_Shops.Extensions
             return new EditPatientViewModel
             {
                 Id = patient.Id,
-                PatientId = patient.PatientId,
+                PatientNumber = patient.PatientNumber,
                 ApplicationUserId = patient.ApplicationUserId,
                 // Populate ApplicationUser fields if available
                 Name = patient.ApplicationUser?.Name ?? "",
@@ -119,7 +119,7 @@ namespace Clinics_Websites_Shops.Extensions
             return new PatientListViewModel
             {
                 Id = patient.Id,
-                PatientId = patient.PatientId,
+                PatientNumber = patient.PatientNumber,
                 NationalId = patient.NationalId,
                 DateOfBirth = patient.DateOfBirth,
                 Age = patient.Age,
@@ -140,7 +140,7 @@ namespace Clinics_Websites_Shops.Extensions
         
         public static void UpdateFromViewModel(this Patient patient, EditPatientViewModel viewModel)
         {
-            patient.PatientId = viewModel.PatientId;
+            patient.PatientNumber = viewModel.PatientNumber;
             patient.NationalId = viewModel.NationalId;
             patient.PassportNumber = viewModel.PassportNumber;
             patient.DateOfBirth = viewModel.DateOfBirth;

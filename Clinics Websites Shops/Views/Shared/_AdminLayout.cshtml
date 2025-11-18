@@ -259,9 +259,21 @@
                     </a>
                   </li>
                   <li>
-                    <a href="@Url.Action("Index", "Doctor", new { area = "Admin" })">
+                    <a href="~/admin/#doctors" data-href="~/admin/Doctors.html">
                       <span class="label">@localizer["doctors"]</span>
                     </a>
+                    <ul id="doctors">
+                      <li>
+                        <a href="@Url.Action("Index", "Doctor", new { area = "Admin" })">
+                          <span class="label">All Doctors</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="@Url.Action("Index", "DoctorCalendar", new { area = "Admin" })">
+                          <span class="label">Doctor Calendar</span>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                   
                   <li>
@@ -284,15 +296,15 @@
                 </a>
               </li>
               <li>
-                <a href="~/admin/Results.html">
+                <a href="@Url.Action("Index", "MedicalResult", new { area = "Admin" })">
                   <i data-acorn-icon="form-check" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Results</span>
+                  <span class="label">@localizer["results"]</span>
                 </a>
               </li>
               <li>
-                <a href="~/admin/Prescriptions.html">
+                <a href="@Url.Action("Index", "Prescription", new { area = "Admin" })">
                   <i data-acorn-icon="inbox" class="icon" data-acorn-size="18"></i>
-                  <span class="label">Prescriptions</span>
+                  <span class="label">@localizer["prescriptions"]</span>
                 </a>
               </li>
              
@@ -310,10 +322,22 @@
                 </a>
               </li>
               <li>
-                <a href="~/admin/Settings.html">
+                <a href="~/admin/#settings" data-href="~/admin/Settings.html">
                   <i data-acorn-icon="gear" class="icon" data-acorn-size="18"></i>
                   <span class="label">Settings</span>
                 </a>
+                <ul id="settings">
+                  <li>
+                    <a href="@Url.Action("Index", "Settings", new { area = "Admin" })">
+                      <span class="label">General Settings</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="@Url.Action("Index", "Location", new { area = "Admin" })">
+                      <span class="label">Locations</span>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

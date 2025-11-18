@@ -6,6 +6,8 @@ using Clinics_Websites_Shops.Areas.Admin.ViewModel;
 using Clinics_Websites_Shops.Services.IServices;
 using Clinics_Websites_Shops.Extensions;
 using System.Linq.Expressions;
+using Clinics_Websites_Shops.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clinics_Websites_Shops.Areas.Admin.Controllers
 {
@@ -17,17 +19,20 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IStringLocalizer<PatientController> _localizer;
         private readonly ITenantService _tenantService;
+        private readonly ApplicationDbContext _context;
 
         public PatientController(
             IRepository<Patient> patientRepository,
             UserManager<ApplicationUser> userManager,
             IStringLocalizer<PatientController> localizer,
-            ITenantService tenantService)
+            ITenantService tenantService,
+            ApplicationDbContext context)
         {
             _patientRepository = patientRepository;
             _userManager = userManager;
             _localizer = localizer;
             _tenantService = tenantService;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
@@ -84,14 +89,14 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
                 var currentTenant = _tenantService.GetFirstTenant();
                 var tenantId = currentTenant?.TId ?? throw new InvalidOperationException("Tenant not found");
 
-                // Check if PatientId already exists
+                // Check if PatientNumber already exists
                 var existingPatient = await _patientRepository.GetOneAsync(
-                    expression: p => p.PatientId == viewModel.PatientId
+                    expression: p => p.PatientNumber == viewModel.PatientNumber
                 );
 
                 if (existingPatient != null)
                 {
-                    ModelState.AddModelError("PatientId", "Patient ID already exists");
+                    ModelState.AddModelError("PatientNumber", "Patient Number already exists");
                     return View(viewModel);
                 }
 
@@ -190,14 +195,14 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                // Check if PatientId already exists for another patient
+                // Check if PatientNumber already exists for another patient
                 var patientWithSameId = await _patientRepository.GetOneAsync(
-                    expression: p => p.PatientId == viewModel.PatientId && p.Id != viewModel.Id
+                    expression: p => p.PatientNumber == viewModel.PatientNumber && p.Id != viewModel.Id
                 );
 
                 if (patientWithSameId != null)
                 {
-                    ModelState.AddModelError("PatientId", "Patient ID already exists");
+                    ModelState.AddModelError("PatientNumber", "Patient Number already exists");
                     return View(viewModel);
                 }
 
@@ -247,6 +252,43 @@ namespace Clinics_Websites_Shops.Areas.Admin.Controllers
             {
                 var errorMessage = _localizer["invalidPatientData"];
                 TempData["error-notification"] = errorMessage.Value;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        // Patient Profile - Shows complete patient history
+        [HttpGet]
+        public async Task<IActionResult> Profile(int id)
+        {
+            try
+            {
+                var patient = await _context.Patients
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Appointments)
+                        .ThenInclude(a => a.Doctor)
+                            .ThenInclude(d => d!.ApplicationUser)
+                    .Include(p => p.Appointments)
+                        .ThenInclude(a => a.Department)
+                    .Include(p => p.Prescriptions)
+                        .ThenInclude(pr => pr.Doctor)
+                            .ThenInclude(d => d!.ApplicationUser)
+                    .Include(p => p.MedicalResults)
+                        .ThenInclude(mr => mr.Doctor)
+                            .ThenInclude(d => d!.ApplicationUser)
+                    .Include(p => p.Reports)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                if (patient == null)
+                {
+                    TempData["error"] = "Patient not found";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View(patient);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = $"Error loading patient profile: {ex.Message}";
                 return RedirectToAction(nameof(Index));
             }
         }
