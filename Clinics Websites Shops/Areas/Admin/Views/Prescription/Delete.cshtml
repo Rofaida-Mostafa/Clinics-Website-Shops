@@ -1,0 +1,83 @@
+@model Clinics_Websites_Shops.Models.Prescription
+
+@{
+    ViewData["Title"] = "Delete Prescription";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-triangle"></i> Are you sure you want to delete this prescription?
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>@Model.PrescriptionNumber</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Prescription Number</dt>
+                        <dd class="col-sm-8">@Model.PrescriptionNumber</dd>
+
+                        <dt class="col-sm-4">Prescription Date</dt>
+                        <dd class="col-sm-8">@Model.PrescriptionDate.ToString("MMMM dd, yyyy")</dd>
+
+                        <dt class="col-sm-4">Patient</dt>
+                        <dd class="col-sm-8">@Model.Patient?.ApplicationUser?.Name</dd>
+
+                        <dt class="col-sm-4">Doctor</dt>
+                        <dd class="col-sm-8">@(Model.Doctor?.ApplicationUser?.Name ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">Medication Name</dt>
+                        <dd class="col-sm-8">@Model.MedicationName</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Dosage</dt>
+                        <dd class="col-sm-8">@(Model.Dosage ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">Frequency</dt>
+                        <dd class="col-sm-8">@(Model.Frequency ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">Duration</dt>
+                        <dd class="col-sm-8">@(Model.Duration ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">Status</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Delete Prescription
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

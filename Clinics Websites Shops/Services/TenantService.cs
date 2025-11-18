@@ -21,5 +21,10 @@ namespace Clinics_Websites_Shops.Services
             // detect by domain
             return _masterDb.Tenants.FirstOrDefault(t => host.Contains(t.Domain.ToLower()) && t.Status);
         }
+        
+        public Tenant? GetFirstTenant()
+        {
+            return _masterDb.Tenants.FirstOrDefault(); 
+        }
     }
 }

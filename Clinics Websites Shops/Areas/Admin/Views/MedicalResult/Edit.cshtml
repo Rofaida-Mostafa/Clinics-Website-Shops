@@ -1,0 +1,159 @@
+@model Clinics_Websites_Shops.Areas.Admin.ViewModels.MedicalResultViewModel
+
+@{
+    ViewData["Title"] = "Edit Medical Result";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="AttachmentUrl" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="ResultNumber" class="form-label"></label>
+                            <input asp-for="ResultNumber" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestDate" class="form-label"></label>
+                            <input asp-for="TestDate" class="form-control" type="date" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="PatientId" class="form-label"></label>
+                            <select asp-for="PatientId" class="form-select" asp-items="ViewBag.Patients">
+                                <option value="">-- Select Patient --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="DoctorId" class="form-label"></label>
+                            <select asp-for="DoctorId" class="form-select" asp-items="ViewBag.Doctors">
+                                <option value="">-- Select Doctor --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestName" class="form-label"></label>
+                            <input asp-for="TestName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TestCategory" class="form-label"></label>
+                            <select asp-for="TestCategory" class="form-select">
+                                <option value="">-- Select Category --</option>
+                                <option value="Blood Test">Blood Test</option>
+                                <option value="Urine Test">Urine Test</option>
+                                <option value="X-Ray">X-Ray</option>
+                                <option value="CT Scan">CT Scan</option>
+                                <option value="MRI">MRI</option>
+                                <option value="Ultrasound">Ultrasound</option>
+                                <option value="ECG">ECG</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Status" class="form-label"></label>
+                            <select asp-for="Status" class="form-select">
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="ResultDate" class="form-label"></label>
+                            <input asp-for="ResultDate" class="form-control" type="date" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label asp-for="ResultValue" class="form-label"></label>
+                            <textarea asp-for="ResultValue" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label asp-for="Findings" class="form-label"></label>
+                            <textarea asp-for="Findings" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="AttachmentFile" class="form-label"></label>
+                            <input asp-for="AttachmentFile" class="form-control" type="file" />
+                            @if (!string.IsNullOrEmpty(Model.AttachmentFileName))
+                            {
+                                <small class="text-muted">Current: @Model.AttachmentFileName</small>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check mb-3 mt-4">
+                            <input asp-for="IsAbnormal" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsAbnormal" class="form-check-label"></label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input asp-for="IsCritical" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsCritical" class="form-check-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Update Result
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
