@@ -7,6 +7,7 @@
             public const string CustomerArea = "Customer";
             public const string IdentityArea = "CustomerArea";
             public const string TenanceArea = "Tenance";
+            public const string CustomerIdentityArea = "CustomerIdentity";
 
 
             // Controllers

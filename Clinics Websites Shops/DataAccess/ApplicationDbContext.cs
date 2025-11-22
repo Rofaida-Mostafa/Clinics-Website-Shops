@@ -4,6 +4,7 @@ using Clinics_Websites_Shops.Settings;
 using Clinics_Websites_Shops.DataAccess.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ETicketsSystem.Models;
 
 namespace Clinics_Websites_Shops.DataAccess
 {
@@ -56,6 +57,7 @@ namespace Clinics_Websites_Shops.DataAccess
         public DbSet<ClinicLocation> ClinicLocations { get; set; } = null!;
         public DbSet<DoctorSchedule> DoctorSchedules { get; set; } = null!;
         public DbSet<DoctorHoliday> DoctorHolidays { get; set; } = null!;
+        public DbSet<UserOTP> UserOTPs { get; set; }
 
         // Permission System
         public DbSet<Permission> Permissions { get; set; } = null!;
