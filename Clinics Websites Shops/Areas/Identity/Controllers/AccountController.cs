@@ -1,6 +1,7 @@
 using Clinics_Websites_Shops.Areas.Identity.ViewModels;
 using Clinics_Websites_Shops.Models;
 using Clinics_Websites_Shops.Services.IServices;
+using Clinics_Websites_Shops.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -61,11 +62,12 @@ namespace Clinics_Websites_Shops.Areas.Identity.Controllers
             try
             {
                 // Get current tenant
-                var currentTenant = _tenantService.GetFirstTenant();
-                if (currentTenant == null)
+                var tenant = _tenantService.GetCurrentTenant(HttpContext);
+                if (tenant == null)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["tenantNotFound"].Value);
                     return View(viewModel);
+                    tenant = _tenantService.GetFirstTenant();
                 }
 
                 // Find user by email
@@ -78,7 +80,7 @@ namespace Clinics_Websites_Shops.Areas.Identity.Controllers
                 }
 
                 // Check if user belongs to current tenant
-                if (user.TenantId != currentTenant.TId)
+                if (user.TenantId != tenant.TId)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["invalidLoginAttempt"].Value);
                     _logger.LogWarning("User {Email} attempted to login to wrong tenant", viewModel.Email);

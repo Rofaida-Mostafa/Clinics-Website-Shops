@@ -1,10 +1,8 @@
 ﻿using Clinics_Websites_Shops.Areas.CustomerIdentity.ViewModel;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
