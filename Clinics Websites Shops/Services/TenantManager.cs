@@ -30,7 +30,7 @@ public class TenantManager
         if (env == "Development")
         {
             // or Local environment
-            domain = $"{cleanName}.ngrok.io";
+            domain = $"{cleanName}.localhost";
         }
         else
         {

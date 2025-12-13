@@ -72,15 +72,21 @@ namespace Clinics_Websites_Shops.DataAccess
                     {
                         var tenant = _tenantService.GetCurrentTenant(_httpContextAccessor.HttpContext);
 
-                        if (tenant == null)
-                            throw new Exception("Tenant not found for the current request");
-
+                    if (tenant != null)
+                    {
                         optionsBuilder.UseSqlServer(tenant.ConnectionString);
                     }
                     else
                     {
-                        //  Implement DB using EF core ( For Migration only)
-                        optionsBuilder.UseSqlServer("Server=.;Database=ClinicOneDb;Trusted_Connection=True;TrustServerCertificate=True;");
+                        // fallback DB
+                        optionsBuilder.UseSqlServer(
+                            "Server=.;Database=bahia_Db;Trusted_Connection=True;TrustServerCertificate=True;");
+                    }
+                }
+                    else
+                    {
+                    //  Implement DB using EF core ( For Migration / Design-time only)
+                    optionsBuilder.UseSqlServer("Server=.;Database=ClinicOneDb;Trusted_Connection=True;TrustServerCertificate=True;");
                     }
                 }
 
