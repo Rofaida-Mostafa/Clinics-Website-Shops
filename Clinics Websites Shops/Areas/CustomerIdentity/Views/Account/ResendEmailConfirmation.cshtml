@@ -1,0 +1,48 @@
+﻿@using Clinics_Websites_Shops.Areas.CustomerIdentity.ViewModel
+@model ResendEmailConfirmationVM
+
+@{
+    ViewData["Title"] = "Resend Email Confirmation";
+}
+
+<div class="d-flex flex-column min-vh-100">
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 w-100">
+
+                <!-- Card Header -->
+                <div class="card-header bg-danger text-white text-center py-3 rounded-top">
+                    <h3 class="mb-0">Resend Email Confirmation</h3>
+                </div>
+
+                <div class="card-body p-4 bg-light">
+                    <form asp-action="ResendEmailConfirmation">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="EmailORUserName" class="form-label fw-bold"></label>
+                            <input asp-for="EmailORUserName" class="form-control" placeholder="Enter email or username" />
+                            <span asp-validation-for="EmailORUserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger btn-sm px-4">Send</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="Login" class="text-danger fw-bold">Back to Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

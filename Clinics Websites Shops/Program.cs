@@ -74,6 +74,8 @@ builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddScoped<TenantManager>();
+//builder.Services.AddScoped<IRepository<UserOTP>, Repository<UserOTP>>();
+
 
 // Config binding
 builder.Services.Configure<TenantSettings>(builder.Configuration.GetSection(nameof(TenantSettings)));
