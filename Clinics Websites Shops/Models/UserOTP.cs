@@ -1,6 +1,6 @@
-﻿namespace ETicketsSystem.Models
+﻿namespace Clinics_Websites_Shops.Models
 {
-	public class UserOTP
+    public class UserOTP
 	{
 		public int Id { get; set; }
 		public string ApplicationUserId { get; set; }

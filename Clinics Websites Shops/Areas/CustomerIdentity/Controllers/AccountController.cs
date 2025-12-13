@@ -21,14 +21,14 @@ namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
 
 
 		public AccountController(UserManager<ApplicationUser> userManager, IEmailSender emailSender,
-        SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor,
-        TenantDbContextFactory tenantDbContextFactory)
+        SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor
+  )
         {
             _userManager = userManager;
             _emailSender = emailSender;
             _signInManager = signInManager;
             _httpContextAccessor = httpContextAccessor;
-            _tenantDbContextFactory = tenantDbContextFactory;
+          //  _tenantDbContextFactory = tenantDbContextFactory;
 			//_userOTP = userOTP;
         }
 
