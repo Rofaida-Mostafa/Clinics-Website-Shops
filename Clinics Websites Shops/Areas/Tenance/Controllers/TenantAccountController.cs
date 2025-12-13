@@ -23,19 +23,22 @@ namespace Clinics_Websites_Shops.Areas.Tenance.Controllers
         private readonly ITenantService _tenantService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly TenantManager _tenantManager;
+        private readonly ILogger<TenantAccountController> _logger;
+
 
         public TenantAccountController(
             MasterDbContext masterDbContext,
             IEmailSender emailSender,
             ITenantService tenantService,
             IHttpContextAccessor httpContextAccessor,
-            TenantManager tenantManager)
+            TenantManager tenantManager, ILogger<TenantAccountController> logger)
         {
             _masterDbContext = masterDbContext;
             _emailSender = emailSender;
             _tenantService = tenantService;
             _httpContextAccessor = httpContextAccessor;
             _tenantManager = tenantManager;
+            _logger = logger;
         }
 
         [HttpGet]

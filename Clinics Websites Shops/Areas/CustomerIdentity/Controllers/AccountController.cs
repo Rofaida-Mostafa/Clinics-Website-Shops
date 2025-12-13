@@ -1,11 +1,9 @@
 ﻿using Clinics_Websites_Shops.Areas.CustomerIdentity.ViewModel;
-using Clinics_Websites_Shops.Models;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
 {
@@ -17,19 +15,21 @@ namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
        private readonly SignInManager<ApplicationUser> _signInManager;
        private readonly IHttpContextAccessor _httpContextAccessor;
        private readonly TenantDbContextFactory _tenantDbContextFactory;
-	   //private readonly IRepository<UserOTP> _userOTP;
+		 private readonly ITenantService _tenantService;
+        //private readonly IRepository<UserOTP> _userOTP;
 
 
-		public AccountController(UserManager<ApplicationUser> userManager, IEmailSender emailSender,
-        SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor,
-        TenantDbContextFactory tenantDbContextFactory)
+        public AccountController(UserManager<ApplicationUser> userManager, IEmailSender emailSender,
+        SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContextAccessor, ITenantService tenantService
+  )
         {
             _userManager = userManager;
             _emailSender = emailSender;
             _signInManager = signInManager;
             _httpContextAccessor = httpContextAccessor;
-            _tenantDbContextFactory = tenantDbContextFactory;
-			//_userOTP = userOTP;
+			_tenantService = tenantService;
+            //  _tenantDbContextFactory = tenantDbContextFactory;
+            //_userOTP = userOTP;
         }
 
 
@@ -56,43 +56,45 @@ namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
                 Email = registerVM.Email,
             };
 
-            // 1) Tenant for this domain
-            if (!(HttpContext.Items["Tenant"] is Tenant tenant))
-            {
-                ModelState.AddModelError("", "Tenant not found for this domain!");
-                return View(registerVM);
-            }
+            // 1) Resolve tenant (domain OR fallback)
+            var tenant = _tenantService.GetCurrentTenant(HttpContext);
 
             if (tenant == null)
             {
-                ModelState.AddModelError("", "Tenant not found for this domain!");
-                return View(registerVM);
+                // مفيش tenant ولا fallback → ده Error حقيقي
+                //ModelState.AddModelError("", "Tenant not found for this domain!");
+                //return View(registerVM);
+
+                tenant = _tenantService.GetFirstTenant();
             }
+            #region Comment
+            //         // 2) DbContext for this tenant only
+            //         var tenantContext = _tenantDbContextFactory.CreateDbContext();
 
-            // 2) DbContext for this tenant only
-            var tenantContext = _tenantDbContextFactory.CreateDbContext();
+            //         // 3) Identity stores
+            //         var userStore = new UserStore<ApplicationUser>(tenantContext);
+            //         var roleStore = new RoleStore<IdentityRole>(tenantContext);
 
-            // 3) Identity stores
-            var userStore = new UserStore<ApplicationUser>(tenantContext);
-            var roleStore = new RoleStore<IdentityRole>(tenantContext);
-
-			// 4) Tenant UserManager
-			var tenantUserManager = new UserManager<ApplicationUser>(
-	            userStore,
-	            Options.Create(new IdentityOptions()),
-	            new PasswordHasher<ApplicationUser>(),
-	            new IUserValidator<ApplicationUser>[0],
-	            new IPasswordValidator<ApplicationUser>[0],
-	            new UpperInvariantLookupNormalizer(),
-	            new IdentityErrorDescriber(),
-	            _httpContextAccessor.HttpContext?.RequestServices,
-				new LoggerFactory().CreateLogger<UserManager<ApplicationUser>>()
+            //// 4) Tenant UserManager
+            //var tenantUserManager = new UserManager<ApplicationUser>(
+            //          userStore,
+            //          Options.Create(new IdentityOptions()),
+            //          new PasswordHasher<ApplicationUser>(),
+            //          new IUserValidator<ApplicationUser>[0],
+            //          new IPasswordValidator<ApplicationUser>[0],
+            //          new UpperInvariantLookupNormalizer(),
+            //          new IdentityErrorDescriber(),
+            //          _httpContextAccessor.HttpContext?.RequestServices,
+            //	new LoggerFactory().CreateLogger<UserManager<ApplicationUser>>()
 
 
-			);
+            //);
+            #endregion
 
-            // ❗ استخدمي tenantUserManager بدل _userManager
-            var result = await tenantUserManager.CreateAsync(user, registerVM.Password);
+       
+
+            user.TenantId = tenant.TId;
+            var result = await _userManager.CreateAsync(user, registerVM.Password);
 
             if (!result.Succeeded)
             {
@@ -103,19 +105,26 @@ namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
                 return View(registerVM);
             }
 
-            await tenantUserManager.AddToRoleAsync(user, SD.CustomerRole);
+          //  await _userManager.AddToRoleAsync(user, SD.CustomerRole);
 
 
             //Send Email Confirmantion
 
-            var token = await tenantUserManager.GenerateEmailConfirmationTokenAsync(user);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var link = Url.Action("ConfirmEmail", "Account", new
-            {
-                area = "CustomerIdentity",
-                token,
-                userId = user.Id
-            }, Request.Scheme);
+            // encodedToken
+            var encodedToken = WebEncoders.Base64UrlEncode(
+                Encoding.UTF8.GetBytes(token)
+            );
+
+            var link = Url.Action( "ConfirmEmail","Account",new
+			{
+              area = "CustomerIdentity",
+              userId = user.Id,
+              token = encodedToken
+            },
+              Request.Scheme
+            );
 
             await _emailSender.SendEmailAsync(
                 user.Email,
@@ -127,27 +136,34 @@ namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
 			return RedirectToAction("Login");
 		}
 
-        public async Task<IActionResult> ConfirmEmail(string userId,string token)
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-			var user = await _userManager.FindByIdAsync(userId);
-			if (user is null)
-			{
-				return NotFound();
-			}
-			var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (userId == null || token == null)
+                return BadRequest();
 
-			if (!result.Succeeded)
-			{
-				TempData["error-notification"] = "Invalid Token ,Resend Email Confirmation";
-			}
-			else
-			{
-				TempData["success-notification"] = "Activate Account Successfully";
-			}
-			return RedirectToAction("Login");
-		}
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
 
-		[HttpGet]
+            var decodedToken = Encoding.UTF8.GetString(
+                WebEncoders.Base64UrlDecode(token)
+            );
+
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+
+            if (!result.Succeeded)
+            {
+                TempData["error-notification"] = "Invalid token";
+            }
+            else
+            {
+                TempData["success-notification"] = "Account activated successfully";
+            }
+
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
 		public IActionResult Login()
 		{
 			if (User.Identity is not null && User.Identity.IsAuthenticated)
@@ -235,12 +251,32 @@ namespace Clinics_Websites_Shops.Areas.CustomerIdentity.Controllers
 				return View(resendEmailConfirmationVM);
 			}
 
-			//Send Email Confirmation
-			var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-			var link = Url.Action(nameof(ConfirmEmail), "Account", new { area = "Identity", UserId = user.Id, Token = token }, Request.Scheme);
-			await _emailSender.SendEmailAsync(user.Email!, "Confirm Your Account!", $"<h1>Confirm Your Account By Clicking <a href='{link}'>here</a></h1>");
+            //Send Email Confirmation
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-			TempData["success-notification"] = "Send Email Successfully,Please Confirm Your Account";
+            // Encode token
+            var encodedToken = WebEncoders.Base64UrlEncode(
+                Encoding.UTF8.GetBytes(token)
+            );
+
+            var link = Url.Action(
+                "ConfirmEmail",
+                "Account",
+                new
+                {
+                    area = SD.CustomerIdentityArea,
+                    userId = user.Id,
+                    token = encodedToken
+                },
+                Request.Scheme
+            );
+
+            await _emailSender.SendEmailAsync(
+                user.Email!,
+                "Confirm Your Account!",
+                $"<h1>Confirm Your Account</h1><p><a href='{link}'>Click here</a></p>"
+            );
+            TempData["success-notification"] = "Send Email Successfully,Please Confirm Your Account";
 			return RedirectToAction("Login");
 		}
 

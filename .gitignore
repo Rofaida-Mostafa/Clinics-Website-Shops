@@ -370,3 +370,36 @@ FodyWeavers.xsd
 
 /Migrations
 /Docs
+/Clinics Websites Shops/Program.cs
+/Clinics Websites Shops/Areas/Tenance/Controllers/TenantAccountController.cs
+/Clinics Websites Shops/Migrations/20251109004509_Initial.cs
+/Clinics Websites Shops/Migrations/20251109005642_InitialMaster.cs
+/Clinics Websites Shops/Migrations/20251113190516_Initial.cs
+/Clinics Websites Shops/Migrations/20251113190516_Initial.Designer.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.Designer.cs
+/Clinics Websites Shops/Migrations/20251118125810_updates.cs
+/Clinics Websites Shops/Migrations/20251118125810_updates.Designer.cs
+/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs
+/Clinics Websites Shops/Migrations/MasterDbContextModelSnapshot.cs
+/Clinics Websites Shops/Areas/Tenance/Controllers/TenantAccountController.cs
+/Clinics Websites Shops/Migrations/20251113190516_Initial.cs
+/Clinics Websites Shops/Migrations/20251113190516_Initial.Designer.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.Designer.cs
+/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs
+/Clinics Websites Shops/Program.cs
+/Clinics Websites Shops/Services/TenantManager.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.Designer.cs
+/Clinics Websites Shops/Migrations/ApplicationDbContextModelSnapshot.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.Designer.cs
+/Clinics Websites Shops/Migrations/20251115014548_AddPermissionSystem.cs
+/Clinics Websites Shops/Migrations/20251113190516_Initial.Designer.cs
+/Clinics Websites Shops/Migrations/20251113190516_Initial.cs
+/Clinics Websites Shops/Migrations/MasterDb/20251121081330_Initial.Designer.cs
+/Clinics Websites Shops/Migrations/MasterDb/MasterDbContextModelSnapshot.cs
+/Clinics Websites Shops/Migrations/MasterDb/20251121081330_Initial.cs
+/Clinics Websites Shops/Migrations/20251121081118_Initial.Designer.cs
+/Clinics Websites Shops/Migrations/20251121081118_Initial.cs
+/Clinics Websites Shops/Migrations/20251213152103_Initial.cs
+/Clinics Websites Shops/Migrations/20251213152103_Initial.Designer.cs

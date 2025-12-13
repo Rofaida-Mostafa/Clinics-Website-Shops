@@ -4,6 +4,7 @@ namespace Clinics_Websites_Shops.Models
 {
     public class ApplicationRole : IdentityRole
     {
+
         public string? Description { get; set; }
         public bool IsSystemRole { get; set; } // Cannot be deleted
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

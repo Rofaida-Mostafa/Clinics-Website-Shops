@@ -9,12 +9,14 @@ public class TenantManager
     private readonly MasterDbContext _masterDb;
     private readonly IEmailSender _emailSender;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ILogger<TenantManager> _logger;
 
-    public TenantManager(MasterDbContext masterDb, IEmailSender emailSender, IServiceProvider serviceProvider)
+    public TenantManager(MasterDbContext masterDb, IEmailSender emailSender, IServiceProvider serviceProvider, ILogger<TenantManager> logger)
     {
         _masterDb = masterDb;
         _emailSender = emailSender;
         _serviceProvider = serviceProvider;
+        _logger = logger;
     }
 
     public async Task<Tenant> CreateTenantAsync(RegisterVM model)
@@ -28,7 +30,7 @@ public class TenantManager
         if (env == "Development")
         {
             // or Local environment
-            domain = $"{cleanName}.ngrok.io";
+            domain = $"{cleanName}.localhost";
         }
         else
         {
@@ -74,7 +76,8 @@ public class TenantManager
 
     private async Task CreateTenantAdminAsync(Tenant tenant, RegisterVM model)
     {
-        using var scope = _serviceProvider.CreateScope();
+        //using var scope = _serviceProvider.CreateScope();
+        using var scope = CreateTenantScope(tenant.ConnectionString);
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -93,7 +96,13 @@ public class TenantManager
             EmailConfirmed = false
         };
 
-        await userManager.CreateAsync(user, model.Password);
+       var result= await userManager.CreateAsync(user, model.Password);
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            _logger.LogError(errors);
+            return;
+        }
         await userManager.AddToRoleAsync(user, "Admin");
 
         // --- Generate Email Confirmation Token & Send Email ---
@@ -103,6 +112,23 @@ public class TenantManager
 
         await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
             $"Click here: <a href='{confirmationLink}'>Confirm</a>");
+    }
+
+    private IServiceScope CreateTenantScope(string connectionString)
+    {
+        // 1) نعمل scope جديد من ال ServiceProvider
+        var scope = _serviceProvider.CreateScope();
+
+        // 2) ناخد الـ factory اللي بتسمح ننشئ DbContext ديناميكي
+        var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<ApplicationDbContext>>();
+
+        // 3) ننشئ DbContext مربوط بقاعدة التينانت
+        var dbContext = factory.CreateDbContext();
+
+        // نغير الـ Connection String بتاعته (وهي أهم خطوة)
+        dbContext.Database.SetConnectionString(connectionString);
+
+        return scope;
     }
 }
 

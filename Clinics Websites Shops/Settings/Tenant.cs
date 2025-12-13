@@ -4,8 +4,8 @@ namespace Clinics_Websites_Shops.Settings
 {
     public class Tenant
     {
-        [Key]  
-        public string TId { get; set; }
+        [Key]
+        public string TId { get; set; } = Guid.NewGuid().ToString();
 
         [Required, MaxLength(100)]
         public string Name { get; set; } = string.Empty;

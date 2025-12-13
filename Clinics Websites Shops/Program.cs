@@ -2,16 +2,11 @@
 using Clinics_Websites_Shops.DataAccess;
 using Clinics_Websites_Shops.DataAccess.Extensions;
 using Clinics_Websites_Shops.Middlewares;
-using Clinics_Websites_Shops.Services;
 using Clinics_Websites_Shops.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
+
 using Microsoft.Extensions.Localization;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,8 +69,7 @@ builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddScoped<TenantManager>();
-builder.Services.AddScoped<TenantDbContextFactory>();
-//builder.Services.AddScoped<IRepository<UserOTP>, Repository<UserOTP>>();
+builder.Services.AddScoped<IRepository<UserOTP>, Repository<UserOTP>>();
 
 
 // Config binding
@@ -343,3 +337,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Run();
+
+
